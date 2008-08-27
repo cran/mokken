@@ -17,7 +17,7 @@ models: the monotone homogeneity model and the double monotonicity model.
 Package: \tab mokken\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2006-09-29\cr
+Date: \tab 2008-08-27\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -78,4 +78,8 @@ plot(pmatrix.com)
 
 # Partition the entire data set into mokken scales
 search.normal(acl.com)
+
+# Compute the reliability of the scale
+check.reliability(acl.com)
+
 }

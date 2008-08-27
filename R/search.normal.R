@@ -1,3 +1,4 @@
+# Aangepast op 15 februari 2008
 "search.normal" <-
 function(X, lowerbound =.3, alpha = .05 ){
 
@@ -67,6 +68,13 @@ function(X, lowerbound =.3, alpha = .05 ){
      Hselect[InSet > 0 & InSet < scale,] <- -99
      Hselect[,InSet > 0 & InSet < scale] <- -99
      Hselect[col(Hselect) >= row(Hselect)] <- -99
+
+     # Check if there are any feasible values left
+     if(max(Hselect) == -99){
+       cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
+       break
+     }
+
      first.item <- row(Hselect)[Hselect==max(Hselect)]
      second.item <- col(Hselect)[Hselect==max(Hselect)]
      maxHij <- Hij[first.item,second.item]
@@ -85,6 +93,8 @@ function(X, lowerbound =.3, alpha = .05 ){
      cat("Item: ",fitstring(item.label[second.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
      InSet[first.item] <- scale
      InSet[second.item] <- scale
+
+# Wat te doen als er meerdere maximale waarden van Hij zijn tijdens het selectieproces.
 
      # Adding new items
      repeat{
@@ -131,4 +141,3 @@ function(X, lowerbound =.3, alpha = .05 ){
   dimnames(InSet) <- list(item.label,"Scale")
   return(InSet)
 }
-
