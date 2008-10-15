@@ -1,8 +1,10 @@
-export(check.monotonicity, check.pmatrix, check.reliability, check.restscore, coefH, coefZ, search.normal)
+UseDynLib(mokken)
+
+export(check.monotonicity, check.pmatrix, check.reliability,check.restscore, coefH, coefZ, search.normal)
 
 # used internally - not intended to be visible to users
 # export(plot.monotonicity.class, plot.pmatrix.class, plot.restscore.class,
-#       summary.monotonicity.class, summary.pmatrix.class, summary.restscore.class)
+#       summary.monotonicity.class, summary.pmatrix.class, summary.restscore.class, zzz.r)
 
 importFrom(graphics, plot)
 
@@ -12,4 +14,3 @@ S3method(summary, "restscore.class")
 S3method(plot, "monotonicity.class")
 S3method(plot, "pmatrix.class")
 S3method(plot, "restscore.class")
-

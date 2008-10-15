@@ -32,8 +32,10 @@ function(x, items = all, pmatrix = "both", ...){
     plot.matrix <- x$Pmm
     for (j in items){
        plot.matrix.j <- plot.matrix[I.item==j,I.item!=j]
+       if(!is.matrix(plot.matrix.j)) plot.matrix.j <- t(as.matrix(plot.matrix.j))
        I.step.j <- I.step[I.item!=j]
        x.axis <- length(I.step.j)
+       par("ask"=TRUE)
        plot(1:x.axis,plot.matrix.j[1,],
          ylim=c(0,1),
          xlim=c(1,x.axis),

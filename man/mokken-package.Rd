@@ -16,16 +16,24 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.1\cr
 Date: \tab 2008-08-27\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
-The package is introduced in Van der Ark (2007).
+Version 0 was introduced in Van der Ark (2007). 
+Version 1 includes estimation of reliability statistics.
+In subversions small bugs were repaired. 
+Thanks are due 
+ to Daniel van der Palm and J. Hendrik Straat for contributing R code; 
+ to Patrick Mair, Rudy Ligtvoet, and J. Hendrik Straat for testing the software; 
+ to Michael Dewey, Michael Kubovy, Jue Huang, and Na Yang for reporting bugs;
+ to Robert J. Mokken for lending his last name.
+
 }
 \author{
 L. Andries van der Ark
-Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>
+Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>. 
 }
 
 \references{
