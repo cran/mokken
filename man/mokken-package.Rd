@@ -16,8 +16,8 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2008-08-27\cr
+Version: \tab 1.2\cr
+Date: \tab 2008-10-18\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
