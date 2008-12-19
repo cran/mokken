@@ -57,11 +57,10 @@ Summarize checks of nonintersection using method restscore.
 
 \examples{
 data(acl)
-restscore.list <- check.restscore(acl[,1:10])
+Communality <- acl[,1:10]
+restscore.list <- check.restscore(Communality)
 plot(restscore.list)
 summary(restscore.list)
 }
 
 \keyword{print}
-
-

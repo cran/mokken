@@ -64,13 +64,14 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
 }
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.restscore}}, \code{\link{check.pmatrix}} 
+\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.restscore}}, \code{\link{check.pmatrix}}, \code{\link{check.reliability}}, 
  \code{\link{plot.monotonicity.class}}, \code{\link{summary.monotonicity.class}}
 }
 
 \examples{
 data(acl)
-monotonicity.list <- check.monotonicity(acl[,1:10])
+Communality <- acl[,1:10]
+monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
 }

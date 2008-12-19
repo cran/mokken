@@ -67,12 +67,12 @@ check.reliability(X)
 }
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.restscore}}, \code{\link{check.pmatrix}} 
-\code{\link{check.monotonicity}} 
+\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, \code{\link{check.restscore}} 
 }
 
 \examples{
 data(acl)
-check.reliability(acl[,1:10])
+Communality <- acl[,1:10]
+check.reliability(Communality)
 }
 \keyword{univar}

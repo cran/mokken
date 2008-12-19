@@ -57,9 +57,8 @@ coefZ(X)
 
 \examples{
 data(acl)
-acl.com <- acl[,1:10]
-coefH(acl.com)
-coefZ(acl.com)
+Communality <- acl[,1:10]
+coefH(Communality)
+coefZ(Communality)
 }
 \keyword{univar}
-

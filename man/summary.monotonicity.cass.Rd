@@ -58,11 +58,10 @@ Summarizes checks of monotonicity
 
 \examples{
 data(acl)
-monotonicity.list <- check.monotonicity(acl[,1:10])
+Communality <- acl[,1:10]
+monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
 }
 
 \keyword{print}
-
-

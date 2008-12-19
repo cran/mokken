@@ -1,6 +1,6 @@
 UseDynLib(mokken)
 
-export(check.monotonicity, check.pmatrix, check.reliability,check.restscore, coefH, coefZ, search.normal)
+export(check.monotonicity, check.iio, check.pmatrix, check.reliability,check.restscore, coefH, coefZ, search.normal)
 
 # used internally - not intended to be visible to users
 # export(plot.monotonicity.class, plot.pmatrix.class, plot.restscore.class,

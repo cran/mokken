@@ -63,10 +63,9 @@ The default number of plots can increase rapidly for large numbers of items.
 
 \examples{
 data(acl)
-restscore.list <- check.restscore(acl[,1:10])
+Communality <- acl[,1:10]
+restscore.list <- check.restscore(Communality)
 plot(restscore.list)
 summary(restscore.list)
 }
 \keyword{aplot}
-
-

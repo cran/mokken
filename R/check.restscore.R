@@ -82,7 +82,7 @@ function(X, minvi = .03, minsize = default.minsize){
         d[d <= minvi] <- 0
         vi <- length(d[d > minvi/2])
         sum.vi <- sum(d)
-        z <- rep(0,L-1)
+        z <- rep(0,L)
         if(any(d > 0)){
            for (gg in 1:L){
               if(d[gg] > 0){
@@ -100,10 +100,25 @@ function(X, minvi = .03, minsize = default.minsize){
 #     violation.matrix[(rvm-1),2:8] <- compute.violations(,summary.matrix[,6],L-1,minvi)
       if(sum(summary.matrix[,5]) > sum(summary.matrix[,6])) d <- summary.matrix[,6]-summary.matrix[,5]
       if(sum(summary.matrix[,5]) <= sum(summary.matrix[,6])) d <- summary.matrix[,5]-summary.matrix[,6]
+
       d[d <= minvi] <- 0
       vi <- length(d[d > minvi/2])
       sum.vi <- sum(d)
-      violation.matrix[(rvm-1),2:8] <- c(vi,vi/ac,max(d),sum.vi,sum.vi/ac,NA,NA)
+      # BEGIN NEW
+      T.statistic <- rep(0,L)  # T statistic
+      t.res <- list(NULL)
+      p <- rep(1,L)             # p-value
+#      if(any(d > 0)){
+        for (gg in 1:L){
+           if(d[gg] > 0){
+             t.res[[gg]] <- t.test(X[member==gg,i],X[member==gg,j],alternative="less")
+             T.statistic[gg] <- abs(t.res[[gg]]$statistic)
+             p[gg] <- t.res[[gg]]$p.value
+           } else t.res[[gg]] <- 0
+        }
+#      }
+      violation.matrix[(rvm-1),2:8] <- c(vi,vi/ac,max(d),sum.vi,sum.vi/ac,max(T.statistic),length(p[p < .05]))
+      # END NEW
 
       if(rvm > 3){
          violation.matrix[rvm,c(1,2,5,8)] <- apply(violation.matrix[1:(rvm-2),c(1,2,5,8)],2,sum)
@@ -114,6 +129,9 @@ function(X, minvi = .03, minsize = default.minsize){
       violation.matrix[rvm,3] <- violation.matrix[rvm,2]/violation.matrix[rvm,1]
       violation.matrix[rvm,6] <- violation.matrix[rvm,5]/violation.matrix[rvm,1]
       results[[k]][[3]] <- violation.matrix
+      # BEGIN TMP
+      results[[k]][[4]] <- t.res
+      # END TMP
    }
  }
  Hi <- coefH(X)$Hi

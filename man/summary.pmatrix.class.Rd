@@ -59,10 +59,10 @@ Summarize checks of nonintersection using method pmatrix.
 
 \examples{
 data(acl)
-pmatrix.list <- check.pmatrix(acl[,1:10])
+Communality <- acl[,1:10]
+pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
 }
 
 \keyword{print}
-

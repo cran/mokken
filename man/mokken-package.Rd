@@ -16,8 +16,8 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 1.2\cr
-Date: \tab 2008-10-18\cr
+Version: \tab 1.4\cr
+Date: \tab 2008-12-03\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -64,30 +64,33 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
 data(acl)               
 
 # Select the items of the scale Communality
-acl.com <- acl[,1:10]
+Communality <- acl[,1:10]
 
 # Compute scalability coefficients
-coefH(acl.com)
+coefH(Communality)
 
 # Investigate the assumption of monotonicity
-monotonicity.com <- check.monotonicity(acl.com)
-summary(monotonicity.com)
-plot(monotonicity.com)
+monotonicity.list <- check.monotonicity(Communality)
+summary(monotonicity.list)
+plot(monotonicity.list)
 
-# Investigate the assumption of non-intersecting using method restscore
-restscore.com <- check.restscore(acl.com)
-summary(restscore.com)
-plot(restscore.com)
+# Investigate the assumption of non-intersecting ISRFs using method restscore
+restscore.list <- check.restscore(Communality)
+summary(restscore.list)
+plot(restscore.list)
 
-# Investigate the assumption of non-intersecting using method pmatrix
-pmatrix.com <- check.pmatrix(acl.com)
-summary(pmatrix.com)
-plot(pmatrix.com)
+# Investigate the assumption of non-intersecting ISRFs using method pmatrix
+pmatrix.list <- check.pmatrix(Communality)
+summary(pmatrix.list)
+plot(pmatrix.list)
 
-# Partition the entire data set into mokken scales
-search.normal(acl.com)
+# Investigate the assumption of IIO using method restscore
+check.iio(Communality)
 
 # Compute the reliability of the scale
-check.reliability(acl.com)
+check.reliability(Communality)
+
+# Partition the the scale into mokken scales
+search.normal(Communality)
 
 }

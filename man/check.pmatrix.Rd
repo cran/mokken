@@ -63,17 +63,16 @@ See Van der Ark (2007) for an example.
 \note{
 }
 \seealso{
-\code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.restscore}}, 
+\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.restscore}}, \code{\link{check.reliability}}, 
 \code{\link{plot.pmatrix.class}}, \code{\link{summary.pmatrix.class}}
 }
 
 \examples{
 data(acl)
-pmatrix.list <- check.pmatrix(acl[,1:10])
+Communality <- acl[,1:10]
+pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
 }
 
 \keyword{univar}
-
-

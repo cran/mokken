@@ -57,7 +57,7 @@ Procedure may be slow for large data sets.
 }
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, \code{\link{check.restscore}} 
+\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, \code{\link{check.reliability}},\code{\link{check.restscore}} 
 }
 
 \examples{
@@ -72,5 +72,3 @@ monotonicity.list <- check.monotonicity(acl[,scale==1])
 summary(monotonicity.list)
 }
 \keyword{cluster}
-
-

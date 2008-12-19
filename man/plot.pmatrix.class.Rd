@@ -72,10 +72,9 @@ If the number of item steps on the x-axis is greater than 10, then the labels ar
 
 \examples{
 data(acl)
-pmatrix.list <- check.pmatrix(acl[,1:10])
+Communality <- acl[,1:10]
+pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
 }
 \keyword{aplot}
-
-
