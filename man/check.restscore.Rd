@@ -61,9 +61,6 @@ See Van der Ark (2007) for an example.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
-
 \seealso{
 \code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, 
 \code{\link{plot.restscore.class}}, \code{\link{summary.restscore.class}}

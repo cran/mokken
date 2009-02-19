@@ -44,10 +44,12 @@ function(X, minvi = m * .03, minsize = default.minsize, alpha = .05){
       for (g in 1:L){
          EXi.R <- mean(X[member==g,i])
          EXj.R <- mean(X[member==g,j])
-         d <- ifelse(EXj.R - EXi.R <= minvi,0, EXj.R - EXi.R) 
-         tt <- t.test(X[member==g,i],X[member==g,j],alternative="less")
-#        cat(I.labels[i],I.labels[j],"g=",g,"d=",format(round(d,2),nsmall=2), "T=",format(round(tt$statistic,2),nsmall=2),"p=",format(tt$p.value,nsmall=3),fill=T)
-         vi.matrix[i,j] <- vi.matrix[i,j] + tt$p.value < alpha
+         greater.than.minvi <- ifelse(EXj.R - EXi.R <= minvi,FALSE,TRUE) 
+         if(greater.than.minvi){ 
+            tt <- t.test(X[member==g,i],X[member==g,j],alternative="less")
+            vi.matrix[i,j] <- vi.matrix[i,j] + 1*(tt$p.value < alpha)
+#           cat(I.labels[i],I.labels[j],"g=",g,"d=",format(round(EXj.R - EXi.R,2),nsmall=2), "T=",format(round(tt$statistic,2),nsmall=2),"p=",format(tt$p.value,nsmall=3),fill=T)
+         }  
       }
    }
  }
@@ -74,4 +76,3 @@ dimnames(VI) <- list(I.labels,paste("step",1:ncol(VI)))
 HT <- ifelse(length(items.removed)==0,coefH(t(X))$H,coefH(t(X[,-items.removed]))$H) 
 return(list(violations=VI,items.removed=items.removed,HT = HT))
 }
-

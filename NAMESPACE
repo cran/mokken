@@ -1,10 +1,27 @@
-UseDynLib(mokken)
+useDynLib(mokken)
 
-export(check.monotonicity, check.iio, check.pmatrix, check.reliability,check.restscore, coefH, coefZ, search.normal)
+export(
+ aisp,
+ coefH,
+ coefZ,
+ check.monotonicity,
+ check.iio,
+ check.pmatrix,
+ check.reliability,
+ check.restscore,
+ search.normal
+)
 
 # used internally - not intended to be visible to users
-# export(plot.monotonicity.class, plot.pmatrix.class, plot.restscore.class,
-#       summary.monotonicity.class, summary.pmatrix.class, summary.restscore.class, zzz.r)
+#  check.data                
+#  plot.monotonicity.class,
+#  plot.pmatrix.class,
+#  plot.restscore.class,
+#  search.extended
+#  search.ga
+#  summary.monotonicity.class,
+#  summary.pmatrix.class,
+#  summary.restscore.class
 
 importFrom(graphics, plot)
 

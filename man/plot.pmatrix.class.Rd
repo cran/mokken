@@ -63,8 +63,6 @@ If the number of item steps on the x-axis is greater than 10, then the labels ar
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{check.pmatrix}}, \code{\link{summary.pmatrix.class}}

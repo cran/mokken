@@ -18,8 +18,6 @@ Summarizes checks of monotonicity
   \item{...}{Optional parameters will be ignored}  
 }
 
-\details{
-}
 
 \value{
  Matrix with \code{ncol(X)} rows and 9 columns, 
@@ -47,9 +45,6 @@ Summarizes checks of monotonicity
 
 \author{
  L. A. van der Ark \email{a.vdark@uvt.nl}
-}
-
-\note{
 }
 
 \seealso{

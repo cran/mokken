@@ -1,6 +1,6 @@
 # Aangepast op 15 februari 2008
 "search.normal" <-
-function(X, lowerbound =.3, alpha = .05 ){
+function(X, lowerbound =.3, alpha = .05, verbose = T){
 
    # Internal functions
    
@@ -46,13 +46,15 @@ function(X, lowerbound =.3, alpha = .05 ){
      step <- 1
      K <- rep(0,J)
 
-     cat("",fill=T)
-     cat("SCALE",scale,fill=T)
-     cat("",fill=T)
+     if(verbose){ 
+       cat("",fill=T)
+       cat("SCALE",scale,fill=T)
+       cat("",fill=T)
+     }  
 
      # Are there two items left?
      if(length(InSet[InSet==0]) < 2){
-       cat("Less than two items left. PROCEDURE STOPS",fill=T)
+       if(verbose) cat("Less than two items left. PROCEDURE STOPS",fill=T)
        break
      }
 
@@ -71,7 +73,7 @@ function(X, lowerbound =.3, alpha = .05 ){
 
      # Check if there are any feasible values left
      if(max(Hselect) == -99){
-       cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
+       if(verbose) cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
        break
      }
 
@@ -83,14 +85,16 @@ function(X, lowerbound =.3, alpha = .05 ){
 
      # Check if H of two item-scale is greater than c
      if(maxHij < lowerbound){
-       cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
+       if(verbose) cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
        break
      }
 
 
      # Add the first two items to the scale
-     cat("Item: ",fitstring(item.label[first.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
-     cat("Item: ",fitstring(item.label[second.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
+     if(verbose){
+       cat("Item: ",fitstring(item.label[first.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
+       cat("Item: ",fitstring(item.label[second.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
+     }  
      InSet[first.item] <- scale
      InSet[second.item] <- scale
 
@@ -113,7 +117,7 @@ function(X, lowerbound =.3, alpha = .05 ){
        # Are there items left after the exclusion?
        available.items <- which(in.this.set==0)
        if(length(available.items)==0){
-         cat("Scale ", scale," is completed. No items left with Hij => 0",fill=T)
+         if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0",fill=T)
          break
        }
 
@@ -126,14 +130,14 @@ function(X, lowerbound =.3, alpha = .05 ){
 
        # Is maximum value Hi greater than c?
        if(max(result) < lowerbound){
-         cat("Scale ", scale," is completed. No items left such that Hi > ",lowerbound,".",fill=T)
+         if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lowerbound,".",fill=T)
          break
        }
 
        # Add the newly selected item to the scale
        new.item <- row(as.matrix(result))[result==max(result)]
        InSet[new.item] <- scale
-       cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2),fill=T)
+       if(verbose) cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2),fill=T)
      }
   # start with next scale
   }

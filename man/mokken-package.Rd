@@ -16,8 +16,8 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 1.4\cr
-Date: \tab 2008-12-03\cr
+Version: \tab 2.0\cr
+Date: \tab 2009-02-19\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -56,8 +56,7 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
 }
 
 \keyword{package}
-\seealso{
-}
+
 \examples{
 
 # Personality test
@@ -91,6 +90,6 @@ check.iio(Communality)
 check.reliability(Communality)
 
 # Partition the the scale into mokken scales
-search.normal(Communality)
+aisp(Communality)
 
 }

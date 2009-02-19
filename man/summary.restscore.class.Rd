@@ -17,8 +17,6 @@ Summarize checks of nonintersection using method restscore.
    \item{...}{Optional parameters will be ignored}  
 
 }
-\details{
-}
 
 \value{
  Matrix with \code{ncol(X)} rows and 9 columns, 
@@ -48,8 +46,6 @@ Summarize checks of nonintersection using method restscore.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{check.restscore}}, \code{\link{plot.restscore.class}}

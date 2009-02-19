@@ -47,8 +47,6 @@ The default graphic device in R may only display the last graph.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{check.monotonicity}}, \code{\link{summary.monotonicity.class}}

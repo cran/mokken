@@ -60,8 +60,6 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.restscore}}, \code{\link{check.pmatrix}}, \code{\link{check.reliability}}, 

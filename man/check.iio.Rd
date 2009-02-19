@@ -25,8 +25,6 @@ check.iio(X, minvi = m * 0.03, minsize = default.minsize, alpha = .05)
   \item{alpha}{Nominal Type I error for t test. Default alpha - .05} 
 }
 
-\details{}
-
 \value{
   \item{VI}{A matrix: The first column gives the number of violations of IIO according the method restscore. 
   If the number of violations is nonzero, then the item with the largest number of violations is removed.
@@ -54,8 +52,6 @@ check.iio(X, minvi = m * 0.03, minsize = default.minsize, alpha = .05)
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, 

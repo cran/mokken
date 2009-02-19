@@ -20,8 +20,6 @@ check.reliability(X)
           Missing values are not allowed}
 }
 
-\details{
-}
 
 \value{
   \item{MS}{Molenaar Sijtsma statistic (a.k.a. rho).}
@@ -61,9 +59,6 @@ check.reliability(X)
 
 \author{
  L. A. van der Ark \email{a.vdark@uvt.nl}
-}
-
-\note{
 }
 
 \seealso{

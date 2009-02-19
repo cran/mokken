@@ -48,8 +48,6 @@ coefZ(X)
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{coefH}}, \code{\link{search.normal}}

@@ -60,8 +60,6 @@ See Van der Ark (2007) for an example.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 \seealso{
 \code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.restscore}}, \code{\link{check.reliability}}, 
 \code{\link{plot.pmatrix.class}}, \code{\link{summary.pmatrix.class}}

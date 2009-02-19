@@ -17,13 +17,10 @@ Summarize checks of nonintersection using method pmatrix.
   \item{...}{Optional parameters will be ignored}  
 }
 
-\details{
-}
-
 \value{
   \item{ppp.summary.matrix}{Matrix with \code{ncol(X)} rows and 7 columns, 
         showing for each item a summary of the violations in the P(++) matrix.}
-  \item{pmm.summary.matrix}{ppp.summary.matrix}{Matrix with \code{ncol(X)} rows and 7 columns, 
+  \item{pmm.summary.matrix}{Matrix with \code{ncol(X)} rows and 7 columns, 
         showing for each item a summary of the violations in the P(--) matrix.}
 }
 
@@ -48,9 +45,6 @@ Summarize checks of nonintersection using method pmatrix.
 
 \author{
  L. A. van der Ark \email{a.vdark@uvt.nl}
-}
-
-\note{
 }
 
 \seealso{

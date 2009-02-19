@@ -54,8 +54,6 @@ The default number of plots can increase rapidly for large numbers of items.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
 
 \seealso{
 \code{\link{check.restscore}}, \code{\link{summary.restscore.class}}

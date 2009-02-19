@@ -54,9 +54,6 @@ coefH(X)
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
-\note{
-}
-
 \seealso{
 \code{\link{coefZ}}, \code{\link{search.normal}}
 }
