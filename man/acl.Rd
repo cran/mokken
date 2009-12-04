@@ -22,14 +22,14 @@ The negatively worded items are indicated by an asterisk in the \code{dimnames}
 
 \tabular{llcll}{
 Communality \tab Items 1-10    \tab \tab Change              \tab  Items 111-119 \cr
-Achievement \tab Items 11-20   \tab \tab Succorance          \tab  Items 121-129 \cr
-Dominance   \tab Items 21-30   \tab \tab Abasement           \tab  Items 131-139 \cr
-Endurance   \tab Items 31-40   \tab \tab Deference           \tab  Items 141-149 \cr
-Order       \tab Items 41-50   \tab \tab Personal Adjustment \tab  Items 151-159 \cr
-Intelligence\tab Items 51-60   \tab \tab Ideal Self          \tab  Items 161-169 \cr
-Nurturance  \tab Items 61-70   \tab \tab Critical parent     \tab  Items 171-179 \cr
-Affiliation \tab Items 71-80   \tab \tab Nurturant parent    \tab  Items 181-189 \cr
-Exhibition  \tab Items 81-90   \tab \tab Adult               \tab  Items 191-199 \cr
+Achievement \tab Items 11-20   \tab \tab Succorance          \tab  Items 120-129 \cr
+Dominance   \tab Items 21-30   \tab \tab Abasement           \tab  Items 130-139 \cr
+Endurance   \tab Items 31-40   \tab \tab Deference           \tab  Items 140-149 \cr
+Order       \tab Items 41-50   \tab \tab Personal Adjustment \tab  Items 150-159 \cr
+Intelligence\tab Items 51-60   \tab \tab Ideal Self          \tab  Items 160-169 \cr
+Nurturance  \tab Items 61-70   \tab \tab Critical parent     \tab  Items 170-179 \cr
+Affiliation \tab Items 71-80   \tab \tab Nurturant parent    \tab  Items 180-189 \cr
+Exhibition  \tab Items 81-90   \tab \tab Adult               \tab  Items 190-199 \cr
 Autonomy    \tab Items 91-100  \tab \tab Free Child          \tab  Items 200-209 \cr
 Aggression  \tab Items 101-110 \tab \tab Adapted Child       \tab  Items 210-218 }
 

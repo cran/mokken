@@ -31,7 +31,7 @@ See Van der Ark (2007) for an example.
 }
 
 \value{
-  \item{results}{A list with as many components as there are items.  
+  \item{results}{A list with as many components as there are item pairs.  
   Each component itself is also
   a list containing the results of the check of nonintersection using method restscore.}
   \item{I.labels}{The item labels}
@@ -62,8 +62,13 @@ See Van der Ark (2007) for an example.
 }
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, 
-\code{\link{plot.restscore.class}}, \code{\link{summary.restscore.class}}
+\code{\link{check.iio}}, 
+\code{\link{check.monotonicity}}, 
+\code{\link{check.pmatrix}}, 
+\code{\link{check.reliability}} 
+\code{\link{coefH}}, 
+\code{\link{plot.restscore.class}}, 
+\code{\link{summary.restscore.class}}
 }
 
 \examples{

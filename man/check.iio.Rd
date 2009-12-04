@@ -2,42 +2,68 @@
 \alias{check.iio}
 
 \title{
-Check of Invariant Item Ordering Using Method Restscore
+Check of Invariant Item Ordering
 }
 
 \description{
-Returns a list with results from the investigation of invariant item ordering using method restscore. 
-For a complete description of this procedure see Ligtvoet et al. (2008).
+Returns a list with results from the investigation of invariant item ordering.
+Three methods may be used for the investigation of invariant item ordering. 
+(1) Method MIIO (manifest invariant item ordering: investigates the manifest item response functions for all pairs of items)
+(2) Method MS-CPM (manifest scale - cumulative probability model: investigates the manifest item step response functions for all pairs of items)
+(3) Method IT (increasingness in transposition: investigates all bivariate joint probabilities for all pairs of items)
+
+for a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
+a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,
+Van der Ark, Bergsma, and Sijtsma (2009).
 }
 \usage{
-check.iio(X, minvi = m * 0.03, minsize = default.minsize, alpha = .05)
+check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
 }
 
 \arguments{
   \item{X}{matrix or data frame of numeric data 
-          containing the responses of \code{nrow(X)} respondents to \code{ncol(X)} items.  
-          Missing values are not allowed}
-  \item{minvi}{minimum size of a violation that is reported. By default minvi equals .03 times the number of item step response functions (m)}
+           containing the responses of \code{nrow(X)} respondents to \code{ncol(X)} items.  
+           Missing values are not allowed}
+  \item{method}{Either \code{"MIIO"} (default), \code{"MSCPM"}, or \code{"IT"}. Partial matching is allowed (e.g. \code{method="ms"} is equivalent to \code{method="MSCPM"})}         
+  \item{minvi}{minimum size of a violation that is reported. By default 
+    \code{minvi} = .03 times the number of item step response functions (m) for Method MIIO;
+    \code{minvi} = .03 for Method IT and Method MSCPM}
   \item{minsize}{minimum size of a rest score group.  By default
    \code{minsize} = \eqn{N/10} if \eqn{N \geq 500};
    \code{minsize} = \eqn{N/5 if} \eqn{250 \leq N < 500}; and
    \code{minsize} = \eqn{\max(N/3,50)} if \eqn{N < 250}}
-  \item{alpha}{Nominal Type I error for t test. Default alpha - .05} 
+  \item{alpha}{Nominal Type I error for t test (Method MIIO), z test (Method MSCPM), or McNemar test (Method IT). 
+  Default \code{alpha = .05}} 
+  \item{item.selection}{Conduct backward item selection procedure (see Ligtvoet et al., 2010).
+  Default \code{item.selection=TRUE}}
+  \item{verbose}{Show the results of the backward item selection algorithm on screen.
+  Default \code{verbose=FALSE}}
 }
 
 \value{
-  \item{VI}{A matrix: The first column gives the number of violations of IIO according the method restscore. 
+  \item{results}{A list with as many components as there are item pairs.  
+  Each component itself is also
+  a list containing the results of the investigation of IIO.}
+  \item{violations}{A matrix: Summarizes of the backward item selection (Corresponds to Table 4 in Ligtvoet et al., in press,
+   and Table 1 in Ligtvoet et al., 2009). 
+  The first column gives the number of violations of IIO according the method restscore. 
   If the number of violations is nonzero, then the item with the largest number of violations is removed.
   If two or more items have the maximum number of violations, then from those items the item producing the lowest value of Loevinger's H is removed.
   The second column shows the number of violations with one item removed, the third column shows the number of violations with two items removed, etc.}
   \item{items.removed}{List of the items removed in chronological order}
-  \item{HT}{Coefficient HT for the remaining items}
+  \item{HT}{Coefficient HT for the remaining items. For the use of coefficient HT see Ligtvoet et al. (in press)}
+  \item{method}{The argument \code{method}}
+  \item{item.mean}{The mean item scores}
 }
 
 \references{
-  Ligtvoet, R., van der Ark, L. A. and Sijtsma (2008) 
-  \emph{Investigating an invariant item ordering for polytomously scored items}. 
-  Manuscript submitted for publication.
+  Ligtvoet, R., van der Ark, L. A., The Marvelde, J. M., and Sijtsma (in press) 
+  Investigating an invariant item ordering for polytomously scored items. 
+  \emph{Educational and Psychological Measurement}.
+
+  Ligtvoet, R., van der Ark, L. A., Bergsma, W. P., and Sijtsma (2009) 
+  Polytomous latent scales for the investigation of the ordering of items.
+  Manuscript submitted for publication. 
   
   Sijtsma, K, and Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
@@ -54,11 +80,18 @@ check.iio(X, minvi = m * 0.03, minsize = default.minsize, alpha = .05)
 
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, 
-\code{\link{check.reliability}}, \code{\link{check.restscore}}
+\code{\link{check.monotonicity}}, 
+\code{\link{check.pmatrix}}, 
+\code{\link{check.reliability}} 
+\code{\link{check.restscore}}, 
+\code{\link{coefH}}, 
+\code{\link{summary.iio.class}}
 }
 
 \examples{
+
+# Examples from Ligtvoet et al. (2010).
+
 data(acl)            
 
 Order <- acl[,41:50]               
@@ -66,5 +99,25 @@ check.iio(Order)
 
 Autonomy <- acl[,91:100]
 check.iio(Autonomy)
+
+# Examples from Ligtvoet et al. (2009).
+ 
+data(cavalini)
+X1 <- cavalini[,c(3,5,6,7,9,11,13,14)]
+
+# Use Method MIIO and remove items violating MIIO
+iio.list1 <- check.iio(X1)
+summary(iio.list1)
+X2 <- X1[,is.na(charmatch(dimnames(X1)[[2]],names(iio.list1$items.removed)))]
+
+# Use Method MSCPM and remove items violating MSCPM
+iio.list2 <- check.iio(X2,method="MSCPM")
+summary(iio.list2)
+X3 <- X2[,is.na(charmatch(dimnames(X2)[[2]],names(iio.list2$items.removed)))]
+
+# Use Method IT
+iio.list3 <- check.iio(X3,method="IT")
+summary(iio.list3)
+
 }
 \keyword{univar}

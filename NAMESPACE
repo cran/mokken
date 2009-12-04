@@ -13,7 +13,7 @@ export(
 )
 
 # used internally - not intended to be visible to users
-#  check.data                
+#  check.data
 #  plot.monotonicity.class,
 #  plot.pmatrix.class,
 #  plot.restscore.class,
@@ -28,6 +28,7 @@ importFrom(graphics, plot)
 S3method(summary, "monotonicity.class")
 S3method(summary, "pmatrix.class")
 S3method(summary, "restscore.class")
+S3method(summary, "iio.class")
 S3method(plot, "monotonicity.class")
 S3method(plot, "pmatrix.class")
 S3method(plot, "restscore.class")

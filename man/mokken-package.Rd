@@ -21,9 +21,24 @@ Date: \tab 2009-02-19\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
-Version 0 was introduced in Van der Ark (2007). 
-Version 1 includes estimation of reliability statistics.
-In subversions small bugs were repaired. 
+
+Version 0 was introduced in Van der Ark (2007). It included the functions
+\tabular{ll}{
+\code{\link{coefH}}              \tab Scalability coefficients \cr
+\code{\link{check.monotonicity}} \tab Investigate monotonicity assumptions \cr
+\code{\link{check.restscore}}    \tab Investigate nonintersection assumption using Method Restscore \cr
+\code{\link{check.pmatrix}}      \tab Investigate nonintersection assumption using Method Pmatrix \cr
+\code{\link{search.normal}}      \tab Mokken's automated item selection algorithm \cr
+}
+
+In the current version (2.0) the following functions have been added
+\tabular{ll}{
+\code{\link{aisp}}              \tab  More general automated item selection algorithm. \cr
+                                \tab  Function \code{search} has become obsolete \cr
+\code{\link{check.reliability}}  \tab Compute reliability coefficients \cr
+\code{\link{check.iio}}          \tab Investigate invariant item orderings \cr
+}
+
 Thanks are due 
  to Daniel van der Palm and J. Hendrik Straat for contributing R code; 
  to Patrick Mair, Rudy Ligtvoet, and J. Hendrik Straat for testing the software; 
@@ -37,6 +52,14 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
 }
 
 \references{
+  Ligtvoet, R., van der Ark, L. A., The Marvelde, J. M., and Sijtsma (in press) 
+  Investigating an invariant item ordering for polytomously scored items. 
+  \emph{Educational and Psychological Measurement}.
+
+  Ligtvoet, R., van der Ark, L. A., Bergsma, W. P., and Sijtsma (2009) 
+  Polytomous latent scales for the investigation of the ordering of items.
+  Manuscript submitted for publication. 
+
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
   Berlin, Germany: De Gruyter.
@@ -83,8 +106,9 @@ pmatrix.list <- check.pmatrix(Communality)
 summary(pmatrix.list)
 plot(pmatrix.list)
 
-# Investigate the assumption of IIO using method restscore
-check.iio(Communality)
+# Investigate the assumption of IIO using method MIIO
+iio.list <- check.iio(Communality)
+summary(iio.list)
 
 # Compute the reliability of the scale
 check.reliability(Communality)

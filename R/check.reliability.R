@@ -85,6 +85,7 @@ function(X){
         PP[i,j] <- mean(c(E17a,E17b,E17c,E17d,E21a,E21b,E21c,E21d),na.rm=T)
      }
    }
+   PP[is.nan(PP)] <- 0
    PP[PP > upper.bound.PP & OO] <- upper.bound.PP[PP > upper.bound.PP & OO]
    PP[PP < lower.bound.PP & OO] <- lower.bound.PP[PP < lower.bound.PP & OO]
    MS <-  sum(PP-lower.bound.PP)/(var(apply(X,1,sum))*((N-1)/N))
