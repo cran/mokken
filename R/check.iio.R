@@ -106,7 +106,10 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
                 violation.matrix[g, 2:8] <- c(vi,vi/ac, max(d), sum.vi, sum.vi/ac, max(chi.statistic),sum(chi.pvalue < alpha))
               vi.matrix[i,j] <- vi.matrix[i,j] + sum(chi.pvalue < alpha)
            }#end g-loop
-           violation.matrix[rvm,] <- apply(violation.matrix[1:(rvm-1),],2,sum)
+           violation.matrix[rvm,c(1,2,5,8)] <- apply(violation.matrix[1:(rvm-1),c(1,2,5,8)],2,sum)
+           violation.matrix[rvm,3] <- violation.matrix[rvm,2]/violation.matrix[rvm,1]
+           violation.matrix[rvm,6] <- violation.matrix[rvm,5]/violation.matrix[rvm,1]
+           violation.matrix[rvm,c(4,7)] <- apply(violation.matrix[1:(rvm-1),c(4,7)],2,max)
            results[[k]][[3]] <- violation.matrix
         }#end j-loop
      }#end i-loop
@@ -179,10 +182,13 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
                    }#endif
                  }#end gg-loop
                }#endif
-               violation.matrix[g, 2:8] <- c(vi,vi/(L - 1), max(d), sum.vi, sum.vi/ac, max(z.statistic),length(z.statistic[abs(z.statistic) > qnorm(1-alpha)]))
+               violation.matrix[g, 2:8] <- c(vi,vi/ac, max(d), sum.vi, sum.vi/ac, max(z.statistic),length(z.statistic[abs(z.statistic) > qnorm(1-alpha)]))
                vi.matrix[i,j] <- vi.matrix[i,j] + length(z.statistic[abs(z.statistic) > qnorm(1-alpha)])
             }#end g-loop
-            violation.matrix[rvm,] <- apply(violation.matrix[1:(rvm-1),],2,sum)
+            violation.matrix[rvm,c(1,2,5,8)] <- apply(violation.matrix[1:(rvm-1),c(1,2,5,8)],2,sum)
+            violation.matrix[rvm,3] <- violation.matrix[rvm,2]/violation.matrix[rvm,1]
+            violation.matrix[rvm,6] <- violation.matrix[rvm,5]/violation.matrix[rvm,1]
+            violation.matrix[rvm,c(4,7)] <- apply(violation.matrix[1:(rvm-1),c(4,7)],2,max)
             results[[k]][[3]] <- violation.matrix
          }#end j-loop
       }#end i-loop
@@ -245,7 +251,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
                 }#endif
               }#end gg-loop
             }#endif
-            violation.matrix[1, 2:8] <- c(vi,vi/(L - 1), max(d), sum.vi, sum.vi/ac, max(t.statistic),sum(t.pvalue < alpha))
+            violation.matrix[1, 2:8] <- c(vi,vi/ac, max(d), sum.vi, sum.vi/ac, max(t.statistic),sum(t.pvalue < alpha))
             vi.matrix[i,j] <- vi.matrix[i,j] + sum(t.pvalue < alpha)
            results[[k]][[3]] <- violation.matrix
          }# end j-loop

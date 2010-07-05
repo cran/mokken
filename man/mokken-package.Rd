@@ -16,8 +16,8 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 2.0\cr
-Date: \tab 2009-02-19\cr
+Version: \tab 2.2\cr
+Date: \tab 2010-03-10\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -31,7 +31,7 @@ Version 0 was introduced in Van der Ark (2007). It included the functions
 \code{\link{search.normal}}      \tab Mokken's automated item selection algorithm \cr
 }
 
-In the current version (2.0) the following functions have been added
+In the current version the following functions have been added
 \tabular{ll}{
 \code{\link{aisp}}              \tab  More general automated item selection algorithm. \cr
                                 \tab  Function \code{search} has become obsolete \cr
@@ -40,9 +40,10 @@ In the current version (2.0) the following functions have been added
 }
 
 Thanks are due 
- to Daniel van der Palm and J. Hendrik Straat for contributing R code; 
+ to Daniel van der Palm, Rudy Ligtvoet, and J. Hendrik Straat for contributing R code; 
  to Patrick Mair, Rudy Ligtvoet, and J. Hendrik Straat for testing the software; 
- to Michael Dewey, Michael Kubovy, Jue Huang, and Na Yang for reporting bugs;
+ to Wijbrandt van Schuur for comments on the manual;
+ to Michael Dewey, Jasmin Durstin, Michael Kubovy, Jue Huang, Tobias Schlaffer, and Na Yang for reporting bugs;
  to Robert J. Mokken for lending his last name.
 
 }

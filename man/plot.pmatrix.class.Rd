@@ -13,7 +13,7 @@ Plot pmatrix.class objects
  and the lines in the plots of the P(--) matrix nust be nonincreasing.
 }
 \usage{
-\method{plot}{pmatrix.class}(x, items = all, pmatrix="both", ...)
+\method{plot}{pmatrix.class}(x, items = all, pmatrix="both", ask=TRUE, ...)
 }
 
 \arguments{
@@ -24,6 +24,8 @@ Plot pmatrix.class objects
    If \code{pmatrix="ppp"}, then the P(++) matrix is plotted,
    if \code{pmatrix="pmm"}, then the P(--) matrix is plotted,
    if \code{pmatrix="both"}, then both the P(++) matrix and P(--) matrix are plotted.}
+  \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
+  If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  
 }
 

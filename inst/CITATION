@@ -1,9 +1,9 @@
-desc <- packageDescription("mokken")
+desc <- packageDescription("mokken", fields= c("Date","Version"))
 year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", desc$Date)
-vers <- paste("Version",desc$Version)
+vers <- paste(desc$Version)
 citEntry(entry="Misc",
-title = paste("'mokken' (version ",vers,"): An R package for Mokken scale analysis [computer software]",sep=""),
+title = paste("'mokken' (Version ",vers,"): An R package for Mokken scale analysis [computer software]",sep=""),
 author = personList(as.person("L. A. van der Ark")),
 year = year,
 note = "Retrieved from http://cran.r-project.org/web/packages/mokken/index.html",
-textVersion = paste("Van der Ark, L. A. (",year,"). mokken (version ",vers,"): An R package for Mokken scale analysis [computer software]. Retrieved from http://cran.r-project.org/web/packages/mokken/index.html", sep=""))
+textVersion = paste("Van der Ark, L. A. (",year,"). mokken (Version ",vers,"): An R package for Mokken scale analysis [computer software]. Retrieved from http://cran.r-project.org/web/packages/mokken/index.html", sep=""))

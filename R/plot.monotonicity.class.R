@@ -1,13 +1,13 @@
 "plot.monotonicity.class" <-
-function(x, items = all, ...){
+function(x, items = all, ask = TRUE, ...){
   results <- x$results
   m <- x$m
   all <- 1:length(x$I.labels)
+  if (ask==TRUE) par("ask"=TRUE) else par("ask"=FALSE)
   i <- 0; j <- 0
   for (j in items){
     plot.matrix <- results[[j]][[2]]
     x.labels <- paste(plot.matrix[,2],"-",plot.matrix[,3],sep="")
-    par("ask"=TRUE)
     plot(plot.matrix[,1],plot.matrix[,m+5]/(m-1),
       ylim=c(0,1),
       xaxt = 'n',
@@ -23,5 +23,3 @@ function(x, items = all, ...){
   }
  invisible()
 }
-
-

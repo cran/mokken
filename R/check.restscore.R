@@ -104,7 +104,7 @@ function(X, minvi = .03, minsize = default.minsize){
       d[d <= minvi] <- 0
       vi <- length(d[d > minvi/2])
       sum.vi <- sum(d)
-      # BEGIN NEW
+      # BEGIN NEW AANPASSEN ALS var(X[member==gg,i]) == var(X[member==gg,j]) == 0  geen t-test mogelijk.
       T.statistic <- rep(0,L)  # T statistic
       t.res <- list(NULL)
       p <- rep(1,L)             # p-value
@@ -139,4 +139,3 @@ function(X, minvi = .03, minsize = default.minsize){
  class(restscore.list) <- "restscore.class"
  return(restscore.list)
 }
-

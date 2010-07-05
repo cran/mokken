@@ -12,7 +12,7 @@ Plot restscore.class objects
  Intersection of the lines indicates vaiolation of nonintersection,
 }
 \usage{
-\method{plot}{restscore.class}(x, item.pairs = all, ...)
+\method{plot}{restscore.class}(x, item.pairs = all, ask = TRUE, ...)
 }
 
 \arguments{
@@ -23,6 +23,8 @@ Plot restscore.class objects
    \code{item.pairs = J} prints the results for items 1 and $J$, and
    \code{item.pairs = J+1} prints the results for items 2 and 3.
    Default the results for all item pairs are depicted.}
+  \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
+  If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  
 }
 

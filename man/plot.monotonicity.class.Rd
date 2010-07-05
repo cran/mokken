@@ -11,13 +11,15 @@ Plot monotonicity.class objects
  One graph for each item plotting the estimated item step response functions.
 }
 \usage{
-\method{plot}{monotonicity.class}(x, items = all, ...)
+\method{plot}{monotonicity.class}(x, items = all, ask = TRUE, ...)
 }
 
 \arguments{
   \item{x}{Object of class monotonicity.class produced by \code{\link{check.monotonicity}}.}
   \item{items}{vector containing the numbers of the items for which the results are depicted graphically.
                  Default the results for all items are depicted.}
+  \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
+  If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  
 }
 \details{

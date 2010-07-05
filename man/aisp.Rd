@@ -14,7 +14,7 @@ Automated Item Selection Procedure (AISP) for Mokken Scale Analysis
 Returns a vector with as many elements as there are items, indicating the scale an item belongs to
 }
 \usage{
-aisp(X, search="normal", lowerbound =.3, alpha = .05, popsize=20, maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=T)
+aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=T)
 }
 
 \arguments{
@@ -26,7 +26,7 @@ aisp(X, search="normal", lowerbound =.3, alpha = .05, popsize=20, maxgens=defaul
            (Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002);
            "ga": item selection using a genetic algorithm
            (Straat, van der Ark, and Sijtsma, 2008). The default is "normal".}
-  \item{lowerbound}{numeric scaling criterium; 0 <= \code{lowerbound} < 1.  The default is \code{0.03}.}
+  \item{lowerbound}{numeric scaling criterium; 0 <= \code{lowerbound} < 1.  The default is \code{0.3}.}
   \item{alpha}{Type I error level. The default is \code{0.05}.}
   \item{popsize}{Size of the population of items in genetic. algorithm The default is \code{20}.}
   \item{maxgens}{Number of generations in genetic algorithm. The default is \code{10^(log2(ncol(X)/5)) * 1000}.}

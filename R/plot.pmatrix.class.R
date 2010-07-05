@@ -1,7 +1,8 @@
 "plot.pmatrix.class" <-
-function(x, items = all, pmatrix = "both", ...){
+function(x, items = all, pmatrix = "both", ask = TRUE, ...){
   all <- 1:max(x$I.item)
   m <- length(x$I.item)/max(x$I.item)
+  if (ask==TRUE) par("ask"=TRUE) else par("ask"=FALSE)
   j <- 1; i <- 1
   #
   if (pmatrix == "both" || pmatrix == "ppp"){
@@ -13,7 +14,6 @@ function(x, items = all, pmatrix = "both", ...){
        if(!is.matrix(plot.matrix.j)) plot.matrix.j <- t(as.matrix(plot.matrix.j))
        I.step.j <- I.step[I.item!=j]
        x.axis <- length(I.step.j)
-       par("ask"=TRUE)
        plot(1:x.axis,plot.matrix.j[1,],
          ylim=c(0,1),
          xlim=c(1,x.axis),
@@ -35,7 +35,6 @@ function(x, items = all, pmatrix = "both", ...){
        if(!is.matrix(plot.matrix.j)) plot.matrix.j <- t(as.matrix(plot.matrix.j))
        I.step.j <- I.step[I.item!=j]
        x.axis <- length(I.step.j)
-       par("ask"=TRUE)
        plot(1:x.axis,plot.matrix.j[1,],
          ylim=c(0,1),
          xlim=c(1,x.axis),
@@ -50,4 +49,3 @@ function(x, items = all, pmatrix = "both", ...){
   }
  invisible()
 }
-

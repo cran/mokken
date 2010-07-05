@@ -2,7 +2,7 @@
 \alias{check.reliability}
 
 \title{
-Compuation of reliability statistics
+Compaction of reliability statistics
 }
 
 \description{
@@ -52,9 +52,12 @@ check.reliability(X)
   \emph{Journal of Statistical Software}.
   \url{http://www.jstatsoft.org}
 
-  Van der Ark, L. A. (2008). 
+  Van der Ark, L. A. (2010). 
   Computation of the Molenaar Sijtsma statistic. 
-  Manuscript submitted for publication
+  In A. Fink, B. Lausen, W. Seidel, \& A. Ultsch (Eds.),
+  \emph{Advances in data analysis, data handling and business intelligence} (pp.\ 775-784).
+  Berlin: Springer.
+
 }
 
 \author{

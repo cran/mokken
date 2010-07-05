@@ -17,7 +17,7 @@ function(object, ...){
    if(method=="MSCPM") {
      dimnames(summary.matrix) <- list(I.labels,c("mean","#ac","#vi","#vi/#ac","maxvi","sum","sum/#ac","zmax","#zsig"))
    }
-   if(method=="MSCPM") {
+   if(method=="IT") {
      dimnames(summary.matrix) <- list(I.labels,c("mean","#ac","#vi","#vi/#ac","maxvi","sum","sum/#ac","xmax","#xsig"))
    }
    k <- 0; i <- 1; j <- 2
