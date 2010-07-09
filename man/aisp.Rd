@@ -14,7 +14,7 @@ Automated Item Selection Procedure (AISP) for Mokken Scale Analysis
 Returns a vector with as many elements as there are items, indicating the scale an item belongs to
 }
 \usage{
-aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=T)
+aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE)
 }
 
 \arguments{

@@ -16,8 +16,8 @@ models: the monotone homogeneity model and the double monotonicity model.
 \tabular{ll}{
 Package: \tab mokken\cr
 Type: \tab Package\cr
-Version: \tab 2.2\cr
-Date: \tab 2010-03-10\cr
+Version: \tab 2.4\cr
+Date: \tab 2010-07-09\cr
 License: \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -38,6 +38,8 @@ In the current version the following functions have been added
 \code{\link{check.reliability}}  \tab Compute reliability coefficients \cr
 \code{\link{check.iio}}          \tab Investigate invariant item orderings \cr
 }
+
+A guide for Mokken scale analysis in R for people who do not know R is available from \url{http://spitswww.uvt.nl/~avdrark/research/mokkenstart.pdf} (also available as vignette).
 
 Thanks are due 
  to Daniel van der Palm, Rudy Ligtvoet, and J. Hendrik Straat for contributing R code; 

@@ -8,7 +8,7 @@
                       maxgens=default.maxgens, 
                       pxover=0.5, 
                       pmutation=0.1,
-                      verbose=T)
+                      verbose=FALSE)
 {
    X <- check.data(X)
    params <- c(lowerbound, alpha, pxover, pmutation)
