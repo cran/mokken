@@ -11,7 +11,7 @@ Automated Item Selection Procedure (AISP) for Mokken Scale Analysis
 }
 
 \description{
-Returns a vector with as many elements as there are items, indicating the scale an item belongs to
+Returns a vector with as many elements as there are items, indicating to which scale an item belongs.
 }
 \usage{
 aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE)
@@ -37,6 +37,7 @@ aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.m
 \details{
 The number of Mokken scales cannot exceed \code{ncol(X)/2}.
 Procedure may be slow for large data sets. Especially if the genetic algorithm is used.
+There is not yet an option \code{search="extended"}.
 \code{aisp} replaces the function \code{search.normal} is earlier versions.
 }
 
@@ -93,4 +94,5 @@ scale <- aisp(Communality,"ga",maxgens=1000)
 coefH(Communality[,scale==1])
 
 }
-\keyword{cluster}
+\keyword{aisp}
+\keyword{scalability coefficients}

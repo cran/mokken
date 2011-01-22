@@ -6,26 +6,43 @@ Compaction of reliability statistics
 }
 
 \description{
-Returns a list of three reliability statistics: Molenaar Sijtsma (1984, 1988) statistic (a.k.a rho), 
-    Cronbach's (1951) alpha, and Guttman's (1945) lambda 2.
+Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) statistic (a.k.a rho), 
+    Cronbach's (1951) alpha, Guttman's (1945) lambda 2, and the latent class reliability coefficient
+    (LCRC; Van der Ark, Van der Palm, and Sijtsma, 2011).
 }
 
 \usage{
-check.reliability(X)
+check.reliability(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = nclass.default)
 }
 
 \arguments{
   \item{X}{matrix or data frame of numeric data 
           containing the responses of \code{nrow(X)} respondents to \code{ncol(X)} items. 
           Missing values are not allowed}
+  \item{MS}{Boolean. If \code{TRUE}, The MS statistic is computed.}        
+  \item{alpha}{Boolean. If \code{TRUE}, Cronbach's alpha is computed.}        
+  \item{lambda.2}{Boolean. If \code{TRUE}, Guttman's Lambda 2 is computed.}        
+  \item{LCRC}{Boolean. If \code{TRUE}, the LCRC is computed.} 
+  \item{nclass}{Integer. Number of latent classes for the computation of LCRC. 
+        By default: half the number of items rounded to the nearest integer.}
 }
 
+\details{
+The computation of LCRC depends on the package \code{poLCA}, which in its turn depends on
+ the packages \code{MASS} and \code{scatterplot3d}. 
+Computation of the LCRC may be time consuming if the number of latent classes is large.
+The optimal number of latent classes should be determined prior to the computation of the LCRC,
+ using software for latent class analysis (e.g., the R-package \code{poLCA}).
+}
 
 \value{
   \item{MS}{Molenaar Sijtsma statistic (a.k.a. rho).}
   \item{alpha}{Cronbach's alpha}
-  \item{lambda.2}{Lambda 2}
+  \item{lambda.2}{Guttman's Lambda 2}
+  \item{LCRC}{LCRC}
 }
+
+
 \references{
   Cronbach, L. (1951).
   Coefficient alpha and the internal structure of tests.
@@ -54,10 +71,15 @@ check.reliability(X)
 
   Van der Ark, L. A. (2010). 
   Computation of the Molenaar Sijtsma statistic. 
-  In A. Fink, B. Lausen, W. Seidel, \& A. Ultsch (Eds.),
+  In A. Fink, B. Lausen, W. Seidel, and A. Ultsch (Eds.),
   \emph{Advances in data analysis, data handling and business intelligence} (pp.\ 775-784).
   Berlin: Springer.
 
+  Van der Ark, L. A., Van der Palm, D. W., and Sijtsma (2011).
+  A latent class approach to estimating test-score reliability.
+  \emph{Applied Psychological Measurement}.
+  
+  
 }
 
 \author{
@@ -71,6 +93,6 @@ check.reliability(X)
 \examples{
 data(acl)
 Communality <- acl[,1:10]
-check.reliability(Communality)
+check.reliability(Communality, LCRC = TRUE)
 }
-\keyword{univar}
+\keyword{reliability}

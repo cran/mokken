@@ -73,4 +73,4 @@ monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
 }
-\keyword{univar}
+\keyword{monotonicity}

@@ -59,4 +59,6 @@ plot(pmatrix.list)
 summary(pmatrix.list)
 }
 
-\keyword{print}
+\keyword{summary}
+\keyword{pmatrix
+}

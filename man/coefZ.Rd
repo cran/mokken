@@ -8,9 +8,9 @@ Computation of Z-Values
 \description{
 Computes Zij-values of item pairs, Zi-values of items, and Z-value of the entire scale,
 which are used to test whether Hij, Hi, and H, respectively, are significantly 
-greater than zero.
+greater than zero (Molenaar and Sijtsma, 2000, pp. 59-62; Sijtsma and Molenaar, p. 40; Van der Ark, 2007; 2010).
 
-Used in the function \code{search.normal}
+Used in the function \code{aisp}
 }
 \usage{
 coefZ(X)
@@ -30,18 +30,24 @@ coefZ(X)
 
 
 \references{
-  Mokken, R. J. (1971) 
-  \emph{A Theory and Procedure of Scale Analysis}. 
-  Berlin, Germany: De Gruyter.
-  
+ 
   Molenaar, I.W. and Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
   Groningen, The Netherlands: IEC ProGAMMA.
   
+  Sijtsma, K, and Molenaar, I. W. (2002)
+  \emph{Introduction to nonparametric item response theory}.
+  Thousand Oaks, CA: Sage.
+  
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
+
+  Van der Ark, L. A. (2010). 
+  Getting started with Mokken scale analysis in \pkg{R}. 
+  Unpublished manuscript.
+  \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
  }
 
 \author{
@@ -50,7 +56,7 @@ coefZ(X)
 
 
 \seealso{
-\code{\link{coefH}}, \code{\link{search.normal}}
+\code{\link{coefH}}, \code{\link{aisp}}
 }
 
 \examples{
@@ -59,4 +65,4 @@ Communality <- acl[,1:10]
 coefH(Communality)
 coefZ(Communality)
 }
-\keyword{univar}
+\keyword{scalability coefficients}

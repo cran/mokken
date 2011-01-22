@@ -1,4 +1,4 @@
-# Aangepast op 15 februari 2008
+# Aangepast op 28 september 2010
 "search.normal" <-
 function(X, lowerbound =.3, alpha = .05, verbose = T){
 
@@ -65,23 +65,23 @@ function(X, lowerbound =.3, alpha = .05, verbose = T){
 
      # Select the first two items
 
-     Hselect <- Hij
+     Hselect <- Hij 
      Hselect[abs(Zij) < Z.c] <- -99
      Hselect[InSet > 0 & InSet < scale,] <- -99
      Hselect[,InSet > 0 & InSet < scale] <- -99
      Hselect[col(Hselect) >= row(Hselect)] <- -99
-
+     eps <- row(Hselect) * 1e-7
+     Hselect[Hselect != 99] <- Hselect[Hselect != 99] - eps[Hselect != 99]
+     
      # Check if there are any feasible values left
-     if(max(Hselect) == -99){
-       if(verbose) cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS",fill=T)
+     if(max(round(Hselect)) == -99){
+       cat("Scale ", scale," could not be formed because all Hj < ",lowerbound," or because no Hij significantly greater than zero. PROCEDURE STOPS",fill=T)
        break
      }
 
      first.item <- row(Hselect)[Hselect==max(Hselect)]
      second.item <- col(Hselect)[Hselect==max(Hselect)]
      maxHij <- Hij[first.item,second.item]
-
-
 
      # Check if H of two item-scale is greater than c
      if(maxHij < lowerbound){

@@ -68,4 +68,5 @@ restscore.list <- check.restscore(Communality)
 plot(restscore.list)
 summary(restscore.list)
 }
-\keyword{aplot}
+\keyword{plot}
+\keyword{restscore}

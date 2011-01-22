@@ -61,4 +61,5 @@ monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
 }
-\keyword{aplot}
+\keyword{plot}
+\keyword{monotonicity}

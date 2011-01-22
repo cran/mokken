@@ -18,7 +18,9 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    default.minsize <- ifelse(N > 500, floor(N/10), floor(N/5))
    default.minsize <- ifelse(N <= 250, floor(N/3), default.minsize)
    default.minsize <- ifelse(N < 150, 50, default.minsize)
-
+   # minvi <- default.minvi
+   # minsize <- default.minsize
+    
    # STOP IF THERE ARE NOT ENOUGH ITEMS OR RESPONDENTS
    if (N < minsize) stop("Sample size less than Minsize")
    if (J < 3) stop("Less than 3 items. Restscore cannot be computed")
@@ -37,7 +39,8 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    i <- 1
    j <- 2
    k <- 0
-
+   item.mean <- colMeans(X)
+   
    # METHOD IT
    if (method=="IT"){
      ii <- jj <- kk <- 0
@@ -280,8 +283,19 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    }# end if(item.selection)  
    dimnames(VI) <- list(I.labels,paste("step",1:ncol(VI)))
    if(verbose) print(VI)
-   HT <- ifelse(length(items.removed)==0,coefH(t(X))$H,coefH(t(X[,-items.removed]))$H) 
-   iio.list <- list(results = results, violations=VI,items.removed=items.removed,HT = HT,method=method,item.mean=colMeans(X))
+   
+   # Computation of HT
+   if (length(items.removed) > 0) X <- X[,-items.removed]
+   S    <- try(sum(var(t(X))) , silent = TRUE)
+   Smax <- try(sum(var(apply(t(X), 2, sort))), silent = TRUE)
+   if (class(S)=="try-error" | class(Smax)=="try-error"){
+      X <- X[sample(1:N,5000),]
+      S    <- try(sum(var(t(X)))                , silent = TRUE)
+      Smax <- try(sum(var(apply(t(X), 2, sort))), silent = TRUE)
+   }
+   HT <- ifelse((class(S)=="try-error" | class(Smax)=="try-error"),NA,S/Smax)
+
+   iio.list <- list(results = results, violations=VI,items.removed=items.removed,HT = HT,method=method,item.mean=item.mean)
    class(iio.list) <- "iio.class"
    return(iio.list)
 }

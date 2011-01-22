@@ -78,4 +78,4 @@ restscore.list <- check.restscore(Communality)
 plot(restscore.list)
 summary(restscore.list)
 }
-\keyword{univar}
+\keyword{restscore}

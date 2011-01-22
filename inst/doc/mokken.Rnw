@@ -1,5 +1,5 @@
 \documentclass[11pt,a4paper]{report}
-\usepackage{graphicx,lscape}
+\usepackage{graphicx,lscape,upquote}
 \usepackage[colorlinks, bookmarks=true, breaklinks=true, linkcolor=black]{hyperref}
 \newtheorem{example}{Example}
 \newcommand{\inputfont}{\normalsize}
@@ -907,7 +907,8 @@ help(check.pmatrix)
 \subsection{\texttt{check.reliability}}
 
 Computes reliability coefficients $\rho$ (a.k.a., the MS statistic; Molenaar \& Sijtsma, 1984, 1988;
-Sijtsma \& Molenaar, 1987; Van der Ark, 2010), Cronbach's (1951) alpha, and lambda-2 (Guttman, 1945).
+Sijtsma \& Molenaar, 1987; Van der Ark, 2010), Cronbach's (1951) alpha, lambda-2 (Guttman, 1945), and
+on request (not default) the latent class reliability coefficient (LCRC, Van der Ark, Van der Palm, \& Sijtsma, 2011).
 In the example, the scores on the first ten items from ACL are used; these are the
 items of the scale Communality.
 

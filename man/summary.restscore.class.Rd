@@ -59,4 +59,5 @@ plot(restscore.list)
 summary(restscore.list)
 }
 
-\keyword{print}
+\keyword{plot}
+\keyword{restscore}

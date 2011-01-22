@@ -59,4 +59,5 @@ plot(monotonicity.list)
 summary(monotonicity.list)
 }
 
-\keyword{print}
+\keyword{summary}
+\keyword{monotonicity}

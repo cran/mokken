@@ -7,7 +7,8 @@ Scalability coefficents H
 
 \description{
 Computes item-pair scalability coefficents Hij, item scalability coefficents Hi, 
- and scale scalability coefficent H
+ and scale scalability coefficent H (Loevinger, 1948; Mokken, 1971, pp. 148-153; 
+ Molenaar and Sijtsma, 2000, pp. 11-13; Sijtsma and Molenaar, chap. 4; Van der Ark, 2007; 2010)
 }
 
 \usage{
@@ -32,6 +33,9 @@ coefH(X)
 }
 
 \references{
+  Loevinger, J. (1948). The technique of homogeneous tests compared with some aspects of `scale analysis' and factor analysis.
+  \emph{Psychological Bulletin, 45}, 507-530.
+   
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
   Berlin, Germany: De Gruyter.
@@ -47,7 +51,12 @@ coefH(X)
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
+
+  Van der Ark, L. A. (2010). 
+  Getting started with Mokken scale analysis in \pkg{R}. 
+  Unpublished manuscript.
+  \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
  }
 
 \author{
@@ -63,4 +72,4 @@ data(acl)
 Communality <- acl[,1:10]
 coefH(Communality)
 }
-\keyword{univar}
+\keyword{scalability coefficients}

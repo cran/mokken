@@ -77,4 +77,5 @@ pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
 }
-\keyword{aplot}
+\keyword{plot}
+\keyword{pmatrix}

@@ -75,4 +75,5 @@ iio.list3 <- check.iio(X3,method="IT")
 summary(iio.list3)
 }
 
-\keyword{print}
+\keyword{summary}
+\keyword{iio}

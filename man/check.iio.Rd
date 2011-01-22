@@ -14,7 +14,7 @@ Three methods may be used for the investigation of invariant item ordering.
 
 for a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
 a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,
-Van der Ark, Bergsma, and Sijtsma (2009).
+Van der Ark, Bergsma, and Sijtsma (2011).
 }
 \usage{
 check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
@@ -44,26 +44,27 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
   \item{results}{A list with as many components as there are item pairs.  
   Each component itself is also
   a list containing the results of the investigation of IIO.}
-  \item{violations}{A matrix: Summarizes of the backward item selection (Corresponds to Table 4 in Ligtvoet et al., in press,
-   and Table 1 in Ligtvoet et al., 2009). 
+  \item{violations}{A matrix: Summarizes of the backward item selection (Corresponds to Table 4 in Ligtvoet et al., 2010,
+   and Table 1 in Ligtvoet et al., in press). 
   The first column gives the number of violations of IIO according the method restscore. 
   If the number of violations is nonzero, then the item with the largest number of violations is removed.
   If two or more items have the maximum number of violations, then from those items the item producing the lowest value of Loevinger's H is removed.
   The second column shows the number of violations with one item removed, the third column shows the number of violations with two items removed, etc.}
   \item{items.removed}{List of the items removed in chronological order}
-  \item{HT}{Coefficient HT for the remaining items. For the use of coefficient HT see Ligtvoet et al. (in press)}
+  \item{HT}{Coefficient HT for the remaining items. For the use of coefficient HT see Ligtvoet et al. (2010). If the sample size is extremely large coefficient HT is estimated using a random subsample.}
   \item{method}{The argument \code{method}}
   \item{item.mean}{The mean item scores}
 }
 
 \references{
-  Ligtvoet, R., van der Ark, L. A., The Marvelde, J. M., and Sijtsma (in press) 
+  Ligtvoet, R., van der Ark, L. A., The Marvelde, J. M., and Sijtsma (2010) 
   Investigating an invariant item ordering for polytomously scored items. 
-  \emph{Educational and Psychological Measurement}.
+  \emph{Educational and Psychological Measurement, 70}, 578-595.
 
-  Ligtvoet, R., van der Ark, L. A., Bergsma, W. P., and Sijtsma (2009) 
+  Ligtvoet, R., van der Ark, L. A., Bergsma, W. P., and Sijtsma (2011) 
   Polytomous latent scales for the investigation of the ordering of items.
-  Manuscript submitted for publication. 
+  \emph{Psychometrika, XX}, xxx-xxx.
+   
   
   Sijtsma, K, and Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
@@ -120,4 +121,4 @@ iio.list3 <- check.iio(X3,method="IT")
 summary(iio.list3)
 
 }
-\keyword{univar}
+\keyword{iio}

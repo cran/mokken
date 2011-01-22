@@ -73,4 +73,4 @@ plot(pmatrix.list)
 summary(pmatrix.list)
 }
 
-\keyword{univar}
+\keyword{pmatrix}
