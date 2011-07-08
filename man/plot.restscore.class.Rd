@@ -12,7 +12,7 @@ Plot restscore.class objects
  Intersection of the lines indicates vaiolation of nonintersection,
 }
 \usage{
-\method{plot}{restscore.class}(x, item.pairs = all, ask = TRUE, ...)
+\method{plot}{restscore.class}(x, item.pairs = all.pairs, ask = TRUE, ...)
 }
 
 \arguments{

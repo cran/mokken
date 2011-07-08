@@ -13,7 +13,7 @@ function(X, lowerbound =.3, alpha = .05, verbose = T){
    newH <- function(j,in.this.set, x, lowerbound, Z.c){
 
      newX <- cbind(x[,in.this.set==1],x[,j])
-     H.list <- coefH(newX)
+     H.list <- coefH(newX,FALSE)
      if (H.list$Hi[length(H.list$Hi)] < lowerbound) return(-98) # less than lower bound
      Zi <- coefZ(newX)$Zi
      if (Zi[length(Zi)] < Z.c) return(-97)                      # not significant

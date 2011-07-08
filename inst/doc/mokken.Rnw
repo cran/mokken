@@ -639,7 +639,7 @@ Note that \texttt{search = "{}extend"} has not yet been implemented.
 Computes scalability coefficients $H_{ij}$, $H_i$, and $H$ for a set of items.
 In the example, the scores on the first ten items from ACL are used; these are the
 items of the scale Communality. First, scalability coefficients $H_{ij}$, $H_i$, and $H$
-are computed (no output given here because it is rather voluminous).
+are computed, plus their standard errors. The argument \texttt{se = FALSE} drops the standard errors.
 Second, only the item scalability coefficients are extracted. Third,
 the item scalability coefficients are extracted but rounded to two integers. Fourth, $H$ is extracted.
 
@@ -648,8 +648,8 @@ the item scalability coefficients are extracted but rounded to two integers. Fou
 data(acl)
 Communality <- acl[,1:10]
 coefficients <- coefH(Communality)
+coefficients$Hij
 coefficients$Hi
-round(coefficients$Hi,2)
 coefficients$H
 @
 }
@@ -1104,8 +1104,8 @@ Table.3.1
 \item Obtain scalability coefficients and $Z$ coefficients for items and total scale.
 {\inputfont
 <<label=Table.3.2B>>=
-coefH(item.scores)$Hi
-coefH(item.scores)$H
+coefH(item.scores,FALSE)$Hi
+coefH(item.scores,FALSE)$H
 coefZ(item.scores)$Zi
 coefZ(item.scores)$Z
 @
@@ -1116,8 +1116,8 @@ coefZ(item.scores)$Z
 
 {\inputfont
 <<label=Table.3.2C>>=
-coefH(item.scores[,-c(2,4)])$Hi
-coefH(item.scores[,-c(2,4)])$H
+coefH(item.scores[,-c(2,4)],FALSE)$Hi
+coefH(item.scores[,-c(2,4)],FALSE)$H
 coefZ(item.scores[,-c(2,4)])$Zi
 coefZ(item.scores[,-c(2,4)])$Z
 @
@@ -1135,8 +1135,8 @@ k <- 3
 for (i in 1:4) for (j in 1:2){
  k <- k + 1
  Table.3.2[c(analysis[[i]],13),k] <-
- c(round(coefH(item.scores[,analysis[[i]]])$Hi,2),
- round(coefH(item.scores[,analysis[[i]]])$H,2))
+ c(round(coefH(item.scores[,analysis[[i]]],FALSE)$Hi,2),
+ round(coefH(item.scores[,analysis[[i]]],FALSE)$H,2))
 }
 dimnames(Table.3.2)[[2]][4:11] <- paste(c("k=12","k=12",
  "k=10","k=10","k=8","k=8","k=7","k=7"),c("Hi","Zi"))
@@ -1169,9 +1169,9 @@ scale.1 <- c(12,8,1,11,9,3,10)
 scale.2 <- c(7,5)
 Hi.top <- matrix(NA,8,6)
 for (i in 1:6)
-Hi.top[1:(i+1),i] <- round(coefH(item.scores[,scale.1[1:(i+1)]])$Hi,2)
+Hi.top[1:(i+1),i] <- round(coefH(item.scores[,scale.1[1:(i+1)]],FALSE)$Hi,2)
 for (i in 1:6)
-Hi.top[8,i] <- round(coefH(item.scores[,scale.1[1:(i+1)]])$H,2)
+Hi.top[8,i] <- round(coefH(item.scores[,scale.1[1:(i+1)]],FALSE)$H,2)
 dimnames(Hi.top)[[2]] <- paste("Step",1:6)
 Table.5.1.top <- data.frame(
  Task = c(Task[scale.1],"Total H"),
@@ -1277,8 +1277,8 @@ for (i in 1:max.scale){
   max.item <- max(length(scale.30[scale.30==i]))
   Scale <- c(i,rep("",max.item-1))
   Item.30 <- which(scale.30==i)
-  Hi.30 <- round(coefH(X[,scale.30==i])$Hi,2)
-  H.30 <- c(rep("",max.item-1),round(coefH(X[,scale.30==i])$H,2))
+  Hi.30 <- round(coefH(X[,scale.30==i],FALSE)$Hi,2)
+  H.30 <- c(rep("",max.item-1),round(coefH(X[,scale.30==i],FALSE)$H,2))
   Table.5.4.left <- rbind(Table.5.4.left,data.frame(Scale=Scale,
      Item=Item.30,Hi=Hi.30,H=H.30),c("","","",""))
 }
@@ -1296,8 +1296,8 @@ for (i in 1:max.scale){
   max.item <- max(length(scale.35[scale.35==i]))
   Scale <- c(i,rep("",max.item-1))
   Item.35 <- which(scale.35==i)
-  Hi.35 <- round(coefH(X[,scale.35==i])$Hi,2)
-  H.35 <- c(rep("",max.item-1),round(coefH(X[,scale.35==i])$H,2))
+  Hi.35 <- round(coefH(X[,scale.35==i],FALSE)$Hi,2)
+  H.35 <- c(rep("",max.item-1),round(coefH(X[,scale.35==i],FALSE)$H,2))
   Table.5.4.right <- rbind(Table.5.4.right,data.frame(Scale=Scale,
      Item=Item.35,Hi=Hi.35,H=H.35),c("","","",""))
 }

@@ -271,7 +271,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
        maxvi <- which(nvi ==max(nvi))
        if(length(maxvi) > 1){ 
           H <- rep(0,length(maxvi))
-          for (i in 1:length(maxvi)) H[i] <- coefH(X[,-c(items.removed,maxvi[i])])$H + rnorm(1,0,1e-5)
+          for (i in 1:length(maxvi)) H[i] <- coefH(X[,-c(items.removed,maxvi[i])],FALSE)$H + rnorm(1,0,1e-5)
           maxvi <- maxvi[which(H==min(H))[1]]
        }# end if 
        vi.matrix.a[maxvi,] <- vi.matrix.a[,maxvi] <- 0

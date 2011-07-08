@@ -1,6 +1,6 @@
 "plot.pmatrix.class" <-
-function(x, items = all, pmatrix = "both", ask = TRUE, ...){
-  all <- 1:max(x$I.item)
+function(x, items = all.items, pmatrix = "both", ask = TRUE, ...){
+  all.items <- 1:max(x$I.item)
   m <- length(x$I.item)/max(x$I.item)
   if (ask==TRUE) par("ask"=TRUE) else par("ask"=FALSE)
   j <- 1; i <- 1

@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken     \cr
 Type:       \tab Package    \cr
-Version:    \tab 2.5        \cr
-Date:       \tab 2010-08-16 \cr
+Version:    \tab 2.6        \cr
+Date:       \tab 2011-07-8  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -42,13 +42,21 @@ In the current version the following functions have been added
 \code{\link{check.iio}}          \tab Investigate invariant item orderings \cr
 }
 
+The package contains the following data sets
+\tabular{ll}{
+\code{\link{acl}}                \tab  Scores on a personality checklist. \cr
+\code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
+\code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
+}
+
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}.
 
 Thanks are due 
- to Daniel van der Palm, Rudy Ligtvoet, and J. Hendrik Straat for contributing R code; 
+ to Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
  to Patrick Mair, Rudy Ligtvoet, and J. Hendrik Straat for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Michael Dewey, Jasmin Durstin, Michael Kubovy, Jue Huang, Tobias Schlaffer, Roger Watson, and Na Yang for reporting bugs;
+ to Michael Dewey, Jasmin Durstin, Michael Kubovy, Jue Huang, Jonathan Rose, Tobias Schlaffer, Roger Watson, and Na Yang for reporting bugs;
+ to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
 }

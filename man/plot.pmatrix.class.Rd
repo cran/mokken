@@ -13,7 +13,7 @@ Plot pmatrix.class objects
  and the lines in the plots of the P(--) matrix nust be nonincreasing.
 }
 \usage{
-\method{plot}{pmatrix.class}(x, items = all, pmatrix="both", ask=TRUE, ...)
+\method{plot}{pmatrix.class}(x, items = all.items, pmatrix="both", ask=TRUE, ...)
 }
 
 \arguments{

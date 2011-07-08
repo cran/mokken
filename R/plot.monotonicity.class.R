@@ -1,8 +1,8 @@
 "plot.monotonicity.class" <-
-function(x, items = all, ask = TRUE, ...){
+function(x, items = all.items, ask = TRUE, ...){
   results <- x$results
   m <- x$m
-  all <- 1:length(x$I.labels)
+  all.items <- 1:length(x$I.labels)
   if (ask==TRUE) par("ask"=TRUE) else par("ask"=FALSE)
   i <- 0; j <- 0
   for (j in items){

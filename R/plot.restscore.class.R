@@ -1,8 +1,8 @@
 "plot.restscore.class" <-
-function(x, item.pairs = all, ask = TRUE, ...){
+function(x, item.pairs = all.pairs, ask = TRUE, ...){
   J <- length(x$Hi)
   max.item.pairs <- J*(J-1)/2
-  all <- 1:max.item.pairs
+  all.pairs <- 1:max.item.pairs
   j <- 0; i <- 0
   results <- x$results
   m <- x$m-1

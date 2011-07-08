@@ -1,6 +1,6 @@
 "check.monotonicity" <-
 function(X, minvi = .03, minsize = default.minsize){
-
+  
   X <- check.data(X)
   N <- nrow(X)
   J <- ncol(X)
@@ -48,8 +48,10 @@ function(X, minvi = .03, minsize = default.minsize){
       summary.matrix[i,(m+6):(2*m+4)] <- cum.freq[2:m]
     }
     results[[j]][[2]] <- summary.matrix
-    violation.matrix[1:(m-1),1] <- L*(L-1)*.5
-    violation.matrix[m,1] <- L*(L-1)*.5 * (m-1)
+    nac <- rep(0,m-1)
+    for (i in 1:(m-1)) nac[i] <- sum(matrix(rep(summary.matrix[,5 + m + i] > 1e-10,L),L,L,byrow=FALSE) * matrix(rep(summary.matrix[,5 + m + i] < .999999999999,L),L,L,TRUE) * upper.tri(matrix(,L,L)))
+    violation.matrix[1:(m-1),1] <- nac
+    violation.matrix[m,1] <- sum(nac)
 
     freq <- summary.matrix[,5:(m+4)]
     for (i in 1:(m-1)){
@@ -80,9 +82,8 @@ function(X, minvi = .03, minsize = default.minsize){
     results[[j]][[4]] <- paste("Minsize = ",minsize," Minvi = ",minvi,sep="")
 
   }
- Hi <- coefH(X)$Hi
+ Hi <- coefH(X,FALSE)$Hi
  monotonicity.list <- list(results=results,I.labels=I.labels,Hi=Hi,m=m)
  class(monotonicity.list) <- "monotonicity.class"
  return(monotonicity.list)
 }
-

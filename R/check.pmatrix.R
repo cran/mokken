@@ -37,9 +37,8 @@ function(X, minvi = .03){
   P2 <- compute.pmatrix(X,P1,N,J,m)
   Pmm <- P2$Pmm
   Ppp <- P2$Ppp
-  Hi <- coefH(X)$Hi
+  Hi <- coefH(X,FALSE)$Hi
   pmatrix.list <- list(Ppp=Ppp,Pmm=Pmm, I.item=I.item, I.step=I.step, I.labels=I.labels, Hi=Hi, minvi=minvi)
   class(pmatrix.list) <- "pmatrix.class"  
   return(pmatrix.list)
   }
-

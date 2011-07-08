@@ -11,7 +11,7 @@ Plot monotonicity.class objects
  One graph for each item plotting the estimated item step response functions.
 }
 \usage{
-\method{plot}{monotonicity.class}(x, items = all, ask = TRUE, ...)
+\method{plot}{monotonicity.class}(x, items = all.items, ask = TRUE, ...)
 }
 
 \arguments{

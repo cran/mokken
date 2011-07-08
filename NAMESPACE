@@ -13,15 +13,22 @@ export(
 )
 
 # used internally - not intended to be visible to users
+#  all.patterns
 #  check.data
+#  complete.observed.frequencies
+#  count
+#  dphi
+#  phi
 #  plot.monotonicity.class,
 #  plot.pmatrix.class,
 #  plot.restscore.class,
 #  search.extended
 #  search.ga
+#  string2integer
 #  summary.monotonicity.class,
 #  summary.pmatrix.class,
 #  summary.restscore.class
+#  weights
 
 importFrom(graphics, plot)
 
