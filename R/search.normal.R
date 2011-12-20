@@ -1,6 +1,6 @@
 # Aangepast op 28 september 2010
 "search.normal" <-
-function(X, lowerbound =.3, alpha = .05, verbose = T){
+function(X, lowerbound =.3, alpha = .05, verbose = TRUE){
 
    # Internal functions
    
@@ -47,14 +47,14 @@ function(X, lowerbound =.3, alpha = .05, verbose = T){
      K <- rep(0,J)
 
      if(verbose){ 
-       cat("",fill=T)
-       cat("SCALE",scale,fill=T)
-       cat("",fill=T)
+       cat("",fill = TRUE)
+       cat("SCALE",scale,fill = TRUE)
+       cat("",fill = TRUE)
      }  
 
      # Are there two items left?
      if(length(InSet[InSet==0]) < 2){
-       if(verbose) cat("Less than two items left. PROCEDURE STOPS",fill=T)
+       if(verbose) cat("Less than two items left. PROCEDURE STOPS",fill = TRUE)
        break
      }
 
@@ -75,7 +75,7 @@ function(X, lowerbound =.3, alpha = .05, verbose = T){
      
      # Check if there are any feasible values left
      if(max(round(Hselect)) == -99){
-       cat("Scale ", scale," could not be formed because all Hj < ",lowerbound," or because no Hij significantly greater than zero. PROCEDURE STOPS",fill=T)
+       if(verbose) cat("Scale ", scale," could not be formed because all Hj < ",lowerbound," or because no Hij significantly greater than zero. PROCEDURE STOPS",fill=T)
        break
      }
 

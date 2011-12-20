@@ -58,7 +58,7 @@ If the number of item steps on the x-axis is greater than 10, then the labels ar
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 
 \author{

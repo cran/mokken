@@ -13,7 +13,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    if (substr(method,1,1)=="I" || substr(method,1,1)=="i") method="IT" else
    if (substr(method,1,2)=="MS"|| substr(method,1,2)=="ms" ||substr(method,1,1)=="C" ||substr(method,1,1)=="c") method="MSCPM" else method <- "MIIO"
    
-   # DETERMINE MINJVI and MINSIZE
+   # DETERMINE MINVI and MINSIZE
    default.minvi <- ifelse(method=="MIIO",(ncat-1)*.03,.03)
    default.minsize <- ifelse(N > 500, floor(N/10), floor(N/5))
    default.minsize <- ifelse(N <= 250, floor(N/3), default.minsize)
@@ -29,10 +29,11 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    results <- list()
    vi.matrix <- matrix(0,J,J)
    item.order <- rev(order(colMeans(X)))
+   if(is.null(dimnames(X)[[2]])) dimnames(X)[[2]] <- paste("V", 1:ncol(X),sep="")
    X <- X[, item.order]
    I.labels <- dimnames(X)[[2]]
-   if (length(I.labels) == 0) I.labels <- paste("C", 1:ncol(X))
    dimnames(vi.matrix) <- list(I.labels,I.labels)
+   Hi <- coefH(X, FALSE)$Hi
    g <- 0
    gg <- 0
    h <- 0
@@ -86,7 +87,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
            }# end g-loop
            summary.matrix[,5] <- apply(summary.matrix[,8:(7+2*nrow(uv))],1,sum)
            results[[k]][[2]] <- summary.matrix
-           ac <- violation.matrix[1:(rvm - 1), 1] <- L 
+           ac <- violation.matrix[1:(rvm - 1), 1] <- L - 1
            for (g in 1:nrow(uv)) {
               n.uv <- summary.matrix[, 7 + g]
               n.vu <- summary.matrix[, 7 + nrow(uv) + g]
@@ -163,7 +164,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             }# end g-loop
             results[[k]][[2]] <- summary.matrix
 
-            ac <- violation.matrix[1:(rvm - 1), 1] <- L 
+            ac <- violation.matrix[1:(rvm - 1), 1] <- L - 1
             for (g in 1:(ncat - 1)) {
                p.1 <- summary.matrix[, 6 + g]
                p.2 <- summary.matrix[, 5 + ncat + g]
@@ -236,7 +237,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             }# end g-loop
             results[[k]][[2]] <- summary.matrix
 
-            ac <- violation.matrix[1:(rvm - 1), 1] <- L
+            ac <- violation.matrix[1:(rvm - 1), 1] <- L - 1
             E.1 <- summary.matrix[, 5]
             E.2 <- summary.matrix[, 6]
             d <- E.2 - E.1
@@ -260,6 +261,8 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
          }# end j-loop
       }# end i-loop
    }# end if(method="MIIO") 
+
+
    vi.matrix <- vi.matrix + t(vi.matrix)
    vi.matrix.a <- vi.matrix
    VI <- matrix(apply(sign(vi.matrix),1,sum)) 
@@ -272,7 +275,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
        if(length(maxvi) > 1){ 
           H <- rep(0,length(maxvi))
           for (i in 1:length(maxvi)) H[i] <- coefH(X[,-c(items.removed,maxvi[i])],FALSE)$H + rnorm(1,0,1e-5)
-          maxvi <- maxvi[which(H==min(H))[1]]
+          maxvi <- maxvi[which(H==max(H))[1]]
        }# end if 
        vi.matrix.a[maxvi,] <- vi.matrix.a[,maxvi] <- 0
        items.removed <- c(items.removed,maxvi)
@@ -285,19 +288,34 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    if(verbose) print(VI)
    
    # Computation of HT
-   if (length(items.removed) > 0) X <- X[,-items.removed]
-   S    <- try(sum(var(t(X))) , silent = TRUE)
-   Smax <- try(sum(var(apply(t(X), 2, sort))), silent = TRUE)
-   if (class(S)=="try-error" | class(Smax)=="try-error"){
-      X <- X[sample(1:N,5000),]
-      S    <- try(sum(var(t(X)))                , silent = TRUE)
-      Smax <- try(sum(var(apply(t(X), 2, sort))), silent = TRUE)
-   }
-   HT <- ifelse((class(S)=="try-error" | class(Smax)=="try-error"),NA,S/Smax)
 
-   iio.list <- list(results = results, violations=VI,items.removed=items.removed,HT = HT,method=method,item.mean=item.mean)
+   if (length(items.removed) > 0) X <- X[,-items.removed]
+   HT <- coefHT(X)
+   
+   iio.list <- list(results = results, violations = VI, items.removed = items.removed, Hi = Hi, HT = HT, method = method, item.mean = item.mean, m = ncat-1)
    class(iio.list) <- "iio.class"
    return(iio.list)
 }
 
  
+coefHT <- function(Y){
+   N <- nrow(Y)
+   S    <- try(var(t(Y)) , silent = TRUE)
+   Smax <- try(var(apply(t(Y), 2, sort)), silent = TRUE)
+   
+   if (class(S)=="matrix" & class(Smax)=="matrix"){
+      diag(S) <- diag(Smax) <- 0
+      HT <- sum(S)/sum(Smax)
+   } else {   
+      Y    <- Y[sample(1:N,min(N,5000)),]
+      S    <- try(sum(var(t(Y)))                , silent = TRUE)
+      Smax <- try(sum(var(apply(t(Y), 2, sort))), silent = TRUE)
+      if (class(S)=="matrix" & class(Smax)=="matrix"){
+          diag(S) <- diag(Smax) <- 0
+          HT <- sum(S)/sum(Smax)
+      } else {
+           HT <- NA       
+      }
+   }     
+   return(HT)
+}

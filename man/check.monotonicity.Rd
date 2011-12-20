@@ -6,7 +6,7 @@ Check of Monotonicity
 }
 
 \description{
-Returns a list (of class monotonicity.class) with results from the investigation of monotonicity.
+Returns a list (of class \code{monotonicity.class}) with results from the investigation of monotonicity (Junker and Sijtsma, 2000; Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002).
 }
 
 \usage{
@@ -19,9 +19,9 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
           Missing values are not allowed}
  \item{minvi}{minimum size of a violation that is reported}
  \item{minsize}{minimum size of a rest score group. By default
-   \code{minsize} = \eqn{N/10} if \eqn{N \geq 500};
-   \code{minsize} = \eqn{N/5 if} \eqn{250 \leq N < 500}; and
-   \code{minsize} = \eqn{\max(N/3,50)} if \eqn{N < 250}}
+   \code{minsize} = \eqn{N/10} if \eqn{N \ge 500};
+   \code{minsize} = \eqn{N/5 if} \eqn{250 \le N < 500}; and
+   \code{minsize} = max\eqn{(N/3,50)} if \eqn{N < 250}}
 }
 
 \details{
@@ -38,6 +38,10 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
   \item{m}{The number of answer categories.}
 }
 \references{
+  Junker, B.W., and Sijtsma, K. (2000). 
+  Latent and manifest monotonicity in item response models. 
+  \emph{Applied Psychological Measurement, 24}, 65-81.
+
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
   Berlin, Germany: De Gruyter.
@@ -53,7 +57,7 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 
 \author{
@@ -62,8 +66,14 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
 
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.restscore}}, \code{\link{check.pmatrix}}, \code{\link{check.reliability}}, 
- \code{\link{plot.monotonicity.class}}, \code{\link{summary.monotonicity.class}}
+\code{\link{check.errors}}, 
+\code{\link{check.iio}}, 
+\code{\link{check.restscore}}, 
+\code{\link{check.pmatrix}}, 
+\code{\link{check.reliability}}, 
+\code{\link{coefH}}, 
+\code{\link{plot.monotonicity.class}}, 
+\code{\link{summary.monotonicity.class}}
 }
 
 \examples{

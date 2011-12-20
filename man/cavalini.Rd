@@ -8,7 +8,7 @@ Data came from 17 polytomous items administered to 828 respondents (Cavalini, 19
  with the bad smell from a factory in the neighborhood of their homes.}
 \usage{data(cavalini)}
 \format{
-A 828 by 17 matrix containing integers. \code{dimnames(cavalini)[[2]]} are adjectives
+A 828 by 17 matrix containing integers. \code{attributes(transreas)} gives details on the items.
 }
 \details{
  Items have four ordered answer categories,
@@ -55,6 +55,7 @@ Thousand Oaks, CA: Sage.
 
 \examples{
 data(cavalini)
+attributes(cavalini)$labels
 }
 
 \keyword{datasets}

@@ -882,7 +882,7 @@ int GeneticAlgorithm(int *population, int *itercount, int *popsize, int *nitem,
   int popSum = 0;
   for(i=0; i<Total; i++)
      popSum += population[i];
-
+                                                         
   if(popSum == 0){
     while(!TotalFitness) {
      count++;
@@ -898,8 +898,9 @@ int GeneticAlgorithm(int *population, int *itercount, int *popsize, int *nitem,
 
      /* If no valid populations was found in MAXGENS iterations, then exit */
      if(count == MAXGENS) {
-           Rprintf("No partitioning was found in %d populations",MAXGENS);
-           exit(1);
+           Rprintf("No partitioning was found in %d populations\n",MAXGENS);
+           generation[0]=MAXGENS;
+           TotalFitness = 1.0;
      }
    }
 

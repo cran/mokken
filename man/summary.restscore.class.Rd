@@ -19,9 +19,19 @@ Summarize checks of nonintersection using method restscore.
 }
 
 \value{
- Matrix with \code{ncol(X)} rows and 9 columns, 
- showing for each item a summary of the violations of nonintersection using method restscore.
+ Matrix with \code{ncol(X)} rows and 10 columns, 
+ showing for each item a summary of the violations of nonintersection using method restscore: 
+    \code{itemH} = Item-scalability coefficient; 
+    \code{#ac} = number of active pairs that were investigated; 
+    \code{#vi} = number of violations in which the item is involved;
+    \code{#vi/#ac} = propotion of active pairs that is involved in a violation;
+    \code{maxvi} = maximum violation;
+    \code{sum} = sum of all violations;
+    \code{zmax}  = maximum z-value;
+    \code{zsig} = number of significant z-values;
+    \code{crit} = Crit value (Molenaar and Sijtsma, 2000, pp. 49, 74). 
 }
+
 
 \references{
   Mokken, R. J. (1971) 
@@ -39,7 +49,7 @@ Summarize checks of nonintersection using method restscore.
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 
 \author{

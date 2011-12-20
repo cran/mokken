@@ -23,9 +23,9 @@ aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.m
           Missing values are not allowed}
   \item{search}{Type of item selection procedure: 
             "normal": Mokken's automated item selection procedure 
-           (Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002);
+           (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002);
            "ga": item selection using a genetic algorithm
-           (Straat, van der Ark, and Sijtsma, 2008). The default is "normal".}
+           (Straat, van der Ark, and Sijtsma, in press). The default is "normal".}
   \item{lowerbound}{numeric scaling criterium; 0 <= \code{lowerbound} < 1.  The default is \code{0.3}.}
   \item{alpha}{Type I error level. The default is \code{0.05}.}
   \item{popsize}{Size of the population of items in genetic. algorithm The default is \code{20}.}
@@ -35,10 +35,10 @@ aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, maxgens=default.m
   \item{verbose}{Logical, indicating whether should output to the screen the results of the model. If \code{FALSE}, no output is produced. The default is \code{TRUE}.}
 }
 \details{
-The number of Mokken scales cannot exceed \code{ncol(X)/2}.
+Each scale must consist of at least two items, hence the number of Mokken scales cannot exceed \code{ncol(X)/2}.
 Procedure may be slow for large data sets. Especially if the genetic algorithm is used.
 There is not yet an option \code{search="extended"}.
-\code{aisp} replaces the function \code{search.normal} is earlier versions.
+\code{aisp} replaces the function \code{search.normal} in earlier versions.
 }
 
 \value{An indicator vector of length J. 
@@ -63,15 +63,15 @@ There is not yet an option \code{search="extended"}.
 
   Straat, J. H., van der Ark, L. A., and Sijtsma, K. (2008). 
   Comparing optimization algorithms for item selection in Mokken scale analysis. 
-  Paper submitted for publication.
+  \emph{Journal of Classification}.
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{a.vdark@uvt.nl},
  J. H. Straat
 }
 

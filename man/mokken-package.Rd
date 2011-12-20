@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken     \cr
 Type:       \tab Package    \cr
-Version:    \tab 2.6        \cr
-Date:       \tab 2011-07-8  \cr
+Version:    \tab 2.7        \cr
+Date:       \tab 2011-10-10 \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -34,12 +34,23 @@ Version 0 was introduced in Van der Ark (2007). It included the functions
 \code{\link{search.normal}}      \tab Mokken's automated item selection algorithm \cr
 }
 
-In the current version the following functions have been added
+The following major modifications have been made.
 \tabular{ll}{
 \code{\link{aisp}}               \tab  More general automated item selection algorithm. \cr
-                                 \tab  Function \code{search} has become obsolete \cr
-\code{\link{check.reliability}}  \tab Compute reliability coefficients \cr
-\code{\link{check.iio}}          \tab Investigate invariant item orderings \cr
+                                 \tab  Function \code{search} has become obsolete (Version 2.0)\cr
+\code{\link{check.reliability}}  \tab  Compute reliability coefficients (Version 2.0)\cr
+\code{\link{check.iio}}          \tab  Investigate invariant item orderings (Version 2.4) \cr
+\code{\link{coefH}}              \tab  Standard errors for scalability coefficients included (Version 2.6)\cr
+}
+
+The following modifications have been made in Version 2.7 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{check.errors}}       \tab  Inclusion new function to compute weighted Guttman errors for each person. \cr
+\code{\link{check.iio}}          \tab  \code{plot} has been added. \cr
+\code{\link{check.monotonicity}} \tab  Computation of number of active pairs for dichotomous items has been corrected. \cr
+\code{\link{check.pmatrix}}      \tab  Summary of the results has been corrected. \cr
+\code{\link{check.restscore}}    \tab  Code pertaining to IIO has been deleted. The procedure is now equivalent to MSP. \cr
+\code{\link{coefH}}              \tab  Option included to compare scalability coefficients across groups\cr
 }
 
 The package contains the following data sets
@@ -52,10 +63,10 @@ The package contains the following data sets
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}.
 
 Thanks are due 
- to Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
- to Patrick Mair, Rudy Ligtvoet, and J. Hendrik Straat for testing the software; 
+ to Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
+ to Geert H. van Kollenburg, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Michael Dewey, Jasmin Durstin, Michael Kubovy, Jue Huang, Jonathan Rose, Tobias Schlaffer, Roger Watson, and Na Yang for reporting bugs;
+ to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Michael Kubovy, Jue Huang, Jonathan Rose, Tobias Schlaffer, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
  to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
@@ -89,6 +100,9 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
   Unpublished manuscript.
   \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
 
+  Van der Ark, L. A. (in press). 
+  New developments in Mokken scale analysis in \pkg{R}. 
+  \emph{Journal of Statistical Software}.
 }
 
 \keyword{package}
@@ -122,6 +136,7 @@ plot(pmatrix.list)
 # Investigate the assumption of IIO using method MIIO
 iio.list <- check.iio(Communality)
 summary(iio.list)
+plot(iio.list)
 
 # Compute the reliability of the scale
 check.reliability(Communality)

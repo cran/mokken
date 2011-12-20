@@ -2,11 +2,11 @@
 \alias{check.reliability}
 
 \title{
-Compaction of reliability statistics
+Computation of reliability statistics
 }
 
 \description{
-Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) statistic (a.k.a rho), 
+Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) statistic (a.k.a rho; also see, Sijtsma and Molenaar, 1987; Van der Ark, 2010), 
     Cronbach's (1951) alpha, Guttman's (1945) lambda 2, and the latent class reliability coefficient
     (LCRC; Van der Ark, Van der Palm, and Sijtsma, 2011).
 }
@@ -24,7 +24,7 @@ check.reliability(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, ncl
   \item{lambda.2}{Boolean. If \code{TRUE}, Guttman's Lambda 2 is computed.}        
   \item{LCRC}{Boolean. If \code{TRUE}, the LCRC is computed.} 
   \item{nclass}{Integer. Number of latent classes for the computation of LCRC. 
-        By default: half the number of items rounded to the nearest integer.}
+        By default: the number of items minus 1.}
 }
 
 \details{
@@ -67,19 +67,17 @@ The optimal number of latent classes should be determined prior to the computati
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 
   Van der Ark, L. A. (2010). 
   Computation of the Molenaar Sijtsma statistic. 
   In A. Fink, B. Lausen, W. Seidel, and A. Ultsch (Eds.),
-  \emph{Advances in data analysis, data handling and business intelligence} (pp.\ 775-784).
+  \emph{Advances in data analysis, data handling and business intelligence} (pp. 775-784).
   Berlin: Springer.
 
-  Van der Ark, L. A., Van der Palm, D. W., and Sijtsma (2011).
+  Van der Ark, L. A., D. W. van der Palm, and K. Sijtsma (2011).
   A latent class approach to estimating test-score reliability.
-  \emph{Applied Psychological Measurement}.
-  
-  
+  \emph{Applied Psychological Measurement, 35}, 380-392.
 }
 
 \author{
@@ -87,7 +85,12 @@ The optimal number of latent classes should be determined prior to the computati
 }
 
 \seealso{
-\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.pmatrix}}, \code{\link{check.restscore}} 
+\code{\link{check.errors}}, 
+\code{\link{check.iio}}, 
+\code{\link{check.monotonicity}}, 
+\code{\link{check.pmatrix}} 
+\code{\link{check.restscore}}, 
+\code{\link{coefH}}
 }
 
 \examples{

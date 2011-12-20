@@ -6,18 +6,24 @@ Check of Invariant Item Ordering
 }
 
 \description{
-Returns a list with results from the investigation of invariant item ordering.
+Returns a list (of class \code{iio.class}) with results from the investigation of invariant item ordering.
 Three methods may be used for the investigation of invariant item ordering. 
 (1) Method MIIO (manifest invariant item ordering: investigates the manifest item response functions for all pairs of items)
 (2) Method MS-CPM (manifest scale - cumulative probability model: investigates the manifest item step response functions for all pairs of items)
-(3) Method IT (increasingness in transposition: investigates all bivariate joint probabilities for all pairs of items)
+(3) Method IT (increasingness in transposition: investigates all bivariate joint probabilities for all pairs of items).
 
-for a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
+For a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
 a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,
 Van der Ark, Bergsma, and Sijtsma (2011).
 }
 \usage{
 check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
+}
+
+\details{
+ The output is of class \code{iio.class}, and is often numerous. 
+ Functions \code{plot} and \code{summary} can be used to summarize the output. 
+ See Van der Ark (in press) for an example.      
 }
 
 \arguments{
@@ -29,9 +35,9 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
     \code{minvi} = .03 times the number of item step response functions (m) for Method MIIO;
     \code{minvi} = .03 for Method IT and Method MSCPM}
   \item{minsize}{minimum size of a rest score group.  By default
-   \code{minsize} = \eqn{N/10} if \eqn{N \geq 500};
-   \code{minsize} = \eqn{N/5 if} \eqn{250 \leq N < 500}; and
-   \code{minsize} = \eqn{\max(N/3,50)} if \eqn{N < 250}}
+   \code{minsize} = \eqn{N/10} if \eqn{N \ge 500};
+   \code{minsize} = \eqn{N/5 if} \eqn{250 \le N < 500}; and
+   \code{minsize} = max\eqn{(N/3,50)} if \eqn{N < 250}}
   \item{alpha}{Nominal Type I error for t test (Method MIIO), z test (Method MSCPM), or McNemar test (Method IT). 
   Default \code{alpha = .05}} 
   \item{item.selection}{Conduct backward item selection procedure (see Ligtvoet et al., 2010).
@@ -44,9 +50,9 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
   \item{results}{A list with as many components as there are item pairs.  
   Each component itself is also
   a list containing the results of the investigation of IIO.}
-  \item{violations}{A matrix: Summarizes of the backward item selection (Corresponds to Table 4 in Ligtvoet et al., 2010,
-   and Table 1 in Ligtvoet et al., in press). 
-  The first column gives the number of violations of IIO according the method restscore. 
+  \item{violations}{A matrix: Summary of the backward item selection (Corresponds to Table 4 in Ligtvoet et al., 2010,
+   and Table 1 in Ligtvoet et al., 2011). 
+  The first column gives, for each item, the number of violations of IIO. 
   If the number of violations is nonzero, then the item with the largest number of violations is removed.
   If two or more items have the maximum number of violations, then from those items the item producing the lowest value of Loevinger's H is removed.
   The second column shows the number of violations with one item removed, the third column shows the number of violations with two items removed, etc.}
@@ -57,36 +63,47 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
 }
 
 \references{
-  Ligtvoet, R., van der Ark, L. A., The Marvelde, J. M., and Sijtsma (2010) 
+  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, and K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
 
-  Ligtvoet, R., van der Ark, L. A., Bergsma, W. P., and Sijtsma (2011) 
+  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, and K. Sijtsma (2011).
   Polytomous latent scales for the investigation of the ordering of items.
-  \emph{Psychometrika, XX}, xxx-xxx.
-   
-  
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  \emph{Psychometrika, 76}, 200-216.
+
+  Sijtsma, K., R. R. Meijer, and L. A. van der Ark (2011).
+  Mokken scale analysis as time goes by: An update for scaling practitioners.
+  \emph{Personality and Individual Differences, 50}, 31-37.
+
+  Sijtsma, K, and I. W. Molenaar (2002)
   \emph{Introduction to nonparametric item response theory}.
   Thousand Oaks, CA: Sage.
-  
+
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
+  \emph{Journal of Statistical Software, 20} (11), 1-19.
+  \url{http://www.jstatsoft.org/v20/i11}
+
+  Van der Ark, L. A. (in press). 
+  New developments in Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+
 }
+
 \author{
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
 
 \seealso{
+\code{\link{check.errors}}, 
 \code{\link{check.monotonicity}}, 
 \code{\link{check.pmatrix}}, 
 \code{\link{check.reliability}} 
 \code{\link{check.restscore}}, 
 \code{\link{coefH}}, 
-\code{\link{summary.iio.class}}
+\code{\link{plot.iio.class}},
+\code{\link{summary.iio.class}},
 }
 
 \examples{
@@ -96,12 +113,13 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
 data(acl)            
 
 Order <- acl[,41:50]               
-check.iio(Order)                     
+summary(check.iio(Order))
+plot(check.iio(Order))
 
 Autonomy <- acl[,91:100]
 check.iio(Autonomy)
 
-# Examples from Ligtvoet et al. (2009).
+# Examples from Ligtvoet et al. (2011).
  
 data(cavalini)
 X1 <- cavalini[,c(3,5,6,7,9,11,13,14)]

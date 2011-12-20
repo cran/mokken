@@ -18,10 +18,21 @@ Summarize checks of nonintersection using method pmatrix.
 }
 
 \value{
-  \item{ppp.summary.matrix}{Matrix with \code{ncol(X)} rows and 7 columns, 
-        showing for each item a summary of the violations in the P(++) matrix.}
-  \item{pmm.summary.matrix}{Matrix with \code{ncol(X)} rows and 7 columns, 
-        showing for each item a summary of the violations in the P(--) matrix.}
+ Matrix with \code{ncol(X)} rows and 10 columns, 
+ showing for each item a summary of the violations of nonintersection using method pmatrix: 
+    \code{itemH} = Item-scalability coefficient; 
+    \code{#ac} = number of active pairs that were investigated; 
+    \code{#vi} = number of violations in which the item is involved;
+    \code{#vi/#ac} = propotion of active pairs that is involved in a violation;
+    \code{maxvi} = maximum violation;
+    \code{sum} = sum of all violations;
+    \code{zmax}  = maximum z-value;
+    \code{zsig} = number of significant z-values;
+    \code{crit} = Crit value (Molenaar and Sijtsma, 2000, pp. 49, 74). 
+}
+
+\details{
+For obtaining the P++ and P-- matrix, see examples.
 }
 
 \references{
@@ -40,7 +51,7 @@ Summarize checks of nonintersection using method pmatrix.
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 
 \author{
@@ -57,6 +68,12 @@ Communality <- acl[,1:10]
 pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
+
+# Small example showing how to retrieve the P++ matrix and the P-- matrix
+SmallExample <- acl[,1:4]
+pmatrix.list <- check.pmatrix(SmallExample)
+pmatrix.list$results$Ppp
+pmatrix.list$results$Pmm
 }
 
 \keyword{summary}

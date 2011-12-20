@@ -4,6 +4,7 @@ export(
  aisp,
  coefH,
  coefZ,
+ check.errors,
  check.monotonicity,
  check.iio,
  check.pmatrix,
@@ -16,7 +17,6 @@ export(
 #  all.patterns
 #  check.data
 #  complete.observed.frequencies
-#  count
 #  dphi
 #  phi
 #  plot.monotonicity.class,
@@ -39,3 +39,4 @@ S3method(summary, "iio.class")
 S3method(plot, "monotonicity.class")
 S3method(plot, "pmatrix.class")
 S3method(plot, "restscore.class")
+S3method(plot, "iio.class")

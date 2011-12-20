@@ -4,7 +4,7 @@
 \title{Transitive Reasoning}
 
 \description{
-Data came from 12 dichtomous items administered to 425 children in grades 2 to 6 (Verweij, Sijtsma, and Koops, 1996).
+Data came from 12 dichtomous items administered to 425 children in grades 2 through 6 (Verweij, Sijtsma, and Koops, 1996).
 Each item is a transitive reasoning task.}
 \usage{data(transreas)}
 \format{

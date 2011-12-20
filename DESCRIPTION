@@ -1,6 +1,6 @@
 Package: mokken
-Version: 2.6
-Date: 2011-07-08
+Version: 2.7
+Date: 2011-12-20
 Title: Mokken Scale Analysis in R
 Author: L. Andries van der Ark <a.vdark@uvt.nl>
 Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>
@@ -11,7 +11,7 @@ Description: mokken contains functions for performing Mokken scale
         automated item selection algorithm, and various checks of model
         assumptions.
 License: GPL (>= 2)
-URL: http://spitswww.uvt.nl/~avdrark/, http://www.jstatsoft.org
-Packaged: 2011-08-17 14:30:31 UTC; Andries
+URL: http://spitswww.uvt.nl/~avdrark/, http://www.jstatsoft.org/v20/i11
+Packaged: 2012-01-13 21:34:54 UTC; ripley
 Repository: CRAN
-Date/Publication: 2011-08-17 20:26:57
+Date/Publication: 2012-01-13 21:35:54

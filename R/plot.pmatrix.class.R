@@ -8,7 +8,7 @@ function(x, items = all.items, pmatrix = "both", ask = TRUE, ...){
   if (pmatrix == "both" || pmatrix == "ppp"){
     I.item <- x$I.item
     I.step <- x$I.step
-    plot.matrix <- x$Ppp
+    plot.matrix <- x$results$Ppp
     for (j in items){
        plot.matrix.j <- plot.matrix[I.item==j,I.item!=j]
        if(!is.matrix(plot.matrix.j)) plot.matrix.j <- t(as.matrix(plot.matrix.j))
@@ -29,7 +29,7 @@ function(x, items = all.items, pmatrix = "both", ask = TRUE, ...){
   if (pmatrix == "both" || pmatrix == "pmm"){
     I.item <- x$I.item
     I.step <- x$I.step
-    plot.matrix <- x$Pmm
+    plot.matrix <- x$results$Pmm
     for (j in items){
        plot.matrix.j <- plot.matrix[I.item==j,I.item!=j]
        if(!is.matrix(plot.matrix.j)) plot.matrix.j <- t(as.matrix(plot.matrix.j))

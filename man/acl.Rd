@@ -15,10 +15,10 @@ A 433 by 218 matrix containing integers. \code{dimnames(acl)[[2]]} are adjective
  (0 = completely disagree, 1 = disagree, 2 = agree nor disagree, 3 = agree, 4 = completely agree).
  The respondents were instructed to consider whether an adjective described their 
  personality, and mark the answer category that fits best to this description.
-The 218 items constitute 22 scales (see table) 
+The 218 items constitute 22 scales (see table); 
  77 items of the 218 items that constitute the ten scales were negatively worded.
 The negatively worded items are indicated by an asterisk in the \code{dimnames}
- and their item scores were reversed.
+ and their item scores have been reversed.
 
 \tabular{llcll}{
 Communality \tab Items 1-10    \tab \tab Change              \tab  Items 111-119 \cr
@@ -46,7 +46,7 @@ Gough, H. G. and Heilbrun,A. B. (1980)
 Van der Ark, L. A. (2007) 
 Mokken scale analysis in \pkg{R}. 
 \emph{Journal of Statistical Software}.
-\url{http://www.jstatsoft.org}
+\url{http://www.jstatsoft.org/v20/i11}
 
 }
 

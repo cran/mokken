@@ -6,7 +6,7 @@ Check of Nonintersection Using Method Pmatrix
 }
 
 \description{
- computes the P(++) and P(- -) matrix and auxiliary information
+Returns a list (of class \code{pmatrix.class}) with results from the investigation of nonintersection using method pmatrix (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). 
 }
 
 \usage{
@@ -27,8 +27,10 @@ See Van der Ark (2007) for an example.
 }
 
 \value{
- \item{Ppp}{P(++) matrix}
- \item{Pmm}{P(--) matrix}
+  \item{results}{A list with as many components as there are item pairs.  
+  Each component itself is also
+  a list containing the results of the check of nonintersection using Method pmatrix.
+  The P(++) matrix and P(- -) (Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002) are also included.}
  \item{I.item}{vector indicating to which items the rows and column the P(++) matrix belong}
  \item{I.step}{the labels of the item steps in order of popularity}
  \item{I.labels}{the item labels}
@@ -52,7 +54,7 @@ See Van der Ark (2007) for an example.
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  \url{http://www.jstatsoft.org/v20/i11}
 }
 
 
@@ -60,9 +62,16 @@ See Van der Ark (2007) for an example.
  L. A. van der Ark \email{a.vdark@uvt.nl}
 }
 
+
 \seealso{
-\code{\link{coefH}}, \code{\link{check.iio}}, \code{\link{check.monotonicity}}, \code{\link{check.restscore}}, \code{\link{check.reliability}}, 
-\code{\link{plot.pmatrix.class}}, \code{\link{summary.pmatrix.class}}
+\code{\link{check.errors}}, 
+\code{\link{check.iio}}, 
+\code{\link{check.monotonicity}}, 
+\code{\link{check.reliability}} 
+\code{\link{check.restscore}}, 
+\code{\link{coefH}}, 
+\code{\link{plot.pmatrix.class}}, 
+\code{\link{summary.pmatrix.class}}
 }
 
 \examples{

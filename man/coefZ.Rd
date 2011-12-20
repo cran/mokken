@@ -23,11 +23,14 @@ coefZ(X)
 }
 
 \value{
- \item{Zij}{matrix containing the z-values of the item-pairs}
- \item{Zi}{vector containing z-values of the items}
- \item{Z}{real z-value of the entire scale}
+ \item{Zij}{matrix containing the Z-values of the item-pairs}
+ \item{Zi}{vector containing Z-values of the items}
+ \item{Z}{Z-value of the entire scale}
 }
 
+\details{
+Unlike \code{coefH}, standard errors are not provided.
+}
 
 \references{
  
