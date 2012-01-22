@@ -1,4 +1,4 @@
-13dd9c267fe6a849758826402eb8a586 *DESCRIPTION
+b425816e2e517949710ecd3927007acc *DESCRIPTION
 5dc275a9a43c76f9105e3e6c7dd32975 *NAMESPACE
 65b95cb1d4e2d18c597220780f701c45 *R/aisp.R
 f4e969d751517dc97cb4bb7bb823b50e *R/check.data.R
@@ -26,18 +26,7 @@ c814c10abecdc09c355995b656ddae13 *data/acl.rda
 b5e0f1b3ffa6073adc4348a39681a9bf *data/cavalini.rda
 bd3b0d572e862858473faf6a33dbe810 *data/transreas.rda
 d017380c3da4c491ae2e038e12dd2264 *inst/CITATION
-3082a4f9f4ae4c74561df58706219fd2 *inst/doc/F1.pdf
-2c1e1efb12ed05c3e24ab6adb421e2f1 *inst/doc/F2.pdf
-7697a5ce36fcdfa1236c690a888b8010 *inst/doc/F3.pdf
-4206f1fdc0acb205c129fbe70df78da3 *inst/doc/F4.pdf
-d1a4646b62b06fb82ef4a8af4634e251 *inst/doc/F7.pdf
-0cb0d52896ba3c3e37fb489e4b0c6b68 *inst/doc/F8.pdf
-8e6e3268c7bdfeee1e7eaf1dfb55f067 *inst/doc/Sweave.sty
-9f434c7c8ed9ee7401a0d6c23e0609d8 *inst/doc/fancyvrb.sty
-b80dfc9e278a0ef8c3b4388de54d63d8 *inst/doc/index.html
-fde00e30365e62f493832d1bf0739ca6 *inst/doc/mokken.R
-db84f7b7909b176b3cfc09f7616a424a *inst/doc/mokken.pdf
-78bdbb6580b0aa5751749ae5b8120b09 *inst/doc/try.ps
+c1770be08189c1d224b176c29f29da7d *inst/doc/mokken.pdf
 aeeea9aaaaacbb8f39ff77f9ea3d78a6 *man/acl.Rd
 d25fd0b8ce91e797d9dcec42bb926eea *man/aisp.Rd
 75857eca3bd4624a9ba0a2e3ac61154c *man/cavalini.Rd

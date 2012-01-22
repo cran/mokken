@@ -1,6 +1,6 @@
 Package: mokken
-Version: 2.7
-Date: 2011-12-20
+Version: 2.7.1
+Date: 2012-01-22
 Title: Mokken Scale Analysis in R
 Author: L. Andries van der Ark <a.vdark@uvt.nl>
 Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>
@@ -12,6 +12,6 @@ Description: mokken contains functions for performing Mokken scale
         assumptions.
 License: GPL (>= 2)
 URL: http://spitswww.uvt.nl/~avdrark/, http://www.jstatsoft.org/v20/i11
-Packaged: 2012-01-13 21:34:54 UTC; ripley
+Packaged: 2012-01-22 12:07:41 UTC; Andries
 Repository: CRAN
-Date/Publication: 2012-01-13 21:35:54
+Date/Publication: 2012-01-22 20:27:30
