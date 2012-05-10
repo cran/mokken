@@ -8,9 +8,9 @@ Check of Invariant Item Ordering
 \description{
 Returns a list (of class \code{iio.class}) with results from the investigation of invariant item ordering.
 Three methods may be used for the investigation of invariant item ordering. 
-(1) Method MIIO (manifest invariant item ordering: investigates the manifest item response functions for all pairs of items)
-(2) Method MS-CPM (manifest scale - cumulative probability model: investigates the manifest item step response functions for all pairs of items)
-(3) Method IT (increasingness in transposition: investigates all bivariate joint probabilities for all pairs of items).
+(1) Method MIIO (manifest invariant item ordering: investigates the manifest item response functions for all pairs of items). For polytomous items, t-tests are used to test violations, for dichotomous items z-tests are used to test are used to test violations.
+(2) Method MS-CPM (manifest scale - cumulative probability model: investigates the manifest item step response functions for all pairs of items). Z-tests are used to test violations.
+(3) Method IT (increasingness in transposition: investigates all bivariate joint probabilities for all pairs of items). Chi-square tests are used to test violations.
 
 For a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
 a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,

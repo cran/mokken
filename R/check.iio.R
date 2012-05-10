@@ -199,6 +199,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    }#end if (method MS-CPM)
 
    # METHOD MIIO
+   dich=1
    if (method=="MIIO"){
       for (i in 1:(J-1)){
          R <- as.matrix(X) %*% (matrix(1,J,J) - diag(J)) - X[,i]
@@ -208,7 +209,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             rvm <- 2
             violation.matrix <- matrix(0, nrow = 1, ncol = 8)
             dimnames(violation.matrix) <- list(c(t(paste("E(X",i,")  E(X",j,")", sep = ""))), 
-                                               c("#ac", "#vi", "#vi/#ac", "maxvi", "sum", "sum/#ac","tmax", "#tsig"))
+                                               c("#ac", "#vi", "#vi/#ac", "maxvi", "sum", "sum/#ac",ifelse(ncat == dich,"zmax", "tmax"), ifelse(ncat == dich, "#zsig", "#tsig")))
             results[[k]] <- list()
             results[[k]][[1]] <- list()
             results[[k]][[1]][1] <- I.labels[i]
@@ -249,9 +250,20 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             if (any(d > 0)) {
               for (gg in 1:L) {
                 if (d[gg] > 0) {
-                   tt <- t.test(X[member==gg,i],X[member==gg,j],alternative="less")
-                   t.statistic[gg] <- abs(tt$statistic)
-                   t.pvalue[gg] <- tt$p.value
+                   if (ncat > dich){
+                      tt <- t.test(X[member==gg,i],X[member==gg,j],alternative="less")
+                      t.statistic[gg] <- abs(tt$statistic)
+                      t.pvalue[gg] <- tt$p.value
+                   } else {
+                      Xgg <- X[member == gg, ]
+                      f.01 <- length(which(Xgg[, i]>=1& Xgg[, j] < 1)) 
+                      f.10 <- length(which(Xgg[, i]< 1& Xgg[, j] >= 1))
+                      f.k <- min(f.01, f.10)
+                      f.n <- f.01 + f.10
+                      f.b <- ((2 * f.k + 1 - f.n)^2 - 10 * f.n)/(12 * f.n)
+                      t.statistic[gg] <- abs(sqrt(2 * f.k + 2 + f.b) - sqrt(2 * f.n - 2 * f.k + f.b)) # even though it is a z-statistic
+                      t.pvalue[gg] <- 1-pnorm(t.statistic[gg])
+                   } 
                 }#endif
               }#end gg-loop
             }#endif

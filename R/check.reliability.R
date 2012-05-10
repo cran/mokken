@@ -146,7 +146,7 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
 
    ## LCRC   
    if (LCRC==TRUE){
-     if(!"poLCA" %in% installed.packages()[,1]) install.packages("poLCA", dependencies=TRUE, repos="http://lib.stat.cmu.edu/R/CRAN")
+     if(is.na(packageDescription("poLCA")[[1]])==TRUE) install.packages("poLCA", dependencies=TRUE, repos="http://lib.stat.cmu.edu/R/CRAN")
      library(poLCA)
      X.0 <- X - min(X)
      m <- max(X.0)+1

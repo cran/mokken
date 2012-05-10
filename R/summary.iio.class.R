@@ -10,9 +10,10 @@ function(object, ...){
    I.labels <- dimnames(violations)[[1]]
    summary.matrix <- matrix(0,nrow=J,ncol=10)
    summary.matrix[,1] <- round(Hi,3)
+   ncat <- object$m + 1
    tmax <- rep(0,J)
    if(method=="MIIO") {
-     dimnames(summary.matrix) <- list(I.labels,c("ItemH","#ac","#vi","#vi/#ac","maxvi","sum","sum/#ac","tmax","#tsig","crit"))
+     dimnames(summary.matrix) <- list(I.labels,c("ItemH","#ac","#vi","#vi/#ac","maxvi","sum","sum/#ac",ifelse(ncat == 2,"zmax","tmax"),ifelse(ncat == 2,"#zsig","#tsig"),"crit"))
    }
    if(method=="MSCPM") {
      dimnames(summary.matrix) <- list(I.labels,c("ItemH","#ac","#vi","#vi/#ac","maxvi","sum","sum/#ac","zmax","#zsig","crit"))

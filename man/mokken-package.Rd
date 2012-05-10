@@ -24,6 +24,23 @@ License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
 
+The package contains the following data sets
+\tabular{ll}{
+\code{\link{acl}}                \tab  Scores on a personality checklist. \cr
+\code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
+\code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
+}
+
+A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}.
+
+Thanks are due 
+ to Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
+ to Geert H. van Kollenburg, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
+ to Wijbrandt van Schuur for comments on the vignette;
+ to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
+ to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
+ to Robert J. Mokken for lending his last name.
+
 Version 0 was introduced in Van der Ark (2007). It included the functions
 \tabular{ll}{
 \code{\link{coefH}}              \tab Scalability coefficients \cr
@@ -43,7 +60,7 @@ The following major modifications have been made.
 \code{\link{coefH}}              \tab  Standard errors for scalability coefficients included (Version 2.6)\cr
 }
 
-The following modifications have been made in Version 2.7 in comparison to previous versions.
+All updates until version 2.7 are described in Van der Ark (in press). The following modifications have been made in Version 2.7 in comparison to previous versions.
 \tabular{ll}{
 \code{\link{check.errors}}       \tab  Inclusion new function to compute weighted Guttman errors for each person. \cr
 \code{\link{check.iio}}          \tab  \code{plot} has been added. \cr
@@ -53,22 +70,16 @@ The following modifications have been made in Version 2.7 in comparison to previ
 \code{\link{coefH}}              \tab  Option included to compare scalability coefficients across groups\cr
 }
 
-The package contains the following data sets
+The following modifications have been made in Version 2.7.1 in comparison to previous versions.
 \tabular{ll}{
-\code{\link{acl}}                \tab  Scores on a personality checklist. \cr
-\code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
-\code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
+\code{\link{mokken}}             \tab  Some legal issues \cr
 }
 
-A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}.
+The following modifications have been made in Version 2.7.2 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{check.iio}}          \tab  Violations of IIO for dichotomous items are now tested using a z-test rather than a t-test. \cr
+}
 
-Thanks are due 
- to Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
- to Geert H. van Kollenburg, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
- to Wijbrandt van Schuur for comments on the vignette;
- to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Michael Kubovy, Jue Huang, Jonathan Rose, Tobias Schlaffer, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
- to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
- to Robert J. Mokken for lending his last name.
 
 }
 \author{
