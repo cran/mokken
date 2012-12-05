@@ -222,8 +222,8 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
               group <- c(group,max(which(sorted.R==sorted.R[minsize+max(group)])))
             }
             group <- group[-length(group)]  
-            summary.matrix <- matrix(nrow = length(group) + 1, ncol = 6)
-            dimnames(summary.matrix)[[2]] <- c("Group", "Lo","Hi", "N", paste("E(X", i, ")", sep = ""), paste("E(X",j, ")", sep = ""))
+            summary.matrix <- matrix(nrow = length(group) + 1, ncol = 8)
+            dimnames(summary.matrix)[[2]] <- c("Group", "Lo","Hi", "N", paste("E(X", i, ")", sep = ""), paste("E(X",j, ")", sep = ""),paste("SD(X", i, ")", sep = ""), paste("SD(X",j, ")", sep = ""))
             summary.matrix[, 1] <- 1:nrow(summary.matrix)
             summary.matrix[, 4] <- c(group, N) - c(0, group)
             group <- c(sorted.R[group],max(sorted.R))
@@ -235,6 +235,8 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             for (g in 1:L){
                summary.matrix[g, 5] <- mean(X[member == g, i])
                summary.matrix[g, 6] <- mean(X[member == g, j])
+               summary.matrix[g, 7] <- sd(X[member == g, i])
+               summary.matrix[g, 8] <- sd(X[member == g, j])
             }# end g-loop
             results[[k]][[2]] <- summary.matrix
 

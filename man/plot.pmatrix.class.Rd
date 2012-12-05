@@ -13,7 +13,7 @@ Plot pmatrix.class objects
  and the lines in the plots of the P(--) matrix nust be nonincreasing.
 }
 \usage{
-\method{plot}{pmatrix.class}(x, items = all.items, pmatrix="both", ask=TRUE, ...)
+\method{plot}{pmatrix.class}(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "orange", alpha.ci = .05, ask = TRUE, ...)
 }
 
 \arguments{
@@ -24,6 +24,9 @@ Plot pmatrix.class objects
    If \code{pmatrix="ppp"}, then the P(++) matrix is plotted,
    if \code{pmatrix="pmm"}, then the P(--) matrix is plotted,
    if \code{pmatrix="both"}, then both the P(++) matrix and P(--) matrix are plotted.}
+  \item{plot.ci}{Boolean. If \code{TRUE}, then confidence envelops are plotted around IRFs and ISRFs.}              
+  \item{color.ci}{Color of the plotted confidence envelops. Default is orange.}
+  \item{alpha.ci}{Type of plotted (1 - alpha) confidence intervals. By default 95-percent confidence intervals are depicted}
   \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
   If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  

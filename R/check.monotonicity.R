@@ -1,6 +1,5 @@
 "check.monotonicity" <-
 function(X, minvi = .03, minsize = default.minsize){
-  
   X <- check.data(X)
   N <- nrow(X)
   J <- ncol(X)
@@ -10,6 +9,7 @@ function(X, minvi = .03, minsize = default.minsize){
   default.minsize <- ifelse(N <  150, 50, default.minsize)
 
   if (N < minsize) stop("Sample size less than Minsize")
+  if (minsize > N/2) stop("Minsize value is too high")
 
   # Initial computation
   R <- as.matrix(X) %*% (matrix(1,J,J) - diag(J))

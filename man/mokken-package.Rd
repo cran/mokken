@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken     \cr
 Type:       \tab Package    \cr
-Version:    \tab 2.7        \cr
-Date:       \tab 2011-10-10 \cr
+Version:    \tab 2.7.3       \cr
+Date:       \tab 2012-12-05 \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -80,6 +80,12 @@ The following modifications have been made in Version 2.7.2 in comparison to pre
 \code{\link{check.iio}}          \tab  Violations of IIO for dichotomous items are now tested using a z-test rather than a t-test. \cr
 }
 
+The following modifications have been made in Version 2.7.3 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{plot.iio.class}}     \tab  Confidence envelopes around estimated response functions \cr
+\code{\link{plot.monotonicity.class}}     \tab  Confidence envelopes around estimated response functions \cr
+\code{\link{plot.restscore.class}}     \tab  Confidence envelopes around estimated response functions \cr
+}
 
 }
 \author{
@@ -103,7 +109,7 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software}.
+  \emph{Journal of Statistical Software, 20}(11), 1-19.
   \url{http://www.jstatsoft.org/v20/i11}
 
   Van der Ark, L. A. (2010). 
@@ -111,9 +117,10 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
   Unpublished manuscript.
   \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
 
-  Van der Ark, L. A. (in press). 
+  Van der Ark, L. A. (2012). 
   New developments in Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software}.
+  \emph{Journal of Statistical Software, 48}(5), 1-27.
+  \url{http://www.jstatsoft.org/v48/i5}
 }
 
 \keyword{package}
