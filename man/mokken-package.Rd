@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken     \cr
 Type:       \tab Package    \cr
-Version:    \tab 2.7.3       \cr
-Date:       \tab 2012-12-05 \cr
+Version:    \tab 2.7.5       \cr
+Date:       \tab 2013-01-27 \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -31,7 +31,7 @@ The package contains the following data sets
 \code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
 }
 
-A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}.
+A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
 
 Thanks are due 
  to Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
@@ -115,7 +115,8 @@ Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>.
   Van der Ark, L. A. (2010). 
   Getting started with Mokken scale analysis in \pkg{R}. 
   Unpublished manuscript.
-  \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
+  \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
+
 
   Van der Ark, L. A. (2012). 
   New developments in Mokken scale analysis in \pkg{R}. 

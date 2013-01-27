@@ -28,7 +28,7 @@ up.lo.bound.mean <- function(n,alpha=.05){
       if(plot.ci){ 
          n = plot.matrix[,4]
          n[n < 1e-10] = 1e-10
-         if (m > 2) se  = apply(est,2, function(x) sqrt((x - x^2)/n))
+         if (m > 2) se  = t(apply(est, 1, function(x) sqrt((x - x^2)/n)))
          if (m==2) se = sqrt((est - est^2)/n)
          lo = (est-qnorm(1-alpha.ci/2) * se)
          lo[lo < 0] <- 0

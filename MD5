@@ -1,4 +1,4 @@
-23a7723053f807cc8d88803239f6ea10 *DESCRIPTION
+2281c1982d40db48284e2ac68683f1b1 *DESCRIPTION
 5dc275a9a43c76f9105e3e6c7dd32975 *NAMESPACE
 65b95cb1d4e2d18c597220780f701c45 *R/aisp.R
 f4e969d751517dc97cb4bb7bb823b50e *R/check.data.R
@@ -11,7 +11,7 @@ e146cc93e2ee1a4d6ef1f5a0d9fdaf09 *R/check.restscore.R
 0a47266a2fcb99ba5cd505e32bb84c2d *R/coefH.R
 971d2b79f31cde42a891b0feb51d1beb *R/coefZ.R
 82932cf9217977aecd925a7d70b23352 *R/plot.iio.class.R
-be0a634e8123389b5f5ddad765363e4c *R/plot.monotonicity.class.R
+6d6906e168c1a1e9d0465118b6569bad *R/plot.monotonicity.class.R
 f1764ae087edc84ec6f2908b534bc443 *R/plot.pmatrix.class.R
 642dc63365f41d6983121a2d22975191 *R/plot.restscore.class.R
 698f7ee6d2f531ca29cf427b986b2d18 *R/search.extended.R
@@ -21,12 +21,11 @@ ef26942c5c00e058245892a5bf4b6ffa *R/search.normal.R
 5c517d6e69329e18acb7a43217a0a532 *R/summary.monotonicity.class.R
 faaf79ecdbfa4ec4c53178214d78e789 *R/summary.pmatrix.class.R
 12ff95dedd6a40a2a4a27d6252e43ec1 *R/summary.restscore.class.R
-9f3c44b60ebc062360bbea963e7e2807 *R/zzz.r
 c814c10abecdc09c355995b656ddae13 *data/acl.rda
 b5e0f1b3ffa6073adc4348a39681a9bf *data/cavalini.rda
 bd3b0d572e862858473faf6a33dbe810 *data/transreas.rda
 f610eca42f8d9ebf9ce0cb14c6a01e37 *inst/CITATION
-2f61a77349b421524e86fefb0d4dbf5b *inst/doc/mokken.pdf
+5ff29310ad7c81ed12466cecbf1b9d89 *inst/doc/GettingStartedWithMokken.pdf
 aeeea9aaaaacbb8f39ff77f9ea3d78a6 *man/acl.Rd
 d25fd0b8ce91e797d9dcec42bb926eea *man/aisp.Rd
 75857eca3bd4624a9ba0a2e3ac61154c *man/cavalini.Rd
@@ -38,7 +37,7 @@ d25fd0b8ce91e797d9dcec42bb926eea *man/aisp.Rd
 18b45eaadcd3b6900a9b75aa5fa3e941 *man/check.restscore.Rd
 748986ea6557c1d690dc800f1bf8c734 *man/coefH.Rd
 2cbbc4bfc90544b010c36c6ac0cd019f *man/coefZ.Rd
-d5496447ffc6167a690d33b4ca4aee94 *man/mokken-package.Rd
+8a214a9c79cc598775418ad734ba8f1c *man/mokken-package.Rd
 ccff13799110f8f0379072ae609aceba *man/plot.iio.class.Rd
 996d84a733274545eb86e6e3dcf3c3b3 *man/plot.monotonicity.class.Rd
 51d875badd10383abdc1c7b04de02ef2 *man/plot.pmatrix.class.Rd
