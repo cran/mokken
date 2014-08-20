@@ -59,7 +59,7 @@ See Van der Ark (2007) for an example.
 
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

@@ -12,7 +12,8 @@ Plot restscore.class objects
  Intersections of the lines indicate violations of nonintersection,
 }
 \usage{
-\method{plot}{restscore.class}(x, item.pairs = all.pairs, plot.ci = TRUE, color.ci = c("orange","yellow"), alpha.ci = .05, ask = TRUE, ...)
+\method{plot}{restscore.class}(x, item.pairs = all.pairs, plot.ci = TRUE, color.ci = c("orange","yellow"), 
+  alpha.ci = .05, ask = TRUE, ...)
 }
 
 \arguments{
@@ -57,13 +58,15 @@ The default number of plots can increase rapidly for large numbers of items.
   \emph{Journal of Statistical Software}.
   \url{http://www.jstatsoft.org/v20/i11}
 
-  Van der Ark, L. A. (2012). 
-  Visualization of nonparametric IRT models. 
-  Paper presented at the Annual Meeting of the Psychometric Society, Lincoln NE, July, 2012.
+  Van der Ark, L. A. (2014).
+  Visualizing uncertainty of estimated response functions in nonparametric item response theory.
+  In R. E. Millsap, L. A. van der Ark, D. Bolt, and C. M. Woods (Eds.),
+  \emph{New developments in quantitative psychology} (pp. 59-68). New York: Springer.
+
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

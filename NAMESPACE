@@ -31,6 +31,7 @@ export(
 #  weights
 
 importFrom(graphics, plot)
+import(poLCA)
 
 S3method(summary, "monotonicity.class")
 S3method(summary, "pmatrix.class")

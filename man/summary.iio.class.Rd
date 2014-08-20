@@ -64,15 +64,15 @@ Summarize checks of invariant item ordering.
   \emph{Journal of Statistical Software, 20} (11), 1-19.
   \url{http://www.jstatsoft.org/v20/i11}
 
-  Van der Ark, L. A. (in press). 
-  New developments in Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org}
+  Van der Ark, L. A. (2012).
+  New developments in Mokken scale analysis in R.
+ \emph{Journal of Statistical Software, 48}(5), 1-27.
+  \url{http://www.jstatsoft.org/v48/i5}
 
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

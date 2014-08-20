@@ -1,4 +1,4 @@
-# Aangepast op 28 september 2010
+# Aangepast op 1 september 2014
 "search.normal" <-
 function(X, lowerbound =.3, alpha = .05, verbose = TRUE){
 
@@ -79,6 +79,7 @@ function(X, lowerbound =.3, alpha = .05, verbose = TRUE){
        break
      }
 
+# BEGIN Als er geen startset gedefinieerd is dan wordt met onderstaande regels zelf een startset gemaakt van 2 items.
      first.item <- row(Hselect)[Hselect==max(Hselect)]
      second.item <- col(Hselect)[Hselect==max(Hselect)]
      maxHij <- Hij[first.item,second.item]
@@ -90,15 +91,14 @@ function(X, lowerbound =.3, alpha = .05, verbose = TRUE){
      }
 
 
-     # Add the first two items to the scale
+     # Add the first two items to the scale (of vervangen door StartSet)
      if(verbose){
        cat("Item: ",fitstring(item.label[first.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
        cat("Item: ",fitstring(item.label[second.item],20)," Scale", scale," H = ",round(maxHij,2),fill=T)
      }  
      InSet[first.item] <- scale
      InSet[second.item] <- scale
-
-# Wat te doen als er meerdere maximale waarden van Hij zijn tijdens het selectieproces.
+# EIND Als er geen startset gedefinieerd is dan onderstaande regels; maart InSet[StartSet] <-  scale
 
      # Adding new items
      repeat{
@@ -139,8 +139,56 @@ function(X, lowerbound =.3, alpha = .05, verbose = TRUE){
        InSet[new.item] <- scale
        if(verbose) cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2),fill=T)
      }
+  # BEGIN SEARCH EXTENDED
+  #if (search.extended == TRUE) {
+     # UNDER CONSTRUCTION
+     # in.this.extended.set = in.this.set
+     # in.this.extended.set[in.this.extended.set == -1] = 0
+     #  repeat{
+     #    step <- step + 1
+     # 
+     #    # exclude items from previous scales
+     #  in.this.set <- in.this.extended ????
+     #  in.this.set <- ifelse(InSet == scale, 1,0) ????
+     #  in.this.set <- ifelse(InSet <  scale & InSet > 0,-1,in.this.set) ????
+     # 
+     #  # exclude items having a negative covariance with the already selected items
+     #  neg1 <- apply(Hij[in.this.set==1,],2,any.neg)
+     #  neg2 <- apply(Hij[,in.this.set==1],1,any.neg)
+     #  in.this.set[neg1|neg2 & in.this.set==0] <- -1
+     # 
+     #  # Are there items left after the exclusion?
+     #  available.items <- which(in.this.set==0)
+     #  if(length(available.items)==0){
+     #    if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0",fill=T)
+     #    break
+     #  }
+     #
+     #  # Compute H and Hi of potentially new items
+     #  result[in.this.set!=0] <- -99  # items already selected in other scales
+     #  K[step] <- length(available.items)
+     #  Z.c <- abs(qnorm(adjusted.alpha(alpha,K)))
+     #  for (j in available.items) result[j] <- newH(j,in.this.set, X, lowerbound, Z.c)
+     #
+     #
+     #  # Is maximum value Hi greater than c?
+     #  if(max(result) < lowerbound){
+     #    if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lowerbound,".",fill=T)
+     #    break
+     #  }
+     #
+     #  # Add the newly selected item to the scale
+     #  new.item <- row(as.matrix(result))[result==max(result)]
+     #  InSet[new.item] <- scale
+     #  if(verbose) cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2),fill=T)
+     #}
+     # 
+  #}  
+     
+  # EINDE SEARCH EXTENDED
   # start with next scale
-  }
+     
+  }  
   InSet <- as.matrix(InSet)
   dimnames(InSet) <- list(item.label,"Scale")
   return(InSet)

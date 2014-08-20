@@ -55,7 +55,7 @@ For obtaining the P++ and P-- matrix, see examples.
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 \seealso{

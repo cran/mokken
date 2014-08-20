@@ -6,7 +6,7 @@ Check the number of Guttman errors for each respondent
 }
 
 \description{
-Returns an integer vector with the number of Guttman errors (Guttman, 1944) for each respondent (e.g., Meijer, 1994; Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Moelnaar, 2002). 
+Returns an integer vector with the number of Guttman errors (Guttman, 1944) for each respondent (e.g., Meijer, 1994; Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). 
 }
 \usage{
 check.errors(X)
@@ -50,7 +50,7 @@ check.errors(X)
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 \seealso{

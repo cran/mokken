@@ -313,23 +313,25 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
 
  
 coefHT <- function(Y){
+   eq.var <- apply(Y, 1, sd)
+   Y <- Y[eq.var > 0, ]
    N <- nrow(Y)
    S    <- try(var(t(Y)) , silent = TRUE)
    Smax <- try(var(apply(t(Y), 2, sort)), silent = TRUE)
-   
-   if (class(S)=="matrix" & class(Smax)=="matrix"){
+  
+   if (class(S)!="try-error" & class(Smax)!="try-error"){
       diag(S) <- diag(Smax) <- 0
       HT <- sum(S)/sum(Smax)
-   } else {   
+   } else {  
       Y    <- Y[sample(1:N,min(N,5000)),]
-      S    <- try(sum(var(t(Y)))                , silent = TRUE)
-      Smax <- try(sum(var(apply(t(Y), 2, sort))), silent = TRUE)
-      if (class(S)=="matrix" & class(Smax)=="matrix"){
+      S    <- try(var(t(Y)) , silent = TRUE)
+      Smax <- try(var(apply(t(Y), 2, sort)), silent = TRUE)
+      if (class(S)!="try-error" & class(Smax)!="try-error"){
           diag(S) <- diag(Smax) <- 0
           HT <- sum(S)/sum(Smax)
       } else {
-           HT <- NA       
+           HT <- NA      
       }
-   }     
+   }    
    return(HT)
 }

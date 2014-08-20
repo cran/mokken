@@ -13,7 +13,8 @@ Plot pmatrix.class objects
  and the lines in the plots of the P(--) matrix nust be nonincreasing.
 }
 \usage{
-\method{plot}{pmatrix.class}(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "orange", alpha.ci = .05, ask = TRUE, ...)
+\method{plot}{pmatrix.class}(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "orange", 
+alpha.ci = .05, ask = TRUE, ...)
 }
 
 \arguments{
@@ -65,7 +66,7 @@ If the number of item steps on the x-axis is greater than 10, then the labels ar
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

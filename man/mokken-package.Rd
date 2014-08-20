@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken     \cr
 Type:       \tab Package    \cr
-Version:    \tab 2.7.5       \cr
-Date:       \tab 2013-01-27 \cr
+Version:    \tab 2.7.7       \cr
+Date:       \tab 2014-08-19 \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -60,7 +60,7 @@ The following major modifications have been made.
 \code{\link{coefH}}              \tab  Standard errors for scalability coefficients included (Version 2.6)\cr
 }
 
-All updates until version 2.7 are described in Van der Ark (in press). The following modifications have been made in Version 2.7 in comparison to previous versions.
+All updates until version 2.7 are described in Van der Ark (2012). The following modifications have been made in Version 2.7 in comparison to previous versions.
 \tabular{ll}{
 \code{\link{check.errors}}       \tab  Inclusion new function to compute weighted Guttman errors for each person. \cr
 \code{\link{check.iio}}          \tab  \code{plot} has been added. \cr
@@ -90,7 +90,7 @@ The following modifications have been made in Version 2.7.3 in comparison to pre
 }
 \author{
 L. Andries van der Ark
-Maintainer: L. Andries van der Ark <a.vdark@uvt.nl>. 
+Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>. 
 }
 
 \references{

@@ -61,7 +61,7 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

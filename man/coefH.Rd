@@ -7,7 +7,7 @@ Scalability coefficents H
 
 \description{
 Computes item-pair scalability coefficents Hij, item scalability coefficents Hi,  and scale scalability coefficent H (Loevinger, 1948; Mokken, 1971, pp. 148-153;  Molenaar and Sijtsma, 2000, pp. 11-13; Sijtsma and Molenaar, chap. 4; Van der Ark, 2007; 2010),  
-as well as their standard errors (Kuijpers, Van der Ark, and Croon, 2011; also see Van der Ark, Croon, and Sijtsma, 2008).
+as well as their standard errors (Kuijpers, Van der Ark, and Croon, 2013; also see Van der Ark, Croon, and Sijtsma, 2008).
 It is possible to compare scalability coefficients across groups using the item-step ordering of the entire sample (cf. \code{CHECK=GROUPS} option in MSP; Molenaar and Sijtsma, 2000).
  }
 
@@ -48,9 +48,9 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL)
 
 \references{
 
-  Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2011). 
+   Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
-  Manuscript submitted for publication.
+  \emph{Sociological Methodology, 43,} 42-69.
   
   Loevinger, J. (1948). The technique of homogeneous tests compared with some aspects of `scale analysis' and factor analysis.
   \emph{Psychological Bulletin, 45}, 507-530.
@@ -75,7 +75,7 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL)
   Van der Ark, L. A. (2010). 
   Getting started with Mokken scale analysis in \pkg{R}. 
   Unpublished manuscript.
-  \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
+  \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
 
   Van der Ark, L. A., Croon, M. A., and Sijtsma (2008). 
   Mokken scale analysis for dichotomous items using marginal models.
@@ -84,7 +84,7 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL)
  }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl} }
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl} }
 
 \seealso{
 \code{\link{coefZ}}, \code{\link{search.normal}} }

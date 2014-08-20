@@ -12,7 +12,8 @@ Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) stat
 }
 
 \usage{
-check.reliability(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = nclass.default)
+check.reliability(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, 
+LCRC = FALSE, nclass = nclass.default)
 }
 
 \arguments{
@@ -81,7 +82,7 @@ The optimal number of latent classes should be determined prior to the computati
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 \seealso{

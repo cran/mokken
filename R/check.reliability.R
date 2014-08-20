@@ -146,39 +146,43 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
 
    ## LCRC   
    if (LCRC==TRUE){
-     if(is.na(packageDescription("poLCA")[[1]])==TRUE) install.packages("poLCA", dependencies=TRUE, repos="http://lib.stat.cmu.edu/R/CRAN")
-     library(poLCA)
-     X.0 <- X - min(X)
-     m <- max(X.0)+1
-     P.tmp <- compute.PP.LCRC(X.0)
-     range.X <- max(X) - min(X) 
-     PP <- P.tmp$PP
-     P <- P.tmp$P
-     X.lc <- as.data.frame(X.0)+1
-     J <- ncol(X.lc)
-     names(X.lc) <- paste("V",1:J,sep="")
-     f <- as.formula(paste("cbind(",paste("V", 1:(J-1) , "," , sep="",collapse=""), paste("V",J,sep=""),") ~ 1", collapse=""))
-     model.lc <- poLCA(f, X.lc, nclass=nclass, verbose=F)
-     # Check whether all categories occur
-     probs <- check.probs(model.lc$probs,m)
-     pj.k <- list() 
-     for (k in 1:nclass) pj.k[[k]] <- matrix(unlist(probs),nrow=nclass)[k,] 
-     # pij.k bivariate probabilities given class membership implied by the LCM
-     pij.k <- lapply(pj.k,function(x) outer(x,x))
-     # pij bivariate probabilities implied by the LCM
-     pij <- 0
-     for (k in 1:nclass) pij <- pij + model.lc$P[k] * pij.k[[k]] 
-     # Pij cumulative bivariate probabilities implied by the LCM
-     Pij <- matrix(0, J * (m - 1), J * (m - 1))
-     for (i in 1:J) for (j in 1:J){ 
-        pij.tmp <- pij[((i - 1) * (m) + 1):((i - 1) * (m) + (m)), ((j - 1) * (m) + 1):((j - 1) * (m) + (m))]
-        Pij.tmp <- matrix(NA,m,m)
-        for (u in 1:m) for (v in 1:m) Pij.tmp[u,v] <- sum(pij.tmp[row(pij.tmp) >= u & col(pij.tmp)>= v]) 
-        Pij[((i - 1) * (m - 1) + 1):((i - 1) * (m - 1) + (m - 1)), ((j - 1) * (m - 1) + 1):((j - 1) * (m - 1) + (m - 1))] <- Pij.tmp[2:m,2:m]
-     }    
-     PP[is.na(PP)] <- Pij[is.na(PP)]
-     res$LCRC <- sum(PP- outer(as.numeric(P),as.numeric(P))) / var(apply(X,1,sum))
-   }
-
+#     if (requireNamespace("poLCA", quietly = TRUE)) {
+#       library(poLCA)
+       library(MASS) 
+       X.0 <- X - min(X)
+       m <- max(X.0)+1
+       P.tmp <- compute.PP.LCRC(X.0)
+       range.X <- max(X) - min(X) 
+       PP <- P.tmp$PP
+       P <- P.tmp$P
+       X.lc <- as.data.frame(X.0)+1
+       J <- ncol(X.lc)
+       names(X.lc) <- paste("V",1:J,sep="")
+       f <- as.formula(paste("cbind(",paste("V", 1:(J-1) , "," , sep="",collapse=""), paste("V",J,sep=""),") ~ 1", collapse=""))
+       model.lc <- poLCA(f, X.lc, nclass=nclass, verbose=F)
+       # Check whether all categories occur
+       probs <- check.probs(model.lc$probs,m)
+       pj.k <- list() 
+       for (k in 1:nclass) pj.k[[k]] <- matrix(unlist(probs),nrow=nclass)[k,] 
+       # pij.k bivariate probabilities given class membership implied by the LCM
+       pij.k <- lapply(pj.k,function(x) outer(x,x))
+       # pij bivariate probabilities implied by the LCM
+       pij <- 0
+       for (k in 1:nclass) pij <- pij + model.lc$P[k] * pij.k[[k]] 
+       # Pij cumulative bivariate probabilities implied by the LCM
+       Pij <- matrix(0, J * (m - 1), J * (m - 1))
+       for (i in 1:J) for (j in 1:J){ 
+          pij.tmp <- pij[((i - 1) * (m) + 1):((i - 1) * (m) + (m)), ((j - 1) * (m) + 1):((j - 1) * (m) + (m))]
+          Pij.tmp <- matrix(NA,m,m)
+          for (u in 1:m) for (v in 1:m) Pij.tmp[u,v] <- sum(pij.tmp[row(pij.tmp) >= u & col(pij.tmp)>= v]) 
+          Pij[((i - 1) * (m - 1) + 1):((i - 1) * (m - 1) + (m - 1)), ((j - 1) * (m - 1) + 1):((j - 1) * (m - 1) + (m - 1))] <- Pij.tmp[2:m,2:m]
+       }    
+       PP[is.na(PP)] <- Pij[is.na(PP)]
+       res$LCRC <- sum(PP- outer(as.numeric(P),as.numeric(P))) / var(apply(X,1,sum))
+#     } else {
+#      res$LCRC <- NA
+#      warning("Could not find package poLCA")
+#     }
+   }  
    return(res)
 }

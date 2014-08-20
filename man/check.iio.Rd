@@ -17,13 +17,14 @@ a complete description of the Method MS-CPM and Method IT with reference to Meth
 Van der Ark, Bergsma, and Sijtsma (2011).
 }
 \usage{
-check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
+check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, 
+alpha = .05, item.selection=TRUE, verbose=FALSE)
 }
 
 \details{
  The output is of class \code{iio.class}, and is often numerous. 
  Functions \code{plot} and \code{summary} can be used to summarize the output. 
- See Van der Ark (in press) for an example.      
+ See Van der Ark (2014) for an example.      
 }
 
 \arguments{
@@ -84,14 +85,15 @@ check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
   \emph{Journal of Statistical Software, 20} (11), 1-19.
   \url{http://www.jstatsoft.org/v20/i11}
 
-  Van der Ark, L. A. (in press). 
-  New developments in Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software}.
+ Van der Ark, L. A. (2012).
+  New developments in Mokken scale analysis in R.
+ \emph{Journal of Statistical Software, 48}(5), 1-27.
+  \url{http://www.jstatsoft.org/v48/i5}
 
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

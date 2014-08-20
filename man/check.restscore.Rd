@@ -58,7 +58,7 @@ See Van der Ark (2007) for an example.
   \url{http://www.jstatsoft.org/v20/i11}
 }
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 \seealso{

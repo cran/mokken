@@ -50,11 +50,11 @@ Unlike \code{coefH}, standard errors are not provided.
   Van der Ark, L. A. (2010). 
   Getting started with Mokken scale analysis in \pkg{R}. 
   Unpublished manuscript.
-  \url{http://cran.r-project.org/web/packages/mokken/vignettes/mokken.pdf}
+  \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
  }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 

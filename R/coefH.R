@@ -1,4 +1,4 @@
-coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){
+coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){ # , ACM = FALSE
     X <- check.data(X)
     eps <- 1e-40
     labels <- dimnames(X)[[2]]
@@ -107,12 +107,15 @@ coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){
        G5i <- dphi(A5, g4, G4, "exp")
        Hi <- matrix(g5)
        if (se) {
-          se.Hij[lower.tri(se.Hij)] <- sqrt(diag(G5ij %*% (as.numeric(n) * t(G5ij))))
+          ACM.Hij = G5ij %*% (as.numeric(n) * t(G5ij))
+          se.Hij[lower.tri(se.Hij)] <- sqrt(diag(ACM.Hij))
           se.Hij <- se.Hij + t(se.Hij)
           dimnames(se.Hij) <- dimnames(Hij) <- list(labels, labels)
-          se.Hi <- matrix(sqrt(diag(G5i %*% (as.numeric(n) * t(G5i)))))
+          ACM.Hi = G5i %*% (as.numeric(n) * t(G5i))
+          se.Hi <- matrix(sqrt(diag(ACM.Hi)))
           dimnames(se.Hi)[[1]] <- dimnames(Hi)[[1]] <- labels
-          se.H <- sqrt(diag(G5 %*% (as.numeric(n) * t(G5))))
+          ACM.H <- G5 %*% (as.numeric(n) * t(G5))
+          se.H <- sqrt(diag(ACM.H))
        }
        # OUTPUT
        if(nice.output && se) {
@@ -240,14 +243,17 @@ coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){
                 G4. <- dphi(A4, g3., G3., "log")
                 G5i. <- dphi(A5, g4., G4., "exp")
                 Hi. <- matrix(g5.)
-                if (se) {
+                if (se) { # if (se || ACM)
                    se.Hij. <- matrix(0, J, J)
-                   se.Hij.[lower.tri(se.Hij.)] <- sqrt(diag(G5ij. %*% (as.numeric(n.) * t(G5ij.))))
+                   ACM.Hij = G5ij. %*% (as.numeric(n.) * t(G5ij.))
+                   se.Hij.[lower.tri(se.Hij.)] <- sqrt(diag(ACM.Hij))
                    se.Hij. <- se.Hij. + t(se.Hij.)
                    dimnames(se.Hij.) <- dimnames(Hij.) <- list(labels, labels)
-                   se.Hi. <- matrix(sqrt(diag(G5i. %*% (as.numeric(n.) * t(G5i.)))))
+                   ACM.Hi = G5i. %*% (as.numeric(n.) * t(G5i.))
+                   se.Hi. <- matrix(sqrt(diag(ACM.Hi)))
                    dimnames(se.Hi)[[1]] <- dimnames(Hi.)[[1]] <- labels
-                   se.H. <- sqrt(diag(G5. %*% (as.numeric(n.) * t(G5.))))
+                   ACM.H = G5. %*% (as.numeric(n.) * t(G5.))
+                   se.H. <- sqrt(diag(ACM.H))
                 } 
                 # OUTPUT  
                 if(nice.output && se) {

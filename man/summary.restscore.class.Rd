@@ -53,7 +53,7 @@ Summarize checks of nonintersection using method restscore.
 }
 
 \author{
- L. A. van der Ark \email{a.vdark@uvt.nl}
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
 
