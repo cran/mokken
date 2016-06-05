@@ -11,8 +11,8 @@ Plot iio.class objects
  One graph for each item plotting the estimated item response functions.
 }
 \usage{
-\method{plot}{iio.class}(x, item.pairs = all.pairs, plot.ci = TRUE, color.ci = c("orange","yellow"), 
-alpha.ci = .05, ask = TRUE, ...)
+\method{plot}{iio.class}(x, item.pairs = all.pairs, ci = TRUE, alpha = .05, 
+       color = c("black", "blue"), transparancy = 20, ask = TRUE, ...)
 }
 
 \arguments{
@@ -23,9 +23,10 @@ alpha.ci = .05, ask = TRUE, ...)
    \code{item.pairs = J} prints the results for items 1 and $J$, and
    \code{item.pairs = J+1} prints the results for items 2 and 3.
    Default the results for all item pairs are depicted.}
-   \item{plot.ci}{Boolean. If \code{TRUE} (default), then confidence envelops are plotted around ISRFs.}              
-  \item{color.ci}{Color of the plotted confidence envelops. Defaults are orange for the first item and yellow for the second item.}
-  \item{alpha.ci}{Type of plotted (1 - alpha) confidence intervals. By default 95-percent confidence intervals are depicted}
+   \item{ci}{Boolean. If \code{TRUE} (default), then confidence envelops are plotted around IRFs.}              
+  \item{alpha}{Type of plotted (1 - alpha) confidence intervals. By default 95-percent confidence intervals are depicted}
+  \item{color}{Color of the plotted curves and confidence envelops. Defaults are black for the first item and blue for the second item.}
+  \item{transparancy}{Transparancy of the confidence intervals. Higher values result in more opaque colors for the confidence intervals.} 
   \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
   If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  

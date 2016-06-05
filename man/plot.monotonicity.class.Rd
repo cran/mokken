@@ -11,8 +11,8 @@ Plot monotonicity.class objects
  One graph for each item plotting the estimated item step response functions and/or item response function, plus confidence envelopes (Van der Ark, 2012).
 }
 \usage{
-\method{plot}{monotonicity.class}(x, items = all.items, curves = "both", plot.ci = TRUE, color.ci = "orange", 
-alpha.ci = .05, ask = TRUE, ...)
+\method{plot}{monotonicity.class}(x, items = all.items, curves = "both", ci = TRUE, 
+              alpha = .05, color = "black", transparancy = 20, ask = TRUE, ...)
 }
 
 \arguments{
@@ -21,9 +21,10 @@ alpha.ci = .05, ask = TRUE, ...)
                  Default the results for all items are depicted.}
   \item{curves}{\code{"ISRF"}: Item step response functions (ISRFs) are depicted; \code{"IRF"}: item response functions (IRFs) are depicted;
                 \code{"both"}: Both ISRFs and IRFs are depicted. Default is \code{"both"}}               
-  \item{plot.ci}{Boolean. If \code{TRUE} (default), then confidence envelops are plotted around IRFs and ISRFs.}              
-  \item{color.ci}{Color of the plotted confidence envelops. Default is orange.}
-  \item{alpha.ci}{Type of plotted (1 - alpha) confidence intervals. By default 95-percent confidence intervals are depicted}
+  \item{ci}{Boolean. If \code{TRUE} (default), then confidence envelops are plotted around IRFs and ISRFs.}              
+  \item{alpha}{Type of plotted (1 - alpha) confidence intervals. By default 95-percent confidence intervals are depicted}
+  \item{color}{Color of the plotted curves and confidence envelops. Default is black.}
+  \item{transparancy}{Transparancy of the confidence intervals. Higher values result in more opaque colors for the confidence intervals.} 
   \item{ask}{Boolean. If \code{TRUE} (default), then \code{par("ask"=TRUE)}; i.e., a hard return between subsequent plots is required.
   If \code{FALSE}, then \code{par("ask"=FALSE)}.}
  \item{...}{Optional graphical parameters will be ignored}  

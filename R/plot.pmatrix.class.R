@@ -1,11 +1,14 @@
 "plot.pmatrix.class" <-
-function(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "orange", alpha.ci = .05, ask = TRUE, ...){
+function(x, items = all.items, pmatrix = "both", ci = TRUE, alpha = .05, color = "black", transparancy = 20, ask = TRUE, ...){
   all.items = 1:max(x$I.item)
   ncat = x$ncat
   m = ncat - 1
   N <- x$N
-  if (ask==TRUE) par("ask"=TRUE) else par("ask"=FALSE)
-  j = i = 1
+  if (ask == TRUE) par("ask" = TRUE) else par("ask" = FALSE)
+  j <- i <- 1
+  c1 <- as.numeric(col2rgb(color))
+  colorCi = rgb(c1[1], c1[2], c1[3], transparancy, maxColorValue = 255)
+
   #
   if (pmatrix == "both" || pmatrix == "ppp"){
     I.item = x$I.item
@@ -25,13 +28,13 @@ function(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "or
          type = "n", lwd=3)
        title(paste("P(++) matrix: ", x$I.labels[[j]]))
        if (x.axis < 10) axis(1, at=1:x.axis,labels=I.step.j) else axis(1, at=1:x.axis,labels=rep("",x.axis))
-       if(plot.ci==TRUE){
+       if(ci == TRUE){
          ase = sqrt(Ppp.j - Ppp.j^2)/sqrt(N)
-         up = Ppp.j + qnorm(1 - alpha.ci/2) * ase
-         lo = Ppp.j - qnorm(1 - alpha.ci/2) * ase
-         for(i in 1:m) polygon(c((1:x.axis)[!is.na(up[i,])],rev((1:x.axis)[!is.na(lo[i,])])),c(up[i,!is.na(up[i,])],rev(lo[i,!is.na(lo[i,])])),col=color.ci, border=NA)
+         up = Ppp.j + qnorm(1 - alpha/2) * ase
+         lo = Ppp.j - qnorm(1 - alpha/2) * ase
+         for(i in 1:m) polygon(c((1:x.axis)[!is.na(up[i,])],rev((1:x.axis)[!is.na(lo[i,])])),c(up[i,!is.na(up[i,])],rev(lo[i,!is.na(lo[i,])])),col=colorCi, border=NA)
        }
-       for(i in 1:m) lines(1:x.axis,Ppp.j[i,], col=4, lwd=2)
+       for(i in 1:m) lines(1:x.axis,Ppp.j[i,], col = color, lwd=2)
     }
   }  
   if (pmatrix == "both" || pmatrix == "pmm"){
@@ -52,13 +55,13 @@ function(x, items = all.items, pmatrix = "both", plot.ci = FALSE, color.ci = "or
          type = "n", lwd=3)
        title(paste("P(--) matrix: ", x$I.labels[[j]]))
        if (x.axis < 10) axis(1, at=1:x.axis,labels=I.step.j) else axis(1, at=1:x.axis,labels=rep("",x.axis))
-       if(plot.ci==TRUE){
+       if(ci==TRUE){
          ase = sqrt(Pmm.j - Pmm.j^2)/sqrt(N)
-         up = Pmm.j + qnorm(1 - alpha.ci/2) * ase
-         lo = Pmm.j - qnorm(1 - alpha.ci/2) * ase
-         for(i in 1:m) polygon(c((1:x.axis)[!is.na(up[i,])],rev((1:x.axis)[!is.na(lo[i,])])),c(up[i,!is.na(up[i,])],rev(lo[i,!is.na(lo[i,])])),col=color.ci, border=NA)
+         up = Pmm.j + qnorm(1 - alpha/2) * ase
+         lo = Pmm.j - qnorm(1 - alpha/2) * ase
+         for(i in 1:m) polygon(c((1:x.axis)[!is.na(up[i,])],rev((1:x.axis)[!is.na(lo[i,])])),c(up[i,!is.na(up[i,])],rev(lo[i,!is.na(lo[i,])])),col=colorCi, border=NA)
        }
-       for(i in 1:m) lines(1:x.axis,Pmm.j[i,], col=4, lwd=2)
+       for(i in 1:m) lines(1:x.axis,Pmm.j[i,], col=color, lwd=2)
      }
   }
  invisible()

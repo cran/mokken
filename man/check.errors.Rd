@@ -2,25 +2,28 @@
 \alias{check.errors}
 
 \title{
-Check the number of Guttman errors for each respondent
+Check the number of Guttman errors (Gplus) and the number of infrequent scores (Oplus) for each respondent
 }
 
 \description{
-Returns an integer vector with the number of Guttman errors (Guttman, 1944) for each respondent (e.g., Meijer, 1994; Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). 
+Returns a lost containing outlier scores Gplus (number of Guttman errors; Guttman, 1944) and Oplus for each respondent (Zijlstra, van der Ark and Sijtsma, 2007). 
 }
 \usage{
-check.errors(X)
+check.errors(X, returnGplus = TRUE, returnOplus = FALSE)
 }
 
 \arguments{
   \item{X}{matrix or data frame of numeric data 
           containing the responses of \code{nrow(X)} respondents to \code{ncol(X)} items.  
           Missing values are not allowed}
+  \item{returnGplus}{Boolean. If \code{TRUE} the output contains outlier score Gplus}        
+  \item{returnOplus}{Boolean. If \code{TRUE} the output contains outlier score Oplus}        
 }
 
 
 \value{
-  Vector containing the number of Guttman errors for each respondent
+  List. Depending on the values of \code{returnGplus} and \code{returnOplus}, the output contains outlier score Gplus (the number of Guttman errors) 
+  and Oplusfor each respondent
 }
 
 \references{
@@ -47,6 +50,11 @@ check.errors(X)
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
   \url{http://www.jstatsoft.org/v20/i11}
+
+  Zijlstra, W. P.,  Van der Ark, L. A., and Sijtsma, K. (2007).
+  Outlier detection in test and questionnaire data.
+  \emph{Multivariate Behavioral Research, 42}, 531-555.
+
 }
 
 \author{
@@ -54,6 +62,7 @@ check.errors(X)
 }
 
 \seealso{
+\code{\link{check.ca}}, 
 \code{\link{check.iio}}, 
 \code{\link{check.monotonicity}}, 
 \code{\link{check.pmatrix}}, 
@@ -66,7 +75,9 @@ check.errors(X)
 \examples{
 data(acl)
 Communality <- acl[,1:10]
-Guttman.errors <- check.errors(Communality)
-hist(Guttman.errors, breaks = 0:max(Guttman.errors))
+Gplus <- check.errors(Communality, TRUE, FALSE)$Gplus
+Oplus <- check.errors(Communality, FALSE, TRUE)$Oplus
+
+hist(Gplus, breaks = 0:max(Gplus))
 }
 \keyword{restscore}

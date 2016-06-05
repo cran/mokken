@@ -1,14 +1,13 @@
-# Aangepast op 18 februari 2009
-# dyn.load("G://werk//R//mokken//src//mokken.dll")
-#
-"aisp" <- function(X, search="normal", 
+# Modified on October 14 2015
+"aisp" <- function(X, search = "normal", 
                       lowerbound =.3, 
                       alpha = .05, 
-                      popsize=20, 
-                      maxgens=default.maxgens, 
-                      pxover=0.5, 
-                      pmutation=0.1,
-                      verbose=FALSE)
+                      StartSet = FALSE,
+                      popsize = 20, 
+                      maxgens = default.maxgens, 
+                      pxover = 0.5, 
+                      pmutation = 0.1,
+                      verbose = FALSE)
 {
    X <- check.data(X)
    params <- c(lowerbound, alpha, pxover, pmutation)
@@ -26,6 +25,6 @@
    switch(search, 
       ga = search.ga(X, popsize, maxgens, alpha, lowerbound, pxover, pmutation),
       extended = search.extended(verbose),
-      search.normal(X, lowerbound, alpha, verbose)
-   )
+      search.normal(X, lowerbound, alpha, StartSet, verbose)
+   )   
 }

@@ -14,7 +14,7 @@ Automated Item Selection Procedure (AISP) for Mokken Scale Analysis
 Returns a vector with as many elements as there are items, indicating to which scale an item belongs.
 }
 \usage{
-aisp(X, search="normal", lowerbound=.3, alpha=.05, popsize=20, 
+aisp(X, search="normal", lowerbound=.3, alpha=.05, StartSet=FALSE, popsize=20, 
 maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE)
 }
 
@@ -29,6 +29,7 @@ maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE)
            (Straat, van der Ark, and Sijtsma, 2013). The default is "normal".}
   \item{lowerbound}{numeric scaling criterium; 0 <= \code{lowerbound} < 1.  The default is \code{0.3}.}
   \item{alpha}{Type I error level. The default is \code{0.05}.}
+  \item{StartSet}{Startset of items for the first scale. Vector of item numbers. If \code{StartSet == FALSE} no startset is provided (default).}
   \item{popsize}{Size of the population of items in genetic. algorithm The default is \code{20}.}
   \item{maxgens}{Number of generations in genetic algorithm. The default is \code{10^(log2(ncol(X)/5)) * 1000}.}
   \item{pxover}{Cross-over probability in genetic algorithm. The default is \code{0.5}.}
@@ -88,6 +89,10 @@ Communality <- acl[,1:10]
 
 # Partition these 10 items into mokken scales using Mokken's automated item selection procedure.
 scale <- aisp(Communality)
+coefH(Communality[,scale==1])
+
+# Same but using items 1 and 2 in the startset.
+scale <- aisp(Communality, StartSet = c(1, 2), verbose = TRUE)
 coefH(Communality[,scale==1])
 
 # Partition these 10 items into mokken scales using a genetic algorithm.

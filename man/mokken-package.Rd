@@ -16,10 +16,10 @@ The output of this R-package resembles the output of the stand-alone program MSP
 }
 \details{
 \tabular{ll}{
-Package:    \tab mokken     \cr
-Type:       \tab Package    \cr
-Version:    \tab 2.7.7       \cr
-Date:       \tab 2014-08-19 \cr
+Package:    \tab mokken      \cr
+Type:       \tab Package     \cr
+Version:    \tab 2.8.2       \cr
+Date:       \tab 2016-05-21  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -29,15 +29,17 @@ The package contains the following data sets
 \code{\link{acl}}                \tab  Scores on a personality checklist. \cr
 \code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
 \code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
+\code{\link{DS14B}}              \tab  Scores on a Type D test (bootstrap sample) \cr
 }
 
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
 
 Thanks are due 
- to Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, J. Hendrik Straat, and Daniel van der Palm for contributing R code; 
- to Geert H. van Kollenburg, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
+ to Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
+ to Geert H. van Kollenburg, Letty Koopman, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
  to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
+ to Diederick Stoel (ProfitWise) for financial support, 
  to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
@@ -85,6 +87,19 @@ The following modifications have been made in Version 2.7.3 in comparison to pre
 \code{\link{plot.iio.class}}     \tab  Confidence envelopes around estimated response functions \cr
 \code{\link{plot.monotonicity.class}}     \tab  Confidence envelopes around estimated response functions \cr
 \code{\link{plot.restscore.class}}     \tab  Confidence envelopes around estimated response functions \cr
+}
+
+The following modifications have been made in Version 2.8.1 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{aisp}}     \tab  Startsets have been added \cr
+}
+
+The following modifications have been made in Version 2.8.2 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{recode}}          \tab  New \cr
+\code{\link{check.ca}}        \tab  New \cr
+\code{\link{check.norms}}     \tab  New \cr
+\code{\link{check.errors}}    \tab  Outlier score O+ has been included \cr
 }
 
 }

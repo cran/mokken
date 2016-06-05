@@ -146,9 +146,7 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
 
    ## LCRC   
    if (LCRC==TRUE){
-#     if (requireNamespace("poLCA", quietly = TRUE)) {
-#       library(poLCA)
-       library(MASS) 
+     if (requireNamespace("poLCA", quietly = TRUE) & requireNamespace("MASS", quietly = TRUE)) {
        X.0 <- X - min(X)
        m <- max(X.0)+1
        P.tmp <- compute.PP.LCRC(X.0)
@@ -159,7 +157,7 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
        J <- ncol(X.lc)
        names(X.lc) <- paste("V",1:J,sep="")
        f <- as.formula(paste("cbind(",paste("V", 1:(J-1) , "," , sep="",collapse=""), paste("V",J,sep=""),") ~ 1", collapse=""))
-       model.lc <- poLCA(f, X.lc, nclass=nclass, verbose=F)
+       model.lc <- poLCA::poLCA(f, X.lc, nclass = nclass, verbose = FALSE, calc.se = FALSE)
        # Check whether all categories occur
        probs <- check.probs(model.lc$probs,m)
        pj.k <- list() 
@@ -179,10 +177,10 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
        }    
        PP[is.na(PP)] <- Pij[is.na(PP)]
        res$LCRC <- sum(PP- outer(as.numeric(P),as.numeric(P))) / var(apply(X,1,sum))
-#     } else {
-#      res$LCRC <- NA
-#      warning("Could not find package poLCA")
-#     }
+     } else {
+      res$LCRC <- NA
+      warning("Could not find package poLCA")
+     }
    }  
    return(res)
 }

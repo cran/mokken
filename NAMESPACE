@@ -4,24 +4,29 @@ export(
  aisp,
  coefH,
  coefZ,
+ check.bounds,
+ check.ca,
  check.errors,
  check.monotonicity,
+ check.norms,
  check.iio,
  check.pmatrix,
  check.reliability,
  check.restscore,
- search.normal
+ recode
 )
 
 # used internally - not intended to be visible to users
 #  all.patterns
 #  check.data
 #  complete.observed.frequencies
+#  direct.sum
 #  dphi
 #  phi
 #  plot.monotonicity.class,
 #  plot.pmatrix.class,
 #  plot.restscore.class,
+#  search.normal
 #  search.extended
 #  search.ga
 #  string2integer
@@ -31,6 +36,9 @@ export(
 #  weights
 
 importFrom(graphics, plot)
+importFrom("graphics", "axis", "layout", "lines", "par", "polygon", "title")
+importFrom("stats", "as.formula", "cor", "pchisq", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "t.test", "var")
+importFrom("grDevices", "col2rgb", "rgb")
 import(poLCA)
 
 S3method(summary, "monotonicity.class")
