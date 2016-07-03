@@ -126,11 +126,17 @@ flag <- function(Y){
 
 "check.ca" <- function(X, Windex = FALSE, MINSIZE = 4, NWEIGHTOPTION = "noweight", COVWEIGHTOPTION = "pnorm", MINGROUP = 4){
  X <- check.data(X)  
+ item.labels <- dimnames(X)[[2]]
  J <- ncol(X)
  inset <- rep(TRUE, J)
  RES <- list()
  RES$Flagged <- RES$Index <- RES$InScale <- list()
  k <- 0
+ NAmatrix  <- matrix(NA, J, J)
+ dimnames(NAmatrix) <- list(item.labels, item.labels)
+ NAvector  <- matrix(NA, 1, J)
+ dimnames(NAmatrix)[[2]] <- item.labels
+ 
  repeat{
     k <- k + 1
     RES[[1]][[k]] <- inset
@@ -140,27 +146,27 @@ flag <- function(Y){
     R  <- compute.restscores(Xin, minsize = MINSIZE)
 
     W1 <- compute.W1(Xin, mingroup = MINGROUP, covweightoption = COVWEIGHTOPTION, nweightoption = NWEIGHTOPTION) 
-    RES[[2]][[k]]$W1 <- matrix(NA, J, J)
+    RES[[2]][[k]]$W1 <- NAmatrix
     RES[[2]][[k]]$W1[inset, inset] <- W1
 
     W2 <- compute.W2(Xin, R, mingroup = MINGROUP, covweightoption = COVWEIGHTOPTION, nweightoption = NWEIGHTOPTION) 
-    RES[[2]][[k]]$W2 <- matrix(NA, 1, J)
+    RES[[2]][[k]]$W2 <- NAvector
     RES[[2]][[k]]$W2[1, inset] <- W2
 
     W3 <- compute.W3(Xin, R, mingroup = MINGROUP, covweightoption = COVWEIGHTOPTION, nweightoption = NWEIGHTOPTION) 
-    RES[[2]][[k]]$W3 <- matrix(NA, J, J)
+    RES[[2]][[k]]$W3 <- NAmatrix
     RES[[2]][[k]]$W3[inset, inset] <- W3
 
     F1 <- flag(W1)
-    RES[[3]][[k]]$F1 <- matrix(NA, J, J)
+    RES[[3]][[k]]$F1 <- NAmatrix
     RES[[3]][[k]]$F1[inset, inset] <- as.numeric(F1)
 
     F2 <- flag(W2)
-    RES[[3]][[k]]$F2 <- matrix(NA, 1, J)
+    RES[[3]][[k]]$F2 <- NAvector
     RES[[3]][[k]]$F2[1, inset] <- as.numeric(F2)
 
     F3 <- flag(W3)
-    RES[[3]][[k]]$F3 <- matrix(NA, J, J)
+    RES[[3]][[k]]$F3 <- NAmatrix
     RES[[3]][[k]]$F3[inset, inset] <- as.numeric(F3)
     
     flags <- apply(F1, 1, sum) + apply(F1, 2, sum) + F2 + apply(F3, 1, sum)

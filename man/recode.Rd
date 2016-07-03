@@ -32,10 +32,18 @@ The result is \code{X} for which columns \code{items} have been recoded.
  L. A. van der Ark \email{L.A.vanderArk@uva.nl}
 }
 
+\seealso{
+ \code{\link{DS14}}, \code{\link{twoway}}
+}
+
 \examples{
-data(DS14B)
-head(DS14B)            
-head(recode(DS14B, c(13, 14)))
+  data(DS14)
+  
+  # Handle missing data and recode negatively worded items
+  X <- DS14[, 3 : 16]
+  X <- twoway(X)
+  X <- recode(X, c(1, 3))
+  head(X)
 }
 
 \keyword{recode}

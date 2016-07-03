@@ -13,7 +13,7 @@ Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) stat
 
 \usage{
 check.reliability(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, 
-LCRC = FALSE, nclass = nclass.default)
+LCRC = FALSE, nclass = nclass.default, irc = FALSE)
 }
 
 \arguments{
@@ -26,6 +26,7 @@ LCRC = FALSE, nclass = nclass.default)
   \item{LCRC}{Boolean. If \code{TRUE}, the LCRC is computed.} 
   \item{nclass}{Integer. Number of latent classes for the computation of LCRC. 
         By default: the number of items minus 1.}
+  \item{irc}{Boolean.If \code{TRUE}, the item-rest correlation (a.k.a. corrected item-total correlation) is computed.}      
 }
 
 \details{

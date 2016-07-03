@@ -53,16 +53,24 @@ check.ca(X, Windex = FALSE, MINSIZE = 4, NWEIGHTOPTION = "noweight",
 
 }
 
+\seealso{
+ \code{\link{DS14}}, \code{\link{recode}}, \code{\link{twoway}}
+}
+
 \examples{
-# Data: A bootstrap sample N = 3111 from the data used by Straat et al. (2016)
-data(DS14B)
+  data(DS14)
 
-# Negative affectivity
-Na <- DS14B[, 1 : 7] 
-
-# Social inhibition
-Si <- DS14B[, 8 : 14]
-
-check.ca(Na[1 : 500, ], TRUE)
+  # Handle missing data and recode negatively worded items
+  X <- DS14[, 3 : 16]
+  X <- twoway(X)
+  X <- recode(X, c(1, 3))
+  
+  # Negative affectivity
+  Na <- X[, c(1, 3, 6, 8, 10, 11, 14)] 
+  
+  # Social inhibition
+  Si <- X[, c(2, 4, 5, 7, 9, 12, 13)] 
+  
+  check.ca(Na, TRUE)
 }
 \keyword{check.ca}

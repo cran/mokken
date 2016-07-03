@@ -1,4 +1,4 @@
-# Aangepast op 21 oktober 2015
+# Aangepast op 21 oktober 2015, 29 juni 2016
 "search.normal" <-
 function(X, lowerbound, alpha, StartSet, verbose){
 
@@ -10,11 +10,11 @@ function(X, lowerbound, alpha, StartSet, verbose){
 
    fitstring <- function(string.arg,length.arg) substr(paste(string.arg,"                        "),1,length.arg)
    
-   newH <- function(j,in.this.set, x, lowerbound, Z.c){
+   newH <- function(j,in.this.set, x, lb, Z.c){
 
      newX <- cbind(x[, in.this.set == 1], x[, j])
      H.list <- coefH(newX, FALSE)
-     if (H.list$Hi[length(H.list$Hi)] < lowerbound) return(-98) # less than lower bound
+     if (H.list$Hi[length(H.list$Hi)] < lb) return(-98) # less than lower bound
      Zi <- coefZ(newX)$Zi
      if (Zi[length(Zi)] < Z.c) return(-97)                      # not significant
      return(H.list$H)
@@ -52,186 +52,192 @@ function(X, lowerbound, alpha, StartSet, verbose){
    Zij <- (S * sqrt(N-1))/sqrt(Sij)
 
    J <- nrow(Hij)
-   result <- rep(-99, J);
-   j <- 0
-   InSet <- rep(0, J)
+   output <- NULL
+
+   for (lb in lowerbound){
+      result <- rep(-99, J);
+      j <- 0
+      InSet <- rep(0, J)
      
-   scale <- 0
+      scale <- 0
 
-   # Start Scaling
-   repeat{
-     scale <- scale + 1
-     step <- 1
-     K <- rep(0, J)
-
-     if(verbose){ 
-       cat("", fill = TRUE)
-       cat("SCALE", scale, fill = TRUE)
-       cat("", fill = TRUE)
-     }  
-
-     # Are there at least two items left?
-     if(length(InSet[InSet == 0]) < 2){
-       if(verbose) cat("Less than two items left. PROCEDURE STOPS", fill = TRUE)
-       break
-     }
-
-     # Compute the critical value for Zij 
-     
-     K[step] <- length(InSet[InSet == 0])
-     Z.c <- abs(qnorm(adjusted.alpha(alpha,K)))
-
-     # Determine which items can be selected into the same scale
-
-     Hselect <- Hij 
-     Hselect[abs(Zij) < Z.c] <- -99
-     Hselect[InSet > 0 & InSet < scale,] <- -99
-     Hselect[,InSet > 0 & InSet < scale] <- -99
-     Hselect[col(Hselect) >= row(Hselect)] <- -99
-     eps <- row(Hselect) * 1e-10
-     Hselect[Hselect != 99] <- Hselect[Hselect != 99] - eps[Hselect != 99]
-     
-     # Check if there are any feasible values left
-     
-     if(max(round(Hselect)) == -99){
-       if(verbose) cat("Scale ", scale," could not be formed because all Hj < ",lowerbound," or because no Hij significantly greater than zero. PROCEDURE STOPS", fill = TRUE)
-       break
-     }
-
-     if (class(StartSet) == "logical" | scale > 1){
-       first.item <- row(Hselect)[Hselect==max(Hselect)]
-       second.item <- col(Hselect)[Hselect==max(Hselect)]
-       StartSet <- c(first.item, second.item)
-     }  
-     if (length(StartSet) == 1 & scale == 1){ 
-       first.item <- StartSet 
-       max.tmp <- max(c(Hselect[first.item,],Hselect[,first.item]))
-       second.item <- which(abs(Hij[first.item,] - max.tmp) < 1e-6)
-       StartSet <- c(first.item, second.item)
-     }
-
-     StartSet <- sort(StartSet)
-     # Check whether items meet Mokken's criteria
-
-     # (1) All Hij significantly greater than 0 (Check is necessary only if startset has been provided)
-     if (startset.provided & scale == 1){
-         StartHij <- Hselect[StartSet, StartSet]
-         if(any(StartHij[row(StartHij) > col(StartHij)] < 0)) warning("Items in start set do not form a Mokken scale: Some Hij are not significantly greater than zero")
-     }
-
-     # (2) All Hi greater than lower bound (Check is always necessary)
-     StartHi  <- coefH(X[, StartSet], FALSE)[[2]]
-     if(min(StartHi) < lowerbound){
-       if(startset.provided & scale == 1) warning("Items in start set do not form a Mokken scale: Some Hj < ",lowerbound) 
-       if(!startset.provided | scale > 1) {  
-         if(verbose) cat("Scale ", scale," could not be formed due to H < ",lowerbound,". PROCEDURE STOPS", fill = TRUE) 
-         break
+      # Start Scaling
+      repeat{
+        scale <- scale + 1
+        step <- 1
+        K <- rep(0, J)
+      
+        if(verbose){ 
+          cat("", fill = TRUE)
+          cat("SCALE", scale, fill = TRUE)
+          cat("", fill = TRUE)
+        }  
+   
+        # Are there at least two items left?
+        if(length(InSet[InSet == 0]) < 2){
+          if(verbose) cat("Less than two items left. PROCEDURE STOPS", fill = TRUE)
+          break
+        }
+   
+        # Compute the critical value for Zij 
+        
+        K[step] <- length(InSet[InSet == 0])
+        Z.c <- abs(qnorm(adjusted.alpha(alpha,K)))
+   
+        # Determine which items can be selected into the same scale
+   
+        Hselect <- Hij 
+        Hselect[abs(Zij) < Z.c] <- -99
+        Hselect[InSet > 0 & InSet < scale,] <- -99
+        Hselect[,InSet > 0 & InSet < scale] <- -99
+        Hselect[col(Hselect) >= row(Hselect)] <- -99
+        eps <- row(Hselect) * 1e-10
+        Hselect[Hselect != 99] <- Hselect[Hselect != 99] - eps[Hselect != 99]
+        
+        # Check if there are any feasible values left
+        
+        if(max(round(Hselect)) == -99){
+          if(verbose) cat("Scale ", scale," could not be formed because all Hj < ",lb," or because no Hij significantly greater than zero. PROCEDURE STOPS", fill = TRUE)
+          break
+        }
+   
+        if (class(StartSet) == "logical" | scale > 1){
+          first.item <- row(Hselect)[Hselect==max(Hselect)]
+          second.item <- col(Hselect)[Hselect==max(Hselect)]
+          StartSet <- c(first.item, second.item)
+        }  
+        if (length(StartSet) == 1 & scale == 1){ 
+          first.item <- StartSet 
+          max.tmp <- max(c(Hselect[first.item,],Hselect[,first.item]))
+          second.item <- which(abs(Hij[first.item,] - max.tmp) < 1e-6)
+          StartSet <- c(first.item, second.item)
+        }
+   
+        StartSet <- sort(StartSet)
+        # Check whether items meet Mokken's criteria
+   
+        # (1) All Hij significantly greater than 0 (Check is necessary only if startset has been provided)
+        if (startset.provided & scale == 1){
+            StartHij <- Hselect[StartSet, StartSet]
+            if(any(StartHij[row(StartHij) > col(StartHij)] < 0)) warning("Items in start set do not form a Mokken scale: Some Hij are not significantly greater than zero")
+        }
+   
+        # (2) All Hi greater than lower bound (Check is always necessary)
+        StartHi  <- coefH(X[, StartSet], FALSE)[[2]]
+        if(min(StartHi) < lb){
+          if(startset.provided & scale == 1) warning("Items in start set do not form a Mokken scale: Some Hj < ",lb) 
+          if(!startset.provided | scale > 1) {  
+            if(verbose) cat("Scale ", scale," could not be formed due to H < ",lb,". PROCEDURE STOPS", fill = TRUE) 
+            break
+          }
+        }
+   
+        # Add the StartSet to the scale 
+        if(verbose) for (i in 1 : length(StartSet)){
+          the.item <- ifelse(StartSet[i] > 9, as.character(StartSet[i]), paste(" ", as.character(StartSet[i]), sep = ""))
+          cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefH(X[, StartSet], FALSE)[[3]], 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
+        }  
+        InSet[StartSet] <- scale
+   
+        # Adding new items
+        repeat{
+          step <- step + 1
+   
+          # exclude items from previous scales
+          in.this.set <- InSet
+          in.this.set <- ifelse(InSet == scale, 1, 0)
+          in.this.set <- ifelse(InSet <  scale & InSet > 0, -1, in.this.set)
+   
+          # exclude items having a negative covariance with the already selected items
+          neg1 <- apply(Hij[in.this.set == 1, ], 2, any.neg)
+          neg2 <- apply(Hij[, in.this.set == 1], 1, any.neg)
+          in.this.set[(neg1 | neg2) & in.this.set == 0] <- -1
+   
+          # Are there items left after the exclusion?
+          available.items <- which(in.this.set == 0)
+          if(length(available.items) == 0){
+            if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0",fill = TRUE)
+            break
+          }
+   
+         # Compute H and Hi of potentially new items
+         result[in.this.set != 0] <- -99  # items already selected in other scales
+         K[step] <- length(available.items)
+         Z.c <- abs(qnorm(adjusted.alpha(alpha, K)))
+         for (j in available.items) result[j] <- newH(j,in.this.set, X, lb, Z.c)
+   
+   
+         # Is maximum value Hi greater than c?
+         if(max(result) < lb){
+           if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lb,".", fill = TRUE)
+           break
+         }
+   
+         # Add the newly selected item to the scale
+         new.item <- row(as.matrix(result))[result == max(result)]
+         InSet[new.item] <- scale
+         if(verbose){
+           the.item <- ifelse(new.item > 9, as.character(new.item), paste(" ", as.character(new.item), sep = ""))
+           cat("Item ", the.item, ": ", fitstring(item.label[new.item],20), " Scale", scale, " H = ", round(max(result), 2), fill = TRUE)
+         } 
+      
+      
+   
        }
-     }
-
-     # Add the StartSet to the scale 
-     if(verbose) for (i in 1 : length(StartSet)){
-       the.item <- ifelse(StartSet[i] > 9, as.character(StartSet[i]), paste(" ", as.character(StartSet[i]), sep = ""))
-       cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefH(X[, StartSet], FALSE)[[3]], 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
+     # BEGIN SEARCH EXTENDED
+     #if (search.extended == TRUE) {
+        # UNDER CONSTRUCTION
+        # in.this.extended.set = in.this.set
+        # in.this.extended.set[in.this.extended.set == -1] = 0
+        #  repeat{
+        #    step <- step + 1
+        # 
+        #    # exclude items from previous scales
+        #  in.this.set <- in.this.extended ????
+        #  in.this.set <- ifelse(InSet == scale, 1,0) ????
+        #  in.this.set <- ifelse(InSet <  scale & InSet > 0,-1,in.this.set) ????
+        # 
+        #  # exclude items having a negative covariance with the already selected items
+        #  neg1 <- apply(Hij[in.this.set==1,],2,any.neg)
+        #  neg2 <- apply(Hij[,in.this.set==1],1,any.neg)
+        #  in.this.set[neg1|neg2 & in.this.set==0] <- -1
+        # 
+        #  # Are there items left after the exclusion?
+        #  available.items <- which(in.this.set==0)
+        #  if(length(available.items)==0){
+        #    if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0", fill = TRUE)
+        #    break
+        #  }
+        #
+        #  # Compute H and Hi of potentially new items
+        #  result[in.this.set!=0] <- -99  # items already selected in other scales
+        #  K[step] <- length(available.items)
+        #  Z.c <- abs(qnorm(adjusted.alpha(alpha,K)))
+        #  for (j in available.items) result[j] <- newH(j,in.this.set, X, lb, Z.c)
+        #
+        #
+        #  # Is maximum value Hi greater than c?
+        #  if(max(result) < lb){
+        #    if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lb,".", fill = TRUE)
+        #    break
+        #  }
+        #
+        #  # Add the newly selected item to the scale
+        #  new.item <- row(as.matrix(result))[result==max(result)]
+        #  InSet[new.item] <- scale
+        #  if(verbose) cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2), fill = TRUE)
+        #}
+        # 
+     #}  
+        
+     # EINDE SEARCH EXTENDED
+     # start with next scale
+        
      }  
-     InSet[StartSet] <- scale
-
-     # Adding new items
-     repeat{
-       step <- step + 1
-
-       # exclude items from previous scales
-       in.this.set <- InSet
-       in.this.set <- ifelse(InSet == scale, 1, 0)
-       in.this.set <- ifelse(InSet <  scale & InSet > 0, -1, in.this.set)
-
-       # exclude items having a negative covariance with the already selected items
-       neg1 <- apply(Hij[in.this.set == 1, ], 2, any.neg)
-       neg2 <- apply(Hij[, in.this.set == 1], 1, any.neg)
-       in.this.set[(neg1 | neg2) & in.this.set == 0] <- -1
-
-       # Are there items left after the exclusion?
-       available.items <- which(in.this.set == 0)
-       if(length(available.items) == 0){
-         if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0",fill = TRUE)
-         break
-       }
-
-      # Compute H and Hi of potentially new items
-      result[in.this.set != 0] <- -99  # items already selected in other scales
-      K[step] <- length(available.items)
-      Z.c <- abs(qnorm(adjusted.alpha(alpha, K)))
-      for (j in available.items) result[j] <- newH(j,in.this.set, X, lowerbound, Z.c)
-
-
-      # Is maximum value Hi greater than c?
-      if(max(result) < lowerbound){
-        if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lowerbound,".", fill = TRUE)
-        break
-      }
-
-      # Add the newly selected item to the scale
-      new.item <- row(as.matrix(result))[result == max(result)]
-      InSet[new.item] <- scale
-      if(verbose){
-        the.item <- ifelse(new.item > 9, as.character(new.item), paste(" ", as.character(new.item), sep = ""))
-        cat("Item ", the.item, ": ", fitstring(item.label[new.item],20), " Scale", scale, " H = ", round(max(result), 2), fill = TRUE)
-      } 
-
-
-
-    }
-  # BEGIN SEARCH EXTENDED
-  #if (search.extended == TRUE) {
-     # UNDER CONSTRUCTION
-     # in.this.extended.set = in.this.set
-     # in.this.extended.set[in.this.extended.set == -1] = 0
-     #  repeat{
-     #    step <- step + 1
-     # 
-     #    # exclude items from previous scales
-     #  in.this.set <- in.this.extended ????
-     #  in.this.set <- ifelse(InSet == scale, 1,0) ????
-     #  in.this.set <- ifelse(InSet <  scale & InSet > 0,-1,in.this.set) ????
-     # 
-     #  # exclude items having a negative covariance with the already selected items
-     #  neg1 <- apply(Hij[in.this.set==1,],2,any.neg)
-     #  neg2 <- apply(Hij[,in.this.set==1],1,any.neg)
-     #  in.this.set[neg1|neg2 & in.this.set==0] <- -1
-     # 
-     #  # Are there items left after the exclusion?
-     #  available.items <- which(in.this.set==0)
-     #  if(length(available.items)==0){
-     #    if(verbose) cat("Scale ", scale," is completed. No items left with Hij => 0", fill = TRUE)
-     #    break
-     #  }
-     #
-     #  # Compute H and Hi of potentially new items
-     #  result[in.this.set!=0] <- -99  # items already selected in other scales
-     #  K[step] <- length(available.items)
-     #  Z.c <- abs(qnorm(adjusted.alpha(alpha,K)))
-     #  for (j in available.items) result[j] <- newH(j,in.this.set, X, lowerbound, Z.c)
-     #
-     #
-     #  # Is maximum value Hi greater than c?
-     #  if(max(result) < lowerbound){
-     #    if(verbose) cat("Scale ", scale," is completed. No items left such that Hi > ",lowerbound,".", fill = TRUE)
-     #    break
-     #  }
-     #
-     #  # Add the newly selected item to the scale
-     #  new.item <- row(as.matrix(result))[result==max(result)]
-     #  InSet[new.item] <- scale
-     #  if(verbose) cat("Item: ",fitstring(item.label[new.item],20)," Scale", scale," H = ",round(max(result),2), fill = TRUE)
-     #}
-     # 
-  #}  
-     
-  # EINDE SEARCH EXTENDED
-  # start with next scale
-     
-  }  
-  InSet <- as.matrix(InSet)
-  dimnames(InSet) <- list(item.label,"Scale")
-  return(InSet)
+     output <- cbind(output, as.matrix(InSet))
+   }
+   dimnames(output) <- list(item.label, lowerbound)
+   return(output)
 }
+   
+   

@@ -1,5 +1,5 @@
 "check.reliability" <-
-function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = nclass.default){
+function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = nclass.default, irc = FALSE){
    X <- check.data(X)
    compute.PP <- function(X,P,N,J,m){
      label <- as.vector(t(outer(paste("P(X",1:J,">=",sep=""),paste(1:(m-1),")",sep=""), paste, sep="")))
@@ -15,6 +15,14 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
      PP <- PP[order(P),order(P)]
      return(PP)
    }
+   
+   IRC <- function(X){
+     J <- ncol(X) 
+     D <- matrix(1,J,J)
+     diag(D) <- 0
+     R <- X %*% D
+     return(diag(cor(X,R)))
+   }  
    
    compute.PP.LCRC <- function(X) {
      N <- nrow(X)
@@ -142,6 +150,11 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
    if (lambda.2==TRUE){
      varX <- var(X)
      res$lambda.2 <-  ((sum(varX)-sum(diag(varX))) + (sqrt((J/(J-1))*(sum(varX^2)-sum(diag(varX^2))))))/sum(varX)
+   }
+
+   ## irc   
+   if (irc == TRUE){
+     res$irc <- IRC(X)
    }
 
    ## LCRC   

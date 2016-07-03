@@ -16,9 +16,8 @@
      Population <- rep(0,nitem*(popsize+2))
      itercount <- 0
      fitness <- rep(0,(popsize+2)*3)
-    
      while(1){
-        Output <- .C("GeneticAlgorithm",as.integer(Population),as.integer(itercount),as.integer(popsize),
+       Output <- .C("GeneticAlgorithm",as.integer(Population),as.integer(itercount),as.integer(popsize),
                   as.integer(nitem),as.integer(npers),as.integer(iter),as.double(pxover),as.double(pmutation),
                   as.double(critval),as.double(alpha),as.double(variance),as.double(max.variance),
                   as.double(SijMatrix), as.double(fitness))
@@ -28,6 +27,5 @@
         if(itercount == ceiling(maxgens/iter)) break   
      }
      InSet <- as.matrix(c(matrix(Output[[1]],popsize+2,nitem,byrow=T)[popsize+1,]))
-     dimnames(InSet) <- list(item.label,"Scale")
      return(InSet)
 }

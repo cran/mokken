@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.2       \cr
-Date:       \tab 2016-05-21  \cr
+Version:    \tab 2.8.3       \cr
+Date:       \tab 2016-06-29  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -29,7 +29,7 @@ The package contains the following data sets
 \code{\link{acl}}                \tab  Scores on a personality checklist. \cr
 \code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
 \code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
-\code{\link{DS14B}}              \tab  Scores on a Type D test (bootstrap sample) \cr
+\code{\link{DS14}}               \tab  Scores on a Type D test (bootstrap sample) \cr
 }
 
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
@@ -40,7 +40,7 @@ Thanks are due
  to Wijbrandt van Schuur for comments on the vignette;
  to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
- to Harrie C. M. Vorst and Pierre Cavalini for permission to use their data;
+ to Harrie C. M. Vorst, Pierre Cavalini, and Johan Denollet for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
 Version 0 was introduced in Van der Ark (2007). It included the functions
@@ -102,6 +102,13 @@ The following modifications have been made in Version 2.8.2 in comparison to pre
 \code{\link{check.errors}}    \tab  Outlier score O+ has been included \cr
 }
 
+The following modifications have been made in Version 2.8.3 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{twoway}}          \tab  New \cr
+\code{\link{DS14}}            \tab  New data set\cr
+\code{\link{check.errors}}    \tab  Outlier cutoff scores have been included \cr
+}
+
 }
 \author{
 L. Andries van der Ark
@@ -121,6 +128,10 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
   Sijtsma, K, and Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
   Thousand Oaks, CA: Sage.
+
+  Sijtsma, K., and Van der Ark, L. A. (2016).
+  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data. 
+  Manuscript submitted for publication.
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
@@ -131,7 +142,6 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
   Getting started with Mokken scale analysis in \pkg{R}. 
   Unpublished manuscript.
   \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
-
 
   Van der Ark, L. A. (2012). 
   New developments in Mokken scale analysis in \pkg{R}. 

@@ -10,11 +10,12 @@ The function presents standard errors for the mean, standard deviation, standard
 (Oosterhuis, Van der Ark, and Sijtsma, 2016).  
 }
 \usage{
-check.norms(y)
+check.norms(y, nice.output = TRUE)
 }
 
 \arguments{
   \item{y}{numerical vector. Typically a numerical vector of length N, representing the test scores of N respondents. Missing values are not allowed}
+  \item{nice.output}{Logical: If \code{TRUE}, norm statistics and standard errors are combined in an a single object of class \code{noquote}}
 }
 
 \value{
@@ -41,23 +42,28 @@ check.norms(y)
  Oosterhuis, H. E. M., van der Ark, L. A., and Sijtsma, K. (2016).
  Standard errors and confidence intervals of norm statistics for educational and psychological tests.
  Manuscript submitted for publication.
+}
 
- Straat, J. H., van der Ark, L. A., and Sijtsma, K. (2016).
- Using conditional association to identify local dependence.
- Manuscript submitted for publication.
+\seealso{
+ \code{\link{DS14}}, \code{\link{recode}}, \code{\link{twoway}}
 }
 
 \examples{
-# Data: A bootstrap sample N = 3111 from the data used by Straat et al. (2016)
-data(DS14B)
+  data(DS14)
 
-# Negative affectivity
-Na <- DS14B[, 1 : 7] 
+  # Handle missing data and recode negatively worded items
+  X <- DS14[, 3 : 16]
+  X <- twoway(X)
+  X <- recode(X, c(1, 3))
 
-# Social inhibition
-Si <- DS14B[, 8 : 14]
+  # Negative affectivity
+  Na <- X[, c(1, 3, 6, 8, 10, 11, 14)] 
 
-check.norms(rowSums(Na))
-check.norms(rowSums(Si))
+  # Social inhibition
+  Si <- X[, c(2, 4, 5, 7, 9, 12, 13)] 
+
+  # Norms
+  check.norms(rowSums(Na))
+  check.norms(rowSums(Si))
 }
 \keyword{check.norms}

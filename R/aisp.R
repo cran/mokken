@@ -22,9 +22,15 @@
    if(popsize < 1) stop("popsize is nonpositive")
    if(is.numeric(maxgens)&!is.na(maxgens)) maxgens <- as.integer(maxgens) else stop("maxgens is not numeric")
    if(maxgens < 1) stop("maxgens is nonpositive")
-   switch(search, 
-      ga = search.ga(X, popsize, maxgens, alpha, lowerbound, pxover, pmutation),
-      extended = search.extended(verbose),
-      search.normal(X, lowerbound, alpha, StartSet, verbose)
-   )   
+   if(search == "ga"){ 
+     output <- NULL
+     for (lb in lowerbound){ 
+        ga <- search.ga(X, popsize, maxgens, alpha, lb, pxover, pmutation)
+        output <- cbind(output, ga)
+     }
+     dimnames(output) <- list(dimnames(X)[[2]], lowerbound)
+   } else {
+     if(search == "extended") output <- search.extended(verbose) else output <- search.normal(X, lowerbound, alpha, StartSet, verbose)
+   }  
+   return(output)   
 }
