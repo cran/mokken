@@ -119,7 +119,8 @@ summary(check.iio(Order))
 plot(check.iio(Order))
 
 Autonomy <- acl[,91:100]
-check.iio(Autonomy)
+summary(check.iio(Autonomy))
+plot(check.iio(Autonomy))
 
 # Examples from Ligtvoet et al. (2011).
  

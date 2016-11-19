@@ -312,26 +312,38 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
 }
 
  
-coefHT <- function(Y){
+coefHT <- function(Y, largeN = 1000){
+    eij <- function(x) {
+        tab <- tabulate(x[ ,1] + 2 * x[ ,2] + 1L, 4)
+        e <- min(tab[3], tab[2])
+        e0 <- ((tab[1] + e) * (e + tab[4])) / nrow(x)
+        return(c(e, e0))
+    }
+
    eq.var <- apply(Y, 1, sd)
    Y <- Y[eq.var > 0, ]
    N <- nrow(Y)
-   S    <- try(var(t(Y)) , silent = TRUE)
-   Smax <- try(var(apply(t(Y), 2, sort)), silent = TRUE)
-  
-   if (class(S)!="try-error" & class(Smax)!="try-error"){
+   tY <- t(Y)
+   if (N < largeN){ 
+      S    <- var(tY)
+      Smax <- var(apply(tY, 2, sort))
       diag(S) <- diag(Smax) <- 0
       HT <- sum(S)/sum(Smax)
    } else {  
-      Y    <- Y[sample(1:N,min(N,5000)),]
-      S    <- try(var(t(Y)) , silent = TRUE)
-      Smax <- try(var(apply(t(Y), 2, sort)), silent = TRUE)
-      if (class(S)!="try-error" & class(Smax)!="try-error"){
-          diag(S) <- diag(Smax) <- 0
-          HT <- sum(S)/sum(Smax)
-      } else {
-           HT <- NA      
+      e1 <- 0L
+      e0 <- 0L
+      for (i in 1 : (ncol(tY) - 1)){
+         for (j in (i + 1) : ncol(tY)){
+            e <- eij(tY[, c(i,j)])
+            e1 <- e1 + e[1]
+            e0 <- e0 + e[2]
+         }
+         cat("\r", "Large sample size, computation may take several minutes. Progress: ", round((i * 100) / (ncol(tY) - 1), 1), "%      ", sep = "") 
+         flush.console()  # Make visible on RGui
       }
-   }    
+      cat("\r", "Large sample size, computation may take several minutes. Progress: DONE    ", sep = "") 
+      cat("\n")
+      HT <- 1 - e1/e0
+   }
    return(HT)
 }

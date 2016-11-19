@@ -41,9 +41,10 @@ check.ca(X, Windex = FALSE, MINSIZE = 4, NWEIGHTOPTION = "noweight",
 }
 
 \references{
- Straat, J. H., van der Ark, L. A., and Sijtsma, K. (2016).
- Using conditional association to identify local dependence.
- Manuscript submitted for publication.
+  Straat, J. H., Van der Ark, L. A., and Sijtsma, K. (2016).
+  Using conditional association to identify locally Independent item sets.
+  \emph{Methodology, 12}, 117-123.
+  doi: 10.1027/1614-2241/a000115
 
  Sijtsma, K., van der Ark, L. A., and Straat, J. H. (2015) 
  Goodness of fit methods for nonparametric IRT models.

@@ -44,12 +44,14 @@ These data have also been analyzed in papers on Mokken scale analysis (Sijtsma a
  \emph{Journal of Affective Disorders, 189}, 118-125. 
 
  Sijtsma, K., and Van der Ark, L. A. (2016).
- A tutorial on how to do a Mokken scale analysis on your test and questionnaire data. 
- Manuscript submitted for publication.
+ A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
+ \emph{British Journal of Mathematical and Statistical Psychology}.
+ doi: 10.1111/bmsp.12078
 
  Straat, J. H., van der Ark, L. A., and Sijtsma, K. (2016).
- Using conditional association to identify local dependence.
- Manuscript submitted for publication.
+ Using conditional association to identify locally independent item sets.
+ \emph{Methodology, 12}, 117-123.
+ doi: 10.1027/1614-2241/a000115
  
  Zuccarella-Hackl, C., von K\"anel, R., Thomas, L., Kuebler, P., Schmid, J. P., Mattle. H. P., Mono, M. L., Rieben, R., 
  Wiest, R., and Wirtz, P. H. (2016). 

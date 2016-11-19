@@ -35,10 +35,10 @@ The package contains the following data sets
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
 
 Thanks are due 
- to Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
+ to Michael Allerhand, Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
  to Geert H. van Kollenburg, Letty Koopman, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
+ to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
  to Harrie C. M. Vorst, Pierre Cavalini, and Johan Denollet for permission to use their data;
  to Robert J. Mokken for lending his last name.
@@ -107,6 +107,11 @@ The following modifications have been made in Version 2.8.3 in comparison to pre
 \code{\link{twoway}}          \tab  New \cr
 \code{\link{DS14}}            \tab  New data set\cr
 \code{\link{check.errors}}    \tab  Outlier cutoff scores have been included \cr
+}
+
+The following modifications have been made in Version 2.8.4 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{check.iio}}       \tab  New code for computing HT for large samples\cr
 }
 
 }

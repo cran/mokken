@@ -40,6 +40,7 @@ importFrom(graphics, plot)
 importFrom("graphics", "axis", "layout", "lines", "par", "polygon", "title")
 importFrom("stats", "as.formula", "cor", "median", "pchisq", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "t.test", "var")
 importFrom("grDevices", "col2rgb", "rgb")
+importFrom("utils", "flush.console")
 import(poLCA)
 
 S3method(summary, "monotonicity.class")

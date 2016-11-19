@@ -1,7 +1,7 @@
 check.norms <- function(y, nice.output = TRUE){
 
 direct.sum <- function (...){
-     p.tr = 0;p.ll = 0;   
+     p.tr = 0;p.ll = 0;
      matlist = list(...);
      nmat = length(matlist);
      m1 = matlist[[1]];
@@ -9,7 +9,7 @@ direct.sum <- function (...){
      nmat = length(matlist);                              # ,,
      m1 = matlist[[1]];                                   # ,,
      if(nmat==1) return(m1);
-     for(i in 2:nmat){ 
+     for(i in 2:nmat){
         m2 = matlist[[i]];
         topleft <- m1
         topright <- matrix(p.tr, nrow(m1), ncol(m2))
@@ -19,20 +19,28 @@ direct.sum <- function (...){
         m1 = rbind(cbind(topleft, topright), cbind(lowleft, lowright))
      }
      return(m1)
-} 
-
-eps <- 1e-8
-y <- sort(y)
-y[y > -eps & y < eps] <- eps
-R <- unique(y)
+}
+R <- sort(unique(y))
 K <- length(R)
-N <- length(y)          
-n <- apply(matrix(R), 1, function(x) sum(y %in% x))
+
+n <-matrix(0,K,1)
+for (i in 1:K){
+n[i] <- sum(y==R[i])
+}
+
+N <- length(y)
+if (min(y)<=0) {
+    adjust <- abs(min(y) - 1)
+    y <- y + adjust
+    R <- R + adjust
+} else {
+    adjust <- 0
+}
 
 A1 <- rbind(R,1)
 A2 <- matrix(c(1,-1),1,2)
 
-meany <- exp(A2%*%log(A1%*%n))
+meany <- exp(A2%*%log(A1%*%n)) -adjust
 
 
 g0 <- n
@@ -45,6 +53,8 @@ Gmean <-G2
 Vmean <- Gmean%*%diag(c(n),length(n),length(n))%*%t(Gmean)-Gmean%*%(n%*%t(n)/N)%*%t(Gmean)
 Se.mean <- sqrt(Vmean)
 
+lomeany <- meany - 1.96*Se.mean
+upmeany <- meany + 1.96*Se.mean
 
 A1 <- rbind(R,R^2,1,1)
 A2 <- diag(c(2,1,1,-1))
@@ -53,7 +63,7 @@ A2[1,3] <- -1
 A3 <- matrix(c(-1,0,1,0,0,1,0,-1),2,4)
 A4 <- matrix(c(.5,-0.5),1,2)
 
-sdy <- exp(A4 %*% log (A3 %*% exp(A2 %*% log(A1 %*% n)))) 
+sdy <- exp(A4 %*% log (A3 %*% exp(A2 %*% log(A1 %*% n))))
 
 g0 <- n
 g1 <- log(A1%*%n)
@@ -70,6 +80,9 @@ Gsd <-G4
 
 Vsd <- Gsd%*%diag(c(n),length(n),length(n))%*%t(Gsd)-Gsd%*%(n%*%t(n)/N)%*%t(Gsd)
 Se.sd <- sqrt(Vsd)
+
+losdy <- sdy - 1.96*Se.sd
+upsdy <- sdy + 1.96*Se.sd
 
 A1 <- t(cbind(diag(K),rep(1,K),rep(1,K)))
 A2 <- direct.sum(diag(K), t(c(1,-1)))
@@ -102,6 +115,8 @@ GZy <-G7
 VZy <- GZy%*%diag(c(n),length(n),length(n))%*%t(GZy)-GZy%*%(n%*%t(n)/N)%*%t(GZy)-GZy%*%(n%*%t(n)/N)%*%t(GZy)
 Se.Zy <- sqrt(diag(VZy))
 
+loZy <- Zy - 1.96*Se.Zy
+upZy <- Zy + 1.96*Se.Zy
 
 A1 <- rbind(R,R^2,rep(1,K),rep(1,K))
 A2 <- matrix(c(2,0,0,1,0,0,1,0,0,0,0,0,0,0,1,-1,0,1,-1,-1),5,4)
@@ -109,7 +124,7 @@ A3 <- matrix(c(-1,0,0,1,0,0,0,1,0,0,0,1,0,-1,0),3,5)
 A4 <- matrix(c(1/2,0,-1/2,0,0,1),2,3)
 A5 <- cbind(seq(-1.75,1.75,.50),rep(1,8))
 
-Sty <- A5 %*% exp (A4 %*% log ( A3 %*% exp ( A2 %*% log ( A1 %*% n ))))
+Sty <- A5 %*% exp (A4 %*% log ( A3 %*% exp ( A2 %*% log ( A1 %*% n )))) -adjust
 
 g0 <- n
 g1 <- log(A1%*%n)
@@ -128,8 +143,11 @@ GSty <-G5
 VSty <- GSty%*%diag(c(n),length(n),length(n))%*%t(GSty)-GSty%*%(n%*%t(n)/N)%*%t(GSty)
 Se.Sty <- sqrt(diag(VSty))
 
+loSty <- Sty - 1.96*Se.Sty
+upSty <- Sty + 1.96*Se.Sty
+
 A1 <- matrix(1,K+1,K)
-A1[upper.tri(A1,diag=FALSE)] <- 0 
+A1[upper.tri(A1,diag=FALSE)] <- 0
 A2 <- cbind(diag(K),rep(-1,K))
 A3 <- matrix(0,K,K)
 for (i in 0:K) {
@@ -138,7 +156,7 @@ A3[i,i-1] <- 50
 A3[i,i] <- 50
 }
 
-Pry <- A3%*%exp(A2%*%log(A1%*%n)) 
+Pry <- A3%*%exp(A2%*%log(A1%*%n))
 
 g0 <- n
 g1 <- log(A1%*%n)
@@ -153,70 +171,86 @@ GPry <-G3
 VPry <- GPry%*%diag(c(n),length(n),length(n))%*%t(GPry)-GPry%*%(n%*%t(n)/N)%*%t(GPry)
 Se.Pry <- sqrt(diag(VPry))
 
+loPry <- Pry - 1.96*Se.Pry
+upPry <- Pry + 1.96*Se.Pry
+
 if (nice.output){
-   output.matrix.mean. <- matrix(NA, 1, 2)
-   output.matrix.mean.[, 1] <- format(formatC(round(meany,3), digits = 3, format = "f"), width = 7, justify = "right")
-   output.matrix.mean.[, 2] <- format(paste("(",formatC(round(Se.mean, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
-   dimnames(output.matrix.mean.) <- list("", c("Mean","SE"))
-   output.matrix.mean. <- noquote(output.matrix.mean.)
-   
-   output.matrix.sd. <- matrix(NA, 1, 2)
-   output.matrix.sd.[, 1] <- format(formatC(round(sdy,3), digits = 3, format = "f"), width = 7, justify = "right")
-   output.matrix.sd.[, 2] <- format(paste("(",formatC(round(Se.sd, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
-   dimnames(output.matrix.sd.) <- list("", c("SD","SE"))
-   output.matrix.sd. <- noquote(output.matrix.sd.)
-   
-   output.matrix.Zy. <- matrix(NA, K, 4)
-   output.matrix.Zy.[, 1] <- format(formatC(round(R,0), digits = 3, format = "f"), width = 7,justify = "right")
-   output.matrix.Zy.[, 2] <- format(formatC(round(n,0), digits = 0, format = "f"), width = 7,justify = "right")
-   output.matrix.Zy.[, 3] <- format(formatC(round(Zy,3), digits = 3, format = "f"), width = 7,justify = "right")
-   output.matrix.Zy.[, 4] <- format(paste("(",formatC(round(Se.Zy, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
-   dimnames(output.matrix.Zy.) <- list(R, c("Scores", "Freq", "Zscores","SE"))
-   output.matrix.Zy. <- noquote(output.matrix.Zy.)
+ output.matrix.mean. <- matrix(NA, 1, 4)
+ output.matrix.mean.[, 1] <- format(formatC(round(meany,3), digits = 3, format = "f"), width = 7, justify = "right")
+ output.matrix.mean.[, 2] <- format(paste("(",formatC(round(Se.mean, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
+ output.matrix.mean.[, 3] <- format(formatC(round(lomeany,3), digits = 3, format = "f"), width = 7, justify = "right")
+ output.matrix.mean.[, 4] <- format(formatC(round(upmeany,3), digits = 3, format = "f"), width = 7, justify = "right")
+ dimnames(output.matrix.mean.) <- list("", c("Mean","SE", "lo", "up"))
+ output.matrix.mean. <- noquote(output.matrix.mean.)
 
-   output.matrix.Sty. <- matrix(NA, 8, 2)
-   output.matrix.Sty.[, 1] <- format(formatC(round(Sty,3), digits = 3, format = "f"), width = 7,justify = "right")
-   output.matrix.Sty.[, 2] <- format(paste("(",formatC(round(Se.Sty, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
-   dimnames(output.matrix.Sty.) <- list(c("1-2","2-3","3-4","4-5","5-6","6-7","7-8","8-9"), c("Stanines","SE"))
-   output.matrix.Sty. <- noquote(output.matrix.Sty.)
-   
-   output.matrix.Pry. <- matrix(NA, K, 4)
-   output.matrix.Pry.[, 1] <- format(formatC(round(R,0), digits = 3, format = "f"), width = 7,justify = "right")
-   output.matrix.Pry.[, 2] <- format(formatC(round(n,0), digits = 0, format = "f"), width = 7,justify = "right")
-   output.matrix.Pry.[, 3] <- format(formatC(round(Pry,3), digits = 3, format = "f"), width = 7,justify = "right")
-   output.matrix.Pry.[, 4] <- format(paste("(",formatC(round(Se.Pry, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
-   dimnames(output.matrix.Pry.) <- list(R, c("Scores", "Freq","Percentiles","SE"))
-   output.matrix.Pry. <- noquote(output.matrix.Pry.)
+output.matrix.sd. <- matrix(NA, 1, 4)
+ output.matrix.sd.[, 1] <- format(formatC(round(sdy,3), digits = 3, format = "f"), width = 7, justify = "right")
+ output.matrix.sd.[, 2] <- format(paste("(",formatC(round(Se.sd, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
+ output.matrix.sd.[, 3] <- format(formatC(round(losdy,3), digits = 3, format = "f"), width = 7, justify = "right")
+ output.matrix.sd.[, 4] <- format(formatC(round(upsdy,3), digits = 3, format = "f"), width = 7, justify = "right")
+ dimnames(output.matrix.sd.) <- list("", c("SD","SE", "lo", "up"))
+ output.matrix.sd. <- noquote(output.matrix.sd.)
+
+output.matrix.Zy. <- matrix(NA, K, 4)
+ output.matrix.Zy.[, 1] <- format(formatC(round(Zy,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Zy.[, 2] <- format(paste("(",formatC(round(Se.Zy, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
+ output.matrix.Zy.[, 3] <- format(formatC(round(loZy,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Zy.[, 4] <- format(formatC(round(upZy,3), digits = 3, format = "f"), width = 7,justify = "right")
+ dimnames(output.matrix.Zy.) <- list(R-adjust, c("Zscores","SE", "lo", "up"))
+ output.matrix.Zy. <- noquote(output.matrix.Zy.)
+
+output.matrix.Sty. <- matrix(NA, 8, 4)
+ output.matrix.Sty.[, 1] <- format(formatC(round(Sty,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Sty.[, 2] <- format(paste("(",formatC(round(Se.Sty, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
+ output.matrix.Sty.[, 3] <- format(formatC(round(loSty,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Sty.[, 4] <- format(formatC(round(upSty,3), digits = 3, format = "f"), width = 7,justify = "right")
+ dimnames(output.matrix.Sty.) <- list(c("1-2","2-3","3-4","4-5","5-6","6-7","7-8","8-9"), c("Stanines","SE", "lo", "up"))
+ output.matrix.Sty. <- noquote(output.matrix.Sty.)
+
+output.matrix.Pry. <- matrix(NA, K, 4)
+ output.matrix.Pry.[, 1] <- format(formatC(round(Pry,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Pry.[, 2] <- format(paste("(",formatC(round(Se.Pry, 3), digits = 3, format = "f"),")", sep = ""), width = 7, justify = "right")
+ output.matrix.Pry.[, 3] <- format(formatC(round(loPry,3), digits = 3, format = "f"), width = 7,justify = "right")
+ output.matrix.Pry.[, 4] <- format(formatC(round(upPry,3), digits = 3, format = "f"), width = 7,justify = "right")
+ dimnames(output.matrix.Pry.) <- list(R-adjust, c("Percentiles","SE", "lo", "up"))
+ output.matrix.Pry. <- noquote(output.matrix.Pry.)
 } else {
-   output.matrix.mean. <- matrix(NA, 1, 2)
-   output.matrix.mean.[, 1] <- meany
-   output.matrix.mean.[, 2] <- Se.mean
-   dimnames(output.matrix.mean.) <- list("", c("Mean","SE"))
-   
-   output.matrix.sd. <- matrix(NA, 1, 2)
-   output.matrix.sd.[, 1] <- sdy
-   output.matrix.sd.[, 2] <- Se.sd
-   dimnames(output.matrix.sd.) <- list("", c("SD","SE"))
-   
-   output.matrix.Zy. <- matrix(NA, K, 4)
-   output.matrix.Zy.[, 1] <- round(R, 0)
-   output.matrix.Zy.[, 2] <- round(n, 0)
-   output.matrix.Zy.[, 3] <- Zy
-   output.matrix.Zy.[, 4] <- Se.Zy
-   dimnames(output.matrix.Zy.) <- list(R, c("Scores", "Freq", "Zscores","SE"))
-   
-   output.matrix.Sty. <- matrix(NA, 8, 2)
-   output.matrix.Sty.[, 1] <- Sty
-   output.matrix.Sty.[, 2] <- Se.Sty
-   dimnames(output.matrix.Sty.) <- list(c("1-2","2-3","3-4","4-5","5-6","6-7","7-8","8-9"), c("Stanines","SE"))
+ output.matrix.mean. <- matrix(NA, 1, 4)
+ output.matrix.mean.[, 1] <- meany
+ output.matrix.mean.[, 2] <- Se.mean
+ output.matrix.mean.[, 3] <- lomeany
+ output.matrix.mean.[, 4] <- upmeany
+ dimnames(output.matrix.mean.) <- list("", c("Mean","SE", "lo", "up"))
 
-   output.matrix.Pry. <- matrix(NA, K, 4)
-   output.matrix.Pry.[, 1] <- round(R, 0)
-   output.matrix.Pry.[, 2] <- round(n, 0)
-   output.matrix.Pry.[, 3] <- Pry
-   output.matrix.Pry.[, 4] <- Se.Pry
-   dimnames(output.matrix.Pry.) <- list(R, c("Scores", "Freq","Percentiles","SE"))
+output.matrix.sd. <- matrix(NA, 1, 4)
+ output.matrix.sd.[, 1] <- sdy
+ output.matrix.sd.[, 2] <- Se.sd
+ output.matrix.sd.[, 3] <- losdy
+ output.matrix.sd.[, 4] <- upsdy
+ dimnames(output.matrix.sd.) <- list("", c("SD","SE", "lo", "up"))
+
+output.matrix.Zy. <- matrix(NA, K, 4)
+ output.matrix.Zy.[, 1] <- R-adjust
+ output.matrix.Zy.[, 2] <- n
+ output.matrix.Zy.[, 3] <- loZy
+ output.matrix.Zy.[, 4] <- upZy
+ dimnames(output.matrix.Zy.) <- list(R-adjust, c("Zscores","SE", "lo", "up"))
+
+output.matrix.Sty. <- matrix(NA, 8, 4)
+ output.matrix.Sty.[, 1] <- Sty
+ output.matrix.Sty.[, 2] <- Se.Sty
+ output.matrix.Sty.[, 3] <- loSty
+ output.matrix.Sty.[, 4] <- upSty
+ dimnames(output.matrix.Sty.) <- list(c("1-2","2-3","3-4","4-5","5-6","6-7","7-8","8-9"), c("Stanines","SE", "lo", "up"))
+
+output.matrix.Pry. <- matrix(NA, K, 4)
+ output.matrix.Pry.[, 1] <- R-adjust
+ output.matrix.Pry.[, 2] <- n
+ output.matrix.Pry.[, 3] <- loPry
+ output.matrix.Pry.[, 4] <- upPry
+ dimnames(output.matrix.Pry.) <- list(R-adjust, c("Percentiles","SE", "lo", "up"))
 }
+
 return(list(mean = output.matrix.mean., sd = output.matrix.sd., z = output.matrix.Zy., sta9 = output.matrix.Sty., perc = output.matrix.Pry.))
 
 }
