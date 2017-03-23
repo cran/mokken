@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.3       \cr
-Date:       \tab 2016-06-29  \cr
+Version:    \tab 2.8.5       \cr
+Date:       \tab 2017-02-23  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -114,6 +114,12 @@ The following modifications have been made in Version 2.8.4 in comparison to pre
 \code{\link{check.iio}}       \tab  New code for computing HT for large samples\cr
 }
 
+The following modifications have been made in Version 2.8.5 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{MLcoefH}}             \tab New code for computing two-level scalability coefficients and standard errors\cr
+\code{\link{autonomySupport}}     \tab New two-level data set.\cr
+}
+
 }
 \author{
 L. Andries van der Ark
@@ -130,13 +136,14 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
   \emph{User's Manual MSP5 for Windows} [Software manual].
   Groningen, The Netherlands: IEC ProGAMMA.
   
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  Sijtsma, K., and Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
   Thousand Oaks, CA: Sage.
 
-  Sijtsma, K., and Van der Ark, L. A. (2016).
-  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data. 
-  Manuscript submitted for publication.
+  Sijtsma, K., and Van der Ark, L. A. (2017).
+  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
+  \emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
+  doi: 10.1111/bmsp.12078
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 

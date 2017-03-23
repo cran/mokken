@@ -780,14 +780,12 @@ int Elitist(int POPSIZE, int NITEM, double *fitness, int *pop) {
  int i;
  double best = 0.0;     /* fitness value of the best member */
  double worst = 1.0;    /* fitness value of the worst member */
- int BestMember = 0;    /* which member has the largest fitness */
  int WorstMember = 0;   /* which member had the smallest fitness */
 
  /* search for the best and worst member */
  for(i=0; i<POPSIZE; i++) {
     if(fitness[i] > best) {
      best = fitness[i];
-     BestMember = i;
     }
    if(fitness[i] < worst) {
     worst = fitness[i+1];
@@ -943,4 +941,3 @@ int GeneticAlgorithm(int *population, int *itercount, int *popsize, int *nitem,
 
   return(0); // Return Nothing.
   }
-
