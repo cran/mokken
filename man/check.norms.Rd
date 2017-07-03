@@ -40,7 +40,7 @@ check.norms(y, nice.output = TRUE)
 
 \references{
   Oosterhuis, H. E. M., Van der Ark, L. A., and Sijtsma, K. (in press).
-  Computing standard errors and confidence intervals for norm statistics.
+   Standard errors and confidence intervals of norm statistics for educational and psychological tests.
   \emph{Psychometrika}. doi:10.1007/s11336-016-9535-8
 }
 

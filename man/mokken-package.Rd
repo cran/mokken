@@ -120,6 +120,12 @@ The following modifications have been made in Version 2.8.5 in comparison to pre
 \code{\link{autonomySupport}}     \tab New two-level data set.\cr
 }
 
+The following modifications have been made in Version 2.8.6 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{MLcoefH}}             \tab Code updated\cr
+\code{\link{check.errors}}         \tab Code updated\cr
+}
+
 }
 \author{
 L. Andries van der Ark

@@ -28,7 +28,7 @@ medCouple <- function(x){
      Z <- ifelse(Z < row(Z), 0, 1)
      Z <- matrix(as.vector(Z), N, maxx * J, TRUE)
      if (maxx == 1) tmp.1 <- matrix(apply(X, 2, tabulate, maxx), nrow = 1) else tmp.1 <- apply(X, 2, tabulate, maxx)
-     tmp.2 <- apply(tmp.1, 2, function(x) rev(cumsum(rev(x)))) + runif(J * maxx, 0, 1e-3)
+     tmp.2 <- apply(tmp.1, 2, function(x) rev(cumsum(rev(x)))) + seq(.001, .004, length = J * maxx)# runif(, 0, 1e-3)
      # runif is added to avoid equal ranks
      tmp.3 <- matrix(rank(-tmp.2), 1, maxx * J)
      # tmp.3 is a vector with the order of the ISRFs
