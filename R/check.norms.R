@@ -1,25 +1,5 @@
 check.norms <- function(y, nice.output = TRUE){
 
-direct.sum <- function (...){
-     p.tr = 0;p.ll = 0;
-     matlist = list(...);
-     nmat = length(matlist);
-     m1 = matlist[[1]];
-     matlist = if(nmat==1 && is.list(m1)) m1 else matlist # check if list of matrices is given and amend accordingly
-     nmat = length(matlist);                              # ,,
-     m1 = matlist[[1]];                                   # ,,
-     if(nmat==1) return(m1);
-     for(i in 2:nmat){
-        m2 = matlist[[i]];
-        topleft <- m1
-        topright <- matrix(p.tr, nrow(m1), ncol(m2))
-        colnames(topright) <- colnames(m2)
-        lowleft <- matrix(p.ll, nrow(m2), ncol(m1))
-        lowright <- m2
-        m1 = rbind(cbind(topleft, topright), cbind(lowleft, lowright))
-     }
-     return(m1)
-}
 R <- sort(unique(y))
 K <- length(R)
 

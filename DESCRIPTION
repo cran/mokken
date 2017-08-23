@@ -1,6 +1,6 @@
 Package: mokken
-Version: 2.8.6
-Date: 2017-07-03
+Version: 2.8.7
+Date: 2017-08-22
 Title: Perform Mokken Scale Analysis in R
 Author: L. Andries van der Ark <L.A.vanderArk@uva.nl>
 Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>
@@ -12,6 +12,6 @@ Description: Contains functions for performing Mokken
 License: GPL (>= 2)
 URL: https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken
 NeedsCompilation: yes
-Packaged: 2017-07-03 14:42:16 UTC; lvdark1
+Packaged: 2017-08-22 15:19:01 UTC; lvdark1
 Repository: CRAN
-Date/Publication: 2017-07-03 17:04:17 UTC
+Date/Publication: 2017-08-23 07:21:24 UTC

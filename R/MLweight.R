@@ -1,7 +1,4 @@
-######## Multilevel Mokken scale analysis - MLweight and MLcoefH
-######## Letty Koopman 
-######## University of Amsterdam
-######## April 4, 2017
+## MLweight function 18-08-2017. Letty Koopman.
 
 "MLweight" <- function(X, maxx = NULL, minx = NULL){
   # Computes the two-level Guttman weights for two-level Mokken Scale Analysis.
@@ -16,13 +13,18 @@
   #   Guttman weights for two-level data.
   
   # Error handling:
-  X <- check.data(X)
   if (ncol(X) != 3){
     warning('X contains more than two items. Only first two items will be used')
     X <- X[, 1:3]
   }
-  if(is.null(minx)) minx <- min(X[, -1])
-  if(is.null(maxx)) maxx <- max(X[, -1])
+  if(is.null(minx)) {
+				minx <- min(X[, -1])
+				warning(paste('minx has not been specified. Minimum X value has been determined from the items as value', minx, sep = " "))
+			   }
+  if(is.null(maxx)) {
+				maxx <- max(X[, -1])
+				warning(paste('maxx has not been specified. Maximum X value has been determined from the items as value', maxx, sep = " "))
+			   }
   X[, -1] <- X[, -1] - minx
   maxx <- maxx - minx
   minx <- 0

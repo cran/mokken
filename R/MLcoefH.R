@@ -3,8 +3,6 @@
 ######## University of Amsterdam
 ######## June 30, 2017
 
-
-
 # Overdispersion covariance matrix including the shortcut
 "MLcoefH" <- function(X, se = TRUE, nice.output = TRUE, subject = 1){
   # Computes the two-level scalability coefficients in Mokken scale analysis
@@ -73,7 +71,6 @@
     Rt <- Rt[, -(J + 1)]
     nprel <- aggregate(n / Rd ~ ., data = R[, -1], sum)[, J + 1]
     npbet <- aggregate(n / (Rd * (Rd - 1)) ~ ., data = R[, -1], sum)[, J + 1]
-    nS <- aggregate(Subs ~ ., X, unique)[, J + 1]
     nN <- cbind(R, rownr = 1:nrow(R))
     nN <- aggregate(rownr ~ ., nN[, -1], unique)[, J + 1]
     
@@ -467,3 +464,4 @@
   return(OL)
   
 }
+

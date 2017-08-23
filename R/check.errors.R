@@ -15,7 +15,6 @@ medCouple <- function(x){
   return(median(h))
 }
 
-
   X <- check.data(X)
   maxx <- max(X)
   minx <- min(X)
@@ -23,17 +22,32 @@ medCouple <- function(x){
   J <- ncol(X)
 
   if(returnGplus) {
+     # Y = vec(X') 
      Y <- matrix(t(X), 1, N * J)
+     # Z = 1 %*% Y
      Z <- matrix(rep(Y, maxx), maxx, N * J, TRUE)
+     # Z = Z uitgeschreven als X = 4 = 1 1 0 0 
      Z <- ifelse(Z < row(Z), 0, 1)
      Z <- matrix(as.vector(Z), N, maxx * J, TRUE)
      if (maxx == 1) tmp.1 <- matrix(apply(X, 2, tabulate, maxx), nrow = 1) else tmp.1 <- apply(X, 2, tabulate, maxx)
-     tmp.2 <- apply(tmp.1, 2, function(x) rev(cumsum(rev(x)))) + seq(.001, .004, length = J * maxx)# runif(, 0, 1e-3)
-     # runif is added to avoid equal ranks
-     tmp.3 <- matrix(rank(-tmp.2), 1, maxx * J)
+     tmp.2 <- apply(tmp.1, 2, function(x) rev(cumsum(rev(x))))
+     tmp.3 <- as.numeric(matrix(rank(-tmp.2), 1, maxx * J))
      # tmp.3 is a vector with the order of the ISRFs
-     Z <- Z[, order(tmp.3)]
-     Gplus <- apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))})
+     if(any(duplicated(tmp.3))) {
+        Gplusx <- matrix(NA, N, 1000)
+        set.seed(1)
+        for (i in 1 : 1000){ 
+          tmp.2x <- tmp.2 + runif(length(tmp.2), -.001, .001)
+          tmp.3x <- as.numeric(matrix(rank(-tmp.2x), 1, maxx * J))
+          Zx <- Z[, order(tmp.3x)]
+          Gplusx[, i] <- apply(Zx, 1, function(x){sum(x * cumsum(abs(x - 1)))})
+        }
+        Gplus <- round(apply(Gplusx, 1, mean))  
+        Gplus
+     }  else { 
+        Zx <- Z[, order(tmp.3)]
+        Gplus <- apply(Zx, 1, function(x){sum(x * cumsum(abs(x - 1)))})
+     }   
      Q3 <- summary(Gplus)[[5]]
      IQR <- Q3 - summary(Gplus)[[2]]
      U1Gplus <- Q3 + 1.5 * IQR
@@ -53,3 +67,14 @@ medCouple <- function(x){
     if (returnGplus) return(list(Gplus = Gplus, UGplus = list(U1Gplus = U1Gplus, U2Gplus = U2Gplus))) else {
       if (returnOplus) return(list(Oplus = Oplus, UOplus = list(U1Oplus = U1Oplus, U2Oplus = U2Oplus))) else return(list()) }}
 }
+
+
+     ##  items <- rep(1:J, each = maxx)
+     ##  steps <- rep(1 : maxx, J)
+     ##  ranks <- matrix(c(items, steps, tmp.3), nrow = 3, byrow = T)
+     ##  which.ties <- outer(tmp.3, tmp.3, "==")
+     ##  which.ties[row(which.ties) >= col(which.ties)] <- FALSE
+     ##  sameItem <- matrix(1, maxx, maxx) 
+     ##  for (i in 1 : (J - 1)) sameItem <- direct.sum(sameItem, matrix(1, maxx, maxx))
+     ##  which.ties <- which.ties  & (sameItem == 0)
+     ##  n.ties <-     
