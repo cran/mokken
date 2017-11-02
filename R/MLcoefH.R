@@ -1,9 +1,12 @@
-######## Multilevel Mokken scale analysis - MLweight and MLcoefH
 ######## Letty Koopman 
 ######## University of Amsterdam
-######## June 30, 2017
+# MLcoefH() version 18-9-2017
+#
+# Updates: 
+## Computes proportions instead of relative frequencies.
+## Can handle only two items
+## Additional error handling: handling duplicate column names. 
 
-# Overdispersion covariance matrix including the shortcut
 "MLcoefH" <- function(X, se = TRUE, nice.output = TRUE, subject = 1){
   # Computes the two-level scalability coefficients in Mokken scale analysis
   #
@@ -21,19 +24,24 @@
   #   Two-level scalability coefficients and optionally their standard errors.
   
   # Error handling:
-  eps <- 1E-80
   if(subject != 1){
     X <- cbind(X[, subject], X[, -subject])
   }
+  eps <- 1e-40
   X <- X[order(X[, 1]), ] # Order the data according to S.
   Rs <- as.numeric(table(X[, 1]))
   LS <- length(Rs)
   S <- 1:LS 
   X[, 1] <- rep(S, Rs)
   X <- check.data(X) 
-  X[, 1] <- rep(S, Rs) # make sure subject column runs from 1 to S. 
+  X[, 1] <- rep(S, Rs) # make sure subject column runs from 1 to S. --> deze hoeft wellicht niet meer? 
   if(is.null(colnames(X))) colnames(X) <- c("Subs", paste("Item", 1:(ncol(X) - 1)))
-  
+  if(any(table(colnames(X)) > 1)){
+    warning("At least two items have the same name.")
+    colnames(X) <- make.unique(colnames(X))
+  }
+  if (any(apply(X, 2, var) < eps)) 
+    stop("One or more variables have zero variance. The duplicates have received an index.")
   if(any(Rs == 1)){ 
     warning('For at least one subject there is only 1 rater. The scalability coefficients are computed without this (these) subject(s).') 
     X <- X[!(X[, 1] %in% which(Rs == 1)), ]
@@ -57,24 +65,24 @@
   Patterns <- cbind("Xa" = rep(0:m, each = m + 1), "Xb" = rep(0:m, m + 1)) 
   
   
-  
   if(se == TRUE){
     R <- unique(X)
-    Rss <- RRs <- table(R[, 1])
-    Rd <- rep(Rs, Rss)
+    Rss <- rep(Rs, Rs)
+    RRs <- table(R[, 1])
+    Rd <- rep(Rs, RRs)
     n <- as.numeric(table(factor(apply(X, 1, paste, collapse=","), levels=unique(apply(X, 1, paste, collapse=","))))) 
-    Subs <- R[, 1]
-    SubsX <- X[, 1]
+    SubsR <- R[, 1]
     Rt <- aggregate(n ~ ., data = R[, -1], sum) 
     np <- Rt[, J + 1] 
-    Lst <- length(np)
     Rt <- Rt[, -(J + 1)]
-    nprel <- aggregate(n / Rd ~ ., data = R[, -1], sum)[, J + 1]
-    npbet <- aggregate(n / (Rd * (Rd - 1)) ~ ., data = R[, -1], sum)[, J + 1]
+    Lst <- length(np)
+    SubsX <- X[, 1]
+    nprel <- aggregate(n / (Rd * LS) ~ ., data = R[, -1], sum)[, J + 1]
+    nS <- aggregate(SubsX ~ ., X, unique)[, J + 1]
     nN <- cbind(R, rownr = 1:nrow(R))
     nN <- aggregate(rownr ~ ., nN[, -1], unique)[, J + 1]
     
-    # Covariance matrix with correction for overdispersion
+    # Covariance matrix for nested data
     patsX <- apply(X[, -1], 1, paste, collapse = "")
     patsR <- apply(Rt, 1, paste, collapse = "")
     pSubs <- matrix(0, LS, Lst)
@@ -83,43 +91,34 @@
     }
     covps <- cov(pSubs)
     p <- colMeans(pSubs)
-    covp <- (diag(length(p)) * p - (p %*% t(p))) # of hier dan ook S * nu?
-    nu <- 1/(sum(1/Rs) / LS)
+    covp <- (diag(length(p)) * p - (p %*% t(p))) 
+    nu <- mean(Rs)
     
+    # Variance covariance matrix needed for delta method 
     covtot <- LS * nu * (nu - 1) * covps + LS * nu * covp
     
-    # shortcut, deel kopie van hieronder
-    Umat <- matrix(0, U, length(np))
-    row <- 0
+    # Creating g3 and G3
     ns <- list()
+    nuni <- matrix(0, J, g)
     for(i in 1:J) {
-      Subs <- R[, 1]
       Xa <- R[, i + 1]
-      Ta <- Rt[, i]
-      ns[[i]] <- matrix(0, m + 1, LS)
+      ns[[i]] <- matrix(0, g, LS)
       for(a in 0:m){
-        row <- row + 1
-        ns[[i]][a + 1, ] <- tapply((Xa == a) * n, Subs, sum)
-        nit <- (Ta == a) * nprel
-        Umat[row, ] <- nit / np
+        nst <- tapply((Xa == a) * n, SubsR, sum)
+        ns[[i]][a + 1, ] <- nst
+        nuni[i, a + 1] <- sum(nst / (Rs * LS))
       }
     }
     
-    Smat <- (aggregate(n / Rd ~ ., data = R[, -1], sum)[, J + 1]) / np
-    # bij gelijke groepsgrootte lijkt dit 1 / Rs
     
     Fwt <- Fbt <- Fet <- Fw <- Fb <- Fe <- eij <- NULL
     G3W <- G3B <- G3E <- matrix(0, K, length(np))
     for(k in 1:K){
       z <- cols[, k]
-      Subs <- X[, 1]
-      Xa <- X[, z[1] + 1]
-      Xb <- X[, z[2] + 1]
       Ra <- R[, z[1] + 1]
       Rb <- R[, z[2] + 1]
       Ta <- Rt[, z[1]]
       Tb <- Rt[, z[2]]
-      Rss <- rep(Rs, Rs)
       Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
       Wmat <- Bmat <- Emat <- matrix(0, g^2, length(np))
       
@@ -128,36 +127,17 @@
           i <- Patterns[x, 1]
           j <- Patterns[x, 2]
           
-          #at <- (Xa == i) * (rep(nj, Rs) - (Xb == j))
-          nJJJ <- nIII <- nj <- nb <- NULL
-          for(s in S) {
-            nJJJ[s] <- sum(Xa[Subs == s] == i & Xb[Subs == s] == j)
-            nitemp <- Xa[Subs == s] == i
-            nIII[s] <- sum(nitemp)
-            njtemp <- Xb[Subs == s] == j
-            nj[s] <- sum(njtemp)
-            nb[s] <- sum(nitemp * (nj[s] - njtemp))
-          }
-          bijJ <- nJJJ > 0
-          nw <- sum(nJJJ / Rs)
-          ni <- sum(nIII / Rs)
-          bijI <- nIII > 0
-          at <- (Ra == i) * (rep(nj, RRs) - (Rb == j)) / (rep(Rs, RRs) * (rep(Rs, RRs) - 1)) * n
+          temp <- (Ra == i) * (rep(ns[[z[2]]][j + 1, ], RRs) - (Rb == j)) * n
+          nw <- sum(n * (Ra == i & Rb == j) / (rep(Rs, RRs) * LS)) 
+          at <- temp / (rep(Rs, RRs) * (rep(Rs, RRs) - 1) * LS) 
           at <- sapply(1:length(np), function(x) sum(at[nN[[x]]]))
-          nj <- sum(nj / Rs)
           
-          wt <- (Ta == i & Tb == j) * nprel #/ Rd
-          eij <- ni * nj / LS
-          
-          nit <- (Ta == i) * nprel
-          njt <- (Tb == j) * nprel
-          
-          Wmat[x, ] <- (wt / np) * Weights[x]
-          Bmat[x, ] <- (at / np) * Weights[x]
-          Emat[x, ] <- Weights[x] * ((Ta == i) * (nit / np) * eij / (ni + eps) + (Tb == j) * (njt/np) * eij / (nj + eps) - eij * Smat / LS ) 
+          Wmat[x, ] <- ((Ta == i & Tb == j) * nprel / np) * Weights[x]
+          Bmat[x, ] <- (at / np) * Weights[x] 
+          Emat[x, ] <- Weights[x] / np * ((Tb == j) * nuni[z[[1]], i + 1] + (Ta == i) * nuni[z[[2]], j + 1]) * nprel
           Fwt[x] <- Weights[x] * nw
-          Fbt[x] <- Weights[x] * sum(nb / (Rs * (Rs - 1)))
-          Fet[x] <- Weights[x] * eij
+          Fbt[x] <- Weights[x] * sum(tapply(temp, SubsR, sum) / (Rs * (Rs - 1) * LS)) 
+          Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
         } else {
           Fwt[x] <- Fbt[x] <- Fet[x] <- 0
         }
@@ -171,7 +151,6 @@
       Fe[k] <- sum(Fet)
     }
     
-    # Hij, Hi and H coefficients
     Fwi <- Fbi <- Fei <- NULL
     G3Wi <- G3Bi <- G3Ei <- matrix(0, J, length(np))
     for(i in 1:J) {
@@ -179,9 +158,15 @@
       Fwi[i] <- sum(Fw[items])
       Fbi[i] <- sum(Fb[items])
       Fei[i] <- sum(Fe[items])
-      G3Wi[i, ] <- colSums(G3W[items, ])
-      G3Bi[i, ] <- colSums(G3B[items, ])
-      G3Ei[i, ] <- colSums(G3E[items, ])
+      if(J > 2){
+        G3Wi[i, ] <- colSums(G3W[items, ])
+        G3Bi[i, ] <- colSums(G3B[items, ])
+        G3Ei[i, ] <- colSums(G3E[items, ])
+      } else {
+        G3Wi[i, ] <- (G3W[items, ])
+        G3Bi[i, ] <- (G3B[items, ])
+        G3Ei[i, ] <- (G3E[items, ])
+      }
     }
     
     g3 <- matrix(c(Fb[1], Fb, Fw, Fe))
@@ -196,8 +181,6 @@
     G3i <- rbind(G3Bi[1, ], G3Bi, G3Wi, G3Ei)
     
     G3ii <- rbind(colSums(G3B), colSums(G3B), colSums(G3W), colSums(G3E))
-    
-    ## Remaining design matrices
     
     # Create A6 --> To compute the ratio of observed to expected errors
     A6 <- rbind(matrix(c(1, -1, rep(0, 3 * K - 1)), 1), 
@@ -237,7 +220,7 @@
     g7 <- phi(A9, g6, "exp")
     G7 <- dphi(A9, g6, G6, "exp")
     
-    se.Hij <- sqrt(diag(G7 %*% (covtot %*% t(G7))))# sqrt(diag(G7 %*% (as.numeric(np) * t(G7))))
+    se.Hij <- sqrt(diag(G7 %*% (covtot %*% t(G7))))
     
     HBij <- g5[1:K, ]
     HWij <- g5[(K + 1):(K * 2), ]
@@ -360,33 +343,46 @@
     }
     
   } else {
-    Fwt <- Fbt <- Fet <- Fw <- Fb <- Fe <- NULL
+    
+    Subs <- X[, 1]
+    # Creating g3 and G3
+    ns <- list()
+    nuni <- matrix(0, J, g)
+    for(i in 1:J) {
+      Xa <- X[, i + 1]
+      ns[[i]] <- matrix(0, g, LS)
+      for(a in 0:m){
+        nst <- tapply((Xa == a), Subs, sum)
+        ns[[i]][a + 1, ] <- nst
+        nuni[i, a + 1] <- sum(nst / (Rs * LS))
+      }
+    }
+    
+    Rss <- rep(Rs, Rs)
+    Fwt <- Fbt <- Fet <- matrix(0, 1, g^2)
+    Fw <- Fb <- Fe <- matrix(0, 1, K)
     for(k in 1:K){
       z <- cols[, k]
-      Subs <- X[, 1]
       Xa <- X[, z[1] + 1]
       Xb <- X[, z[2] + 1]
-      Rss <- rep(Rs, Rs)
       Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
       
       for(x in 1:g^2){
         if(Weights[x] > 0){
           i <- Patterns[x, 1]
           j <- Patterns[x, 2]
-          nw <- sum((Xa == i & Xb == j) / Rss)
-          ni <- sum((Xa == i) / Rss)
-          nj <- tapply((Xb == j), Subs, sum)
-          at <- (Xa == i) * (rep(nj, Rs) - (Xb == j))
-          nb <- tapply(at, Subs, sum)
-          nj <- sum(nj / Rs)
+          
+          nw <- sum((Xa == i & Xb == j) / (Rss * LS))
+          at <- sum((Xa == i) * (rep(ns[[z[2]]][j + 1, ], Rs) - (Xb == j)) / (Rss * (Rss - 1) * LS))
           
           Fwt[x] <- Weights[x] * nw
-          Fbt[x] <- Weights[x] * sum(nb / (Rs * (Rs - 1)))
-          Fet[x] <- Weights[x] * ni * nj / LS
+          Fbt[x] <- Weights[x] * at
+          Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
         } else {
           Fwt[x] <- Fbt[x] <- Fet[x] <- 0
         }
       } 
+      
       Fw[k] <- sum(Fwt)
       Fb[k] <- sum(Fbt)
       Fe[k] <- sum(Fet)
@@ -399,6 +395,8 @@
       Fbi[i] <- sum(Fb[items])
       Fei[i] <- sum(Fe[items])
     }
+    
+    
     
     HBij <- 1 - Fb / Fe
     HWij <- 1 - Fw / Fe
@@ -451,10 +449,8 @@
       OL <- list(Hij = OM.Hij, Hi = OM.Hi, H = OM.H)
       
     } else {
-      Hij <- data.frame(HWij, HBij, HBWij) 
-      rownames(Hij) <- nams
-      Hi <- data.frame(HWi, HBi = HBi, HBWi) 
-      rownames(Hi) <- labels
+      Hij <- data.frame(t(rbind(HWij, HBij, HBWij)), row.names = nams) 
+      Hi <- data.frame(HWi, HBi = HBi, HBWi, row.names = labels) 
       H <- data.frame(HW, HB, HBW)
       OL <- list(Hij = Hij, Hi = Hi, H = H)
     } 
@@ -465,3 +461,7 @@
   
 }
 
+# example
+# X <-  data.frame(Subs = c(1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3),
+#       Xa   = c(0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1, 2, 0, 0, 0), 
+#       Xb   = c(0, 0, 1, 0, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 0))

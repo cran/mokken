@@ -4,10 +4,10 @@
 \docType{package}
 
 \title{
-Mokken Scale Analysis in R
+Mokken Scale Analysis
 }
 \description{
-Mokken scale analysis (Mokken, 1971; Sijtsma and Molenaar, 2002) is a scaling procedure 
+Mokken scale analysis (Mokken, 1971; Sijtsma and Molenaar, 2002; Sijtsma and Van der Ark, 2017) is a scaling procedure 
 for both dichotomous and polytomous items.
 It consists of an item selection algorithm to partition a set of items into Mokken scales
  and several methods to check the assumptions of two nonparametric item response theory
@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.5       \cr
-Date:       \tab 2017-02-23  \cr
+Version:    \tab 2.8.9       \cr
+Date:       \tab 2017-11-02  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -120,10 +120,11 @@ The following modifications have been made in Version 2.8.5 in comparison to pre
 \code{\link{autonomySupport}}     \tab New two-level data set.\cr
 }
 
-The following modifications have been made in Version 2.8.6 in comparison to previous versions.
+The following modifications have been made in Version 2.8.9 in comparison to previous versions.
 \tabular{ll}{
-\code{\link{MLcoefH}}             \tab Code updated\cr
-\code{\link{check.errors}}         \tab Code updated\cr
+\code{\link{coefH}}              \tab Included possibility to include a fixed item-step order\cr
+\code{\link{MLcoefH}}            \tab Code updated\cr
+\code{\link{check.errors}}       \tab Code updated\cr
 }
 
 }

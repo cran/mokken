@@ -1,4 +1,4 @@
-coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){ # , ACM = FALSE
+coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order = NULL){ # ,  
     X <- check.data(X)
     eps <- 1e-40
     labels <- dimnames(X)[[2]]
@@ -7,7 +7,16 @@ coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){ # , ACM 
        group.var <- NULL
        warning("group.var not the same length/nrow as X: group.var ignored")
     }
-    if (!se && is.null(group.var)) {
+    if (!is.null(fixed.itemstep.order) && !is.matrix(fixed.itemstep.order)){
+       fixed.itemstep.order <- NULL
+       warning("fixed.itemstep.order is not a matrix: fixed.itemstep.order ignored")
+    }
+    if (!is.null(fixed.itemstep.order) && is.matrix(fixed.itemstep.order))
+    if (ncol(fixed.itemstep.order) != ncol(X) && nrow(fixed.itemstep.order) != max(X) && sort(as.numeric(fixed.itemstep.order)) != 1:(max(X) * ncol(X))){ 
+       fixed.itemstep.order <- NULL
+       warning("fixed.itemstep.order as incorrect dimensions and/or incorrect values: fixed.itemstep.order ignored")
+    }
+    if (!se && is.null(group.var) && is.null(fixed.itemstep.order)) {
        S <- var(X)
        Smax <- var(apply(X, 2, sort))
        Hij <- S/Smax
@@ -45,6 +54,7 @@ coefH <- function (X, se = TRUE, nice.output = TRUE, group.var = NULL){ # , ACM 
           WF[[i]] <- list()
           for (j in i:J) if (j > i) {
              W[[i]][[j]] <- weights(X[, c(i, j)],g-1)
+             if(!is.null(fixed.itemstep.order)) W[[i]][[j]] <- weights(X[, c(i, j)],g-1, itemstep.order = fixed.itemstep.order[, c(i, j)]) ## AANPASSEN
              A1a <- NULL
              for (a in 0:(g - 1)) for (b in 0:(g - 1)) A1a <- rbind(A1a, as.numeric(R[, i] == a & R[, j] == b))
              WA[[i]][[j]] <- W[[i]][[j]] %*% A1a

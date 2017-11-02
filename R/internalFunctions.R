@@ -58,7 +58,7 @@ function(X){
 # w: Guttman weights 1 x g^2
 # depends on "all.patterns"
 
-function(X, maxx = max.x, minx = 0){
+function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
  max.x <- max(X)
  g <- maxx + 1
  N <- nrow(X)
@@ -71,17 +71,18 @@ function(X, maxx = max.x, minx = 0){
  tmp.2 <- apply(tmp.1,2,function(x) rev(cumsum(rev(x))))+runif(2*maxx,0,1e-3)
 
  # runif is added to avoid equal ranks
- order.of.ISRFs <- matrix(rank(-tmp.2),1,maxx*2)
+ if (is.null(itemstep.order)) order.of.ISRFs <- matrix(rank(-tmp.2), 1, maxx * 2) else order.of.ISRFs <- matrix(rank(itemstep.order), 1, maxx * 2) 
 # Compute
  Y <- matrix(all.patterns(2,g),nrow=1)
  Z <- matrix(rep(Y, maxx), nrow = maxx, byrow = TRUE)
  Z <- ifelse(Z < row(Z),0,1)
  Z <- matrix(as.vector(Z), ncol = maxx*2, byrow = T)
 # COMPUTE WEIGHTS
- Z <- Z[,order(order.of.ISRFs)]
- w <- matrix(apply(Z,1,function(x){sum(x*cumsum(abs(x-1)))}),nrow=1)
+ Z <- Z[, order(order.of.ISRFs)]
+ w <- matrix(apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))}), nrow = 1)
  return(w)
 }
+
 
 "complete.observed.frequencies" <- function(data,J,m, order.items=FALSE){
   if(order.items) order <- rev(order(apply(data,2,mean))) else order <- 1:J
