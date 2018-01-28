@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.9       \cr
-Date:       \tab 2017-11-02  \cr
+Version:    \tab 2.8.10       \cr
+Date:       \tab 2018-01-26  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -120,7 +120,7 @@ The following modifications have been made in Version 2.8.5 in comparison to pre
 \code{\link{autonomySupport}}     \tab New two-level data set.\cr
 }
 
-The following modifications have been made in Version 2.8.9 in comparison to previous versions.
+The following modifications have been made in Version 2.8.9 and 2.8.10 in comparison to previous versions.
 \tabular{ll}{
 \code{\link{coefH}}              \tab Included possibility to include a fixed item-step order\cr
 \code{\link{MLcoefH}}            \tab Code updated\cr

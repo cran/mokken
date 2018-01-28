@@ -1,7 +1,7 @@
-58464ca27394b67092e02420e9b479ed *DESCRIPTION
+d1a23533bc93969ca0f56e5f5c3d9dad *DESCRIPTION
 381ba4c5eb310a9a0b4a7c0b23d3a8c9 *NAMESPACE
 405ec90e89bba80ad52d4f5fbb6088c9 *R/MLcoefH.R
-0e121a7e1f916e64435b0266419129d9 *R/MLweight.R
+09e10bad10da84031f41747362f9b9fa *R/MLweight.R
 8d23e713453317c2113d9a635fab3522 *R/aisp.R
 c706299fadf9c93d69aec1c4ae40effe *R/check.bounds.R
 86f10a1498d2dad5019a7f7a11bc275b *R/check.ca.R
@@ -34,7 +34,7 @@ f91a7740e6239572e29a125a4a83dd46 *data/autonomySupport.rda
 b5e0f1b3ffa6073adc4348a39681a9bf *data/cavalini.rda
 bd3b0d572e862858473faf6a33dbe810 *data/transreas.rda
 f610eca42f8d9ebf9ce0cb14c6a01e37 *inst/CITATION
-0b19c7c24d303ba490db3ea62ce1b927 *inst/doc/GettingStartedWithMokken.pdf
+9a4e8cb38d356b4f6a28cdbb9b126308 *inst/doc/GettingStartedWithMokken.pdf
 8f205d6fe761ea8d020013ba4f8ce155 *man/DS14.Rd
 73272b2af907cea86a4f9cbdd230f575 *man/MLcoefH.Rd
 74b770bb9bd419fb783312493d44ef2c *man/MLweight.Rd
@@ -53,7 +53,7 @@ fdab04a075a4146e4d01b5d6628a5f55 *man/check.norms.Rd
 40ed1c360bc3f096ea4a3594c6f268e4 *man/check.restscore.Rd
 bbcec35f2bebec065519e2e9981c4bbd *man/coefH.Rd
 d89a50eade9194b6396d2592d59fc93f *man/coefZ.Rd
-aaf6dc0ed3778b184d59fc2c86c5ad83 *man/mokken-package.Rd
+e72a5cf65573dc212cbe02df693c29be *man/mokken-package.Rd
 1acf386ff84cf69838b203047da9d7d1 *man/plot.iio.class.Rd
 9433677a85fafb649e5e5c6a4137ed37 *man/plot.monotonicity.class.Rd
 6747338c502b68f127d89967a2bcb5dc *man/plot.pmatrix.class.Rd

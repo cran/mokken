@@ -1,4 +1,4 @@
-## MLweight function 18-08-2017. Letty Koopman.
+## MLweight function 18-08-2017. Letty Koopman. Last adjusted 25-01-2018
 
 "MLweight" <- function(X, maxx = NULL, minx = NULL){
   # Computes the two-level Guttman weights for two-level Mokken Scale Analysis.
@@ -80,34 +80,35 @@
             select[j] <- (i1 + i2) * j
           }
         }
-        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, collapse = ""))
+        o[[i]] <- matrix(apply(o[[i]][select, ], 1, as.numeric, collapse = ""))
       }
     }
     
-    out <- matrix(do.call(paste0, expand.grid(o)))
+    out <- expand.grid(o)#matrix(do.call(paste0, expand.grid(o)))
     w <- Z <- NULL
     for(i in 1:nrow(out)){
-      ords <- as.numeric(unlist(strsplit(out[i, ],NULL)))
+      ords <- as.numeric(out[i, ])#as.numeric(unlist(strsplit(out[i, ],NULL)))
       # Compute Z matrix for each item-response pattern
       Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
       Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
-      Z <- Z[, ords]
+      Z <- Z[, (ords)]
       
       # Compute weights
       w <- rbind(w, apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))}))
     }
     wr <- matrix(colMeans(w), nrow = 1)
   } else {
-    out <- paste(names(y), collapse = "")
+    #out <- paste(names(y), collapse = "")
     
-    ords <- as.numeric(unlist(strsplit(out,NULL)))
+    ords <- as.numeric(names(y))#as.numeric(unlist(strsplit(out,NULL)))
     # Compute Z matrix for each item-response pattern
     Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
     Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
-    Z <- Z[, ords]
+    Z <- Z[, (ords)]
     
     # Compute weights
     wr <- apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))})
+    
     
   }
   return(wr)
