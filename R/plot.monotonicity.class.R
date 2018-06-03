@@ -20,7 +20,7 @@ up.lo.bound.mean <- function(n, alpha = .05){
   if (curves == "both") layout(matrix(c(1,2),1,2))
   i <- 0; j <- 0
   c1 <- as.numeric(col2rgb(color))
-  colorCi = rgb(c1[1], c1[2], c1[3], transparancy, maxColorValue = 255)
+  colorCi = rgb(c1[1], c1[2], c1[3], alpha = transparancy, maxColorValue = 255)
 
 
   for (j in items){

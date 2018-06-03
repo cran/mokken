@@ -1,8 +1,14 @@
 Package: mokken
-Version: 2.8.10
-Date: 2018-01-26
+Version: 2.8.11
+Date: 2018-06-03
 Title: Conducts Mokken Scale Analysis
-Author: L. Andries van der Ark <L.A.vanderArk@uva.nl>
+Authors@R: c(person("L. Andries", "van der Ark", role = c("aut", "cre"),
+                     email = "L.A.vanderArk@uva.nl"),
+              person("J. Hendrik", "Straat", role = "aut"),
+              person("Letty", "Koopman", role = "aut"))
+Author: L. Andries van der Ark [aut, cre],
+  J. Hendrik Straat [aut],
+  Letty Koopman [aut]
 Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>
 Depends: R (>= 3.0.0), graphics, poLCA
 Suggests: MASS
@@ -12,6 +18,6 @@ Description: Contains functions for performing Mokken
 License: GPL (>= 2)
 URL: https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken
 NeedsCompilation: yes
-Packaged: 2018-01-26 12:42:14 UTC; lvdark1
+Packaged: 2018-06-03 14:39:16 UTC; lvdark1
 Repository: CRAN
-Date/Publication: 2018-01-28 16:32:52 UTC
+Date/Publication: 2018-06-03 15:25:30 UTC

@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.10       \cr
-Date:       \tab 2018-01-26  \cr
+Version:    \tab 2.8.11       \cr
+Date:       \tab 2018-06-03  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -125,6 +125,12 @@ The following modifications have been made in Version 2.8.9 and 2.8.10 in compar
 \code{\link{coefH}}              \tab Included possibility to include a fixed item-step order\cr
 \code{\link{MLcoefH}}            \tab Code updated\cr
 \code{\link{check.errors}}       \tab Code updated\cr
+}
+
+The following modifications have been made in Version 2.8.11 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{plot}}               \tab The level of tranparancy of the plotted confidence intervals can be adjusted manually \cr
+\code{\link{MLcoefH}}            \tab Code updated\cr
 }
 
 }

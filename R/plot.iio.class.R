@@ -22,7 +22,7 @@ up.lo.bound.mean <- function(n,alpha=.05){
   i <- 0; j <- 0
   c1 <- as.numeric(col2rgb(color[1]))
   c2 <- as.numeric(col2rgb(color[2]))
-  colorCi   = c(rgb(c1[1], c1[2], c1[3], transparancy, maxColorValue = 255), rgb(c2[1], c2[2], c2[3], transparancy, maxColorValue = 255))
+  colorCi   = c(rgb(c1[1], c1[2], c1[3], alpha = transparancy, maxColorValue = 255), rgb(c2[1], c2[2], c2[3], alpha = transparancy, maxColorValue = 255))
 
   for (j in item.pairs){
     plot.matrix <- results[[j]][[2]]

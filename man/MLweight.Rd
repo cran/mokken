@@ -29,7 +29,7 @@
   \emph{Weighted Guttman Errors: Handling Ties and Two-Level Data}. 
   In L. A. Van der Ark, S. Culpepper, J. A. Douglas, W.-C. Wang, & M. Wiberg (Eds.), 
   \emph{Quantitative Psychology: The 81st Annual Meeting of the Psychometric Society, Asheville, North Carolina, 2016}
-  (pp. 183-190). New York, NY: Springer. doi: 10.1007/978-3-319-56294-0\_17 
+  (pp. 183-190). New York, NY: Springer. doi: 10.1007/978-3-319-56294-0_17 
 
 }
 
@@ -51,10 +51,7 @@
 
     # Compute the weights
     I <- 3 
-    for(i in 1:I) {
-      for(j in 2:I) if(j > i) {
-        print(MLweight(smallData[, c(1, i + 1, j + 1)]))
-      }
-    }
+    for(i in 1:(I - 1)) for(j in (i + 1):I) 
+     print(MLweight(smallData[, c(1, i + 1, j + 1)], minx = 0, maxx = 2))
 }
 \keyword{Weighted Guttman errors, two-level scalability coefficients}

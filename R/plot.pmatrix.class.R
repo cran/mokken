@@ -7,7 +7,7 @@ function(x, items = all.items, pmatrix = "both", ci = TRUE, alpha = .05, color =
   if (ask == TRUE) par("ask" = TRUE) else par("ask" = FALSE)
   j <- i <- 1
   c1 <- as.numeric(col2rgb(color))
-  colorCi = rgb(c1[1], c1[2], c1[3], transparancy, maxColorValue = 255)
+  colorCi = rgb(c1[1], c1[2], c1[3], alpha = transparancy, maxColorValue = 255)
 
   #
   if (pmatrix == "both" || pmatrix == "ppp"){

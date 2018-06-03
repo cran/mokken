@@ -1,7 +1,7 @@
-d1a23533bc93969ca0f56e5f5c3d9dad *DESCRIPTION
+899f782b646d2e9e715e73d014bd877b *DESCRIPTION
 381ba4c5eb310a9a0b4a7c0b23d3a8c9 *NAMESPACE
-405ec90e89bba80ad52d4f5fbb6088c9 *R/MLcoefH.R
-09e10bad10da84031f41747362f9b9fa *R/MLweight.R
+0a9964831245cc7b9997bb01a1bcfb11 *R/MLcoefH.R
+1f54b811c4635c6af25a419babd2d094 *R/MLweight.R
 8d23e713453317c2113d9a635fab3522 *R/aisp.R
 c706299fadf9c93d69aec1c4ae40effe *R/check.bounds.R
 86f10a1498d2dad5019a7f7a11bc275b *R/check.ca.R
@@ -15,10 +15,10 @@ e78ca8bb4378770886f7410a16c0a6f9 *R/check.pmatrix.R
 a1bc13e0e71510583d906e899f8e04ba *R/coefH.R
 971d2b79f31cde42a891b0feb51d1beb *R/coefZ.R
 feefb9dcce11a563434270acfa0f0b7a *R/internalFunctions.R
-9bb6f43250b0b949ba002d0099242b85 *R/plot.iio.class.R
-5ff777c86609d4f5671f56b67355ef2a *R/plot.monotonicity.class.R
-2904a692576819a3ea7c4248f9a5ebf3 *R/plot.pmatrix.class.R
-715f8ab70f877a4dadeabecd00673842 *R/plot.restscore.class.R
+1939cb67d97ad50ce90889aa9233382c *R/plot.iio.class.R
+d1b108686203e2a08484bd072596fcde *R/plot.monotonicity.class.R
+21867da07539dd185254e955e0a64302 *R/plot.pmatrix.class.R
+7f4585d212feaadb2fde4c9a162acc4a *R/plot.restscore.class.R
 f0e06d5d824e911bab5548708aa5e157 *R/recode.R
 43f772d285f221cafbd6595db3f178ff *R/search.extended.R
 f765d942fcea87dacac47096ce94d682 *R/search.ga.R
@@ -34,10 +34,10 @@ f91a7740e6239572e29a125a4a83dd46 *data/autonomySupport.rda
 b5e0f1b3ffa6073adc4348a39681a9bf *data/cavalini.rda
 bd3b0d572e862858473faf6a33dbe810 *data/transreas.rda
 f610eca42f8d9ebf9ce0cb14c6a01e37 *inst/CITATION
-9a4e8cb38d356b4f6a28cdbb9b126308 *inst/doc/GettingStartedWithMokken.pdf
+8e338e981c170815ee2f7d5d6f9ddebf *inst/doc/GettingStartedWithMokken.pdf
 8f205d6fe761ea8d020013ba4f8ce155 *man/DS14.Rd
 73272b2af907cea86a4f9cbdd230f575 *man/MLcoefH.Rd
-74b770bb9bd419fb783312493d44ef2c *man/MLweight.Rd
+4498a6b642316ecb26983568ca8e059a *man/MLweight.Rd
 afab278fa2f34fb2faf9e28e8c4824d5 *man/acl.Rd
 9cab53628d5954646c25515f0c1da617 *man/aisp.Rd
 44ae357648091ec3833125f03c6aa5e8 *man/autonomySupport.Rd
@@ -53,7 +53,7 @@ fdab04a075a4146e4d01b5d6628a5f55 *man/check.norms.Rd
 40ed1c360bc3f096ea4a3594c6f268e4 *man/check.restscore.Rd
 bbcec35f2bebec065519e2e9981c4bbd *man/coefH.Rd
 d89a50eade9194b6396d2592d59fc93f *man/coefZ.Rd
-e72a5cf65573dc212cbe02df693c29be *man/mokken-package.Rd
+efe35ce0c9dffa7e4080c5bfbe1c857c *man/mokken-package.Rd
 1acf386ff84cf69838b203047da9d7d1 *man/plot.iio.class.Rd
 9433677a85fafb649e5e5c6a4137ed37 *man/plot.monotonicity.class.Rd
 6747338c502b68f127d89967a2bcb5dc *man/plot.pmatrix.class.Rd

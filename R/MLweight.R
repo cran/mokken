@@ -1,4 +1,5 @@
-## MLweight function 18-08-2017. Letty Koopman. Last adjusted 25-01-2018
+## MLweight function 18-08-2017. Letty Koopman. 
+# Last adjusted 16-04-2018 improve orderings
 
 "MLweight" <- function(X, maxx = NULL, minx = NULL){
   # Computes the two-level Guttman weights for two-level Mokken Scale Analysis.
@@ -34,9 +35,9 @@
   
   # Compute relative frequencies
   Rel1 <- colSums(table(s, f1) / rowSums(table(s, f1))) 
-  names(Rel1) <- paste0(1, minx:maxx)
+  names(Rel1) <- paste0(1, minx:maxx) # for item i
   Rel2 <- colSums(table(s, f2) / rowSums(table(s, f2)))
-  names(Rel2) <- paste0(2, minx:maxx)
+  names(Rel2) <- paste0(2, minx:maxx) # for item j
   
   # Cumulative relative frequencies, dealing with equal ranks
   CumRel <- c(rev(cumsum(rev(Rel1[-1]))), rev(cumsum(rev(Rel2[-1]))))
@@ -71,7 +72,7 @@
         select <- matrix(0, nrow(g))
         for(j in 1:nrow(g)){
           h <- g[j, ]
-          if(any(h >= 1 & h <= maxx) & any(h >= maxx + 1 & h <= maxx * 2)){
+          if(any(h >= 1 & h <= maxx) & any(h >= maxx + 1 & h <= maxx * 2)){ # zitten de itemstappen binnen hetzelfde item?
             select[j] <- (all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])) & all(h[which(h >= maxx + 1 & h <= maxx * 2)] == sort(h[which(h >= maxx + 1 & h <= maxx * 2)]))) * j
           } else {
             i1 <- ifelse(any(h >= 1 & h <= maxx), all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])), 0)
@@ -80,21 +81,22 @@
             select[j] <- (i1 + i2) * j
           }
         }
-        o[[i]] <- matrix(apply(o[[i]][select, ], 1, as.numeric, collapse = ""))
+        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, collapse = "."))#, ncol = ncol(o[[i]]))
       }
     }
     
-    out <- expand.grid(o)#matrix(do.call(paste0, expand.grid(o)))
-    w <- Z <- NULL
+    out <- matrix(apply(expand.grid(o), 1, paste0, collapse = "."))
+    out <- matrix(unlist(strsplit(out, "[.]")), nrow = nrow(out), byrow = T)
+    
+    w <- NULL
+    Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
+    Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
     for(i in 1:nrow(out)){
       ords <- as.numeric(out[i, ])#as.numeric(unlist(strsplit(out[i, ],NULL)))
       # Compute Z matrix for each item-response pattern
-      Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
-      Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
-      Z <- Z[, (ords)]
-      
+      Z1 <- Z[, (ords)]
       # Compute weights
-      w <- rbind(w, apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))}))
+      w <- rbind(w, apply(Z1, 1, function(x){sum(x * cumsum(abs(x - 1)))}))#
     }
     wr <- matrix(colMeans(w), nrow = 1)
   } else {
@@ -113,3 +115,4 @@
   }
   return(wr)
 }
+
