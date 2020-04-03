@@ -6,13 +6,17 @@ Scalability coefficents H
 }
 
 \description{
-Computes item-pair scalability coefficents Hij, item scalability coefficents Hi,  and scale scalability coefficent H (Loevinger, 1948; Mokken, 1971, pp. 148-153;  Molenaar and Sijtsma, 2000, pp. 11-13; Sijtsma and Molenaar, chap. 4; Van der Ark, 2007; 2010),  
-as well as their standard errors (Kuijpers, Van der Ark, and Croon, 2013; also see Van der Ark, Croon, and Sijtsma, 2008).
-It is possible to compare scalability coefficients across groups using the item-step ordering of the entire sample (cf. \code{CHECK=GROUPS} option in MSP; Molenaar and Sijtsma, 2000).
+Computes item-pair scalability coefficents Hij, item scalability coefficents Hi, and scale scalability coefficent H 
+(Loevinger, 1948; Mokken, 1971, pp. 148-153; Molenaar & Sijtsma, 2000, pp. 11-13; Sijtsma & Molenaar, chap. 4; Van der Ark, 2007; 2010),  
+as well as their standard errors (Kuijpers, Van der Ark, & Croon, 2013; also see Van der Ark, Croon, & Sijtsma, 2008). 
+Mokken's coefficients and standard errors can also be estimated in two-level data (Koopman, Zijlstra, & Van der Ark, 2020).
+It is also possible to compare scalability coefficients across groups using the item-step ordering of the entire sample 
+(cf. \code{CHECK=GROUPS} option in MSP; Molenaar and Sijtsma, 2000).
  }
 
 \usage{
-coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order = NULL)
+coefH(X, se = TRUE, nice.output = TRUE, level.two.var = NULL, group.var = NULL, 
+      fixed.itemstep.order = NULL)
 }
 
 \arguments{
@@ -21,6 +25,8 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order =
           Missing values are not allowed}
   \item{se}{Logical: If \code{TRUE}, the standard errors of the scalability coefficients are given}
   \item{nice.output}{Logical: If \code{TRUE}, scalability coefficients and standard errors are combined in an a single object of class \code{noquote}}
+  \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
+          that indicates the level two variable for nested data to get appropriate standard errors (Koopman et al., 2020.}
   \item{group.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} to be used as grouping variable}
   \item{fixed.itemstep.order}{matrix with number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
 }
@@ -31,7 +37,8 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order =
  
  If \code{nice.output = TRUE} and \code{se = TRUE}, the result is a list of 3 objects of class \code{noquote};  
  if \code{nice.output = FALSE} and \code{se = TRUE}, the result is a list of 6 matrices (3 for the scalability coefficients and 3 for the standard errors); and 
- if \code{se = FALSE}, the result is a list of 3 matrices (for the scalability coefficients.
+ if \code{se = FALSE}, the result is a list of 3 matrices (for the scalability coefficients).
+ if \code{level.two.var} is not null the standard errors are adjusted to take the nesting into account.
  if \code{group.var = Y} with Y having K values, an additional element named \code{Groups} is added to the list. 
  Element \code{Groups} shows the scalability coefficients per group ordered by means of \code{\link{sort}} (see \code{\link{Sys.getlocale}} for details).
  \code{group.var} returns coefficients for groups containing at least two case.
@@ -45,11 +52,14 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order =
  \item{se.Hij}{standard errors of the scalability coefficients of the item pairs (only if \code{nice.output = FALSE} and \code{se = TRUE}; see details)}  
  \item{se.Hi}{standard errors of the scalability coefficients of the items (see details)}  
  \item{se.H}{standard error of the scalability coefficient of the entire scale (see details)} 
- \item{Groups}{Scalability coefficient for subgroups (see details)} }
+ \item{Groups}{Scalability coefficients for subgroups (see details)} }
 
 \references{
+  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
+  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+  Manuscript submitted for publication.
 
-   Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
+  Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
   
@@ -85,7 +95,8 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order =
  }
 
 \author{
- L. A. van der Ark \email{L.A.vanderArk@uva.nl} }
+ L. A. van der Ark \email{L.A.vanderArk@uva.nl} 
+ L. Koopman}
 
 \seealso{
 \code{\link{coefZ}}, \code{\link{search.normal}} }
@@ -93,12 +104,22 @@ coefH(X, se = TRUE, nice.output = TRUE, group.var = NULL, fixed.itemstep.order =
 \examples{
 data(acl)
 Communality <- acl[,1:10]
+
+# Compute scalability coefficients and standard errors
 coefH(Communality)
 
+# Scalability coefficients but no standard errors
 coefH(Communality, se=FALSE)
 
+# Scalability coefficients for different groups:
 subgroup <- ifelse(acl[,11] < 2,1,2)
 coefH(Communality, group.var = subgroup)
 
+# Nested data:
+data(autonomySupport)
+scores <- autonomySupport[, -1]
+classes <- autonomySupport[, 1]
+coefH(scores, level.two.var = classes)
+
 }
-\keyword{scalability coefficients}
+\concept{scalability coefficient}

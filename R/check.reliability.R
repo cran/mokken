@@ -75,7 +75,6 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
      P <- matrix(P[off.boundary,1])
      PP <- PP[off.boundary,off.boundary]
      km <- length(P)
-     is.na.PP <- is.na(PP)
      lower.bound.PP <- P %*% t(P)
      upper.bound.PP <- outer(as.numeric(P),as.numeric(P),FUN = "pmin")
      dimnames(P) <- list(dimnames(PP)[[1]],"")
@@ -87,34 +86,36 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
      Type[unique.cells,unique.cells] <- 0
      set.vector <- sign(apply(Type,1,sum))
      Type <- outer(set.vector,set.vector) + outer(rep(1,km),set.vector)*2 + outer(set.vector,rep(1,km))
-
+     Type <- Type + 4; Type[Type > 4] <- Type[Type > 4] - 3; Type[Type > 4] <- Type[Type > 4] - 4
+          
+     PP.hat <- PP
      for (i in 1:km) for (j in 1:km) if(is.na(PP[i,j])){
-        if (Type[i,j]==4) PP[i,j] <- mean(PP[set.matrix[i,]==1,set.matrix[,j]==1],na.rm=T)
+        if (Type[i,j]==1) PP.hat[i,j] <- mean(PP[set.matrix[i,]==1,set.matrix[,j]==1],na.rm=T)
         else{
-          if(Type[i,j]==1){
-             RightN <- ifelse(any(!is.na(PP[i,j:km])), j + min(which(!is.na(PP[i,j:km]))) - 1, NA)
+          if(Type[i,j]==2){
+             RightN  <- ifelse(any(!is.na(PP[i,j:km])), j + min(which(!is.na(PP[i,j:km]))) - 1, NA)
              RightPP <- ifelse(is.na(RightN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,RightN]==1],na.rm=T))
-             LeftN <- ifelse(any(!is.na(PP[i,1:j])), max(which(!is.na(PP[i,1:j]))),NA)
-             LeftPP <- ifelse(is.na(LeftN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,LeftN]==1],na.rm=T))
-             LowerN <- UpperN <- i
+             LeftN   <- ifelse(any(!is.na(PP[i,1:j])), max(which(!is.na(PP[i,1:j]))),NA)
+             LeftPP  <- ifelse(is.na(LeftN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,LeftN]==1],na.rm=T))
+             LowerN  <- UpperN <- i
              LowerPP <- UpperPP <- mean(PP[set.matrix[i,]==1,set.matrix[,j]==1],na.rm=T)
           }
-          if(Type[i,j]==2){
-             LowerN <- ifelse(any(!is.na(PP[i:km,j])), i + min(which(!is.na(PP[i:km,j]))) - 1, NA)
+          if(Type[i,j]==3){
+             LowerN  <- ifelse(any(!is.na(PP[i:km,j])), i + min(which(!is.na(PP[i:km,j]))) - 1, NA)
              LowerPP <- ifelse(is.na(LowerN),NA,mean(PP[set.matrix[LowerN,]==1,set.matrix[,j]==1],na.rm=T))
-             UpperN <- ifelse(any(!is.na(PP[1:i,j])), max(which(!is.na(PP[1:i,j]))),NA)
+             UpperN  <- ifelse(any(!is.na(PP[1:i,j])), max(which(!is.na(PP[1:i,j]))),NA)
              UpperPP <- ifelse(is.na(UpperN),NA,mean(PP[set.matrix[UpperN,]==1,set.matrix[,j]==1],na.rm=T))
-             RightN <- LeftN <- j
+             RightN  <- LeftN <- j
              RightPP <- LeftPP <- mean(PP[set.matrix[i,]==1,set.matrix[,j]==1],na.rm=T)
           }
-          if(Type[i,j]==0){
-             RightN <- ifelse(any(!is.na(PP[i,j:km])), j + min(which(!is.na(PP[i,j:km]))) - 1, NA)
+          if(Type[i,j]==4){
+             RightN  <- ifelse(any(!is.na(PP[i,j:km])), j + min(which(!is.na(PP[i,j:km]))) - 1, NA)
              RightPP <- ifelse(is.na(RightN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,RightN]==1],na.rm=T))
-             LeftN <- ifelse(any(!is.na(PP[i,1:j])), max(which(!is.na(PP[i,1:j]))),NA)
-             LeftPP <- ifelse(is.na(LeftN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,LeftN]==1],na.rm=T))
-             LowerN <- ifelse(any(!is.na(PP[i:km,j])), i + min(which(!is.na(PP[i:km,j]))) - 1, NA)
+             LeftN   <- ifelse(any(!is.na(PP[i,1:j])), max(which(!is.na(PP[i,1:j]))),NA)
+             LeftPP  <- ifelse(is.na(LeftN),NA,mean(PP[set.matrix[i,]==1,set.matrix[,LeftN]==1],na.rm=T))
+             LowerN  <- ifelse(any(!is.na(PP[i:km,j])), i + min(which(!is.na(PP[i:km,j]))) - 1, NA)
              LowerPP <- ifelse(is.na(LowerN),NA,mean(PP[set.matrix[LowerN,]==1,set.matrix[,j]==1],na.rm=T))
-             UpperN <- ifelse(any(!is.na(PP[1:i,j])), max(which(!is.na(PP[1:i,j]))),NA)
+             UpperN  <- ifelse(any(!is.na(PP[1:i,j])), max(which(!is.na(PP[1:i,j]))),NA)
              UpperPP <- ifelse(is.na(UpperN),NA,mean(PP[set.matrix[UpperN,]==1,set.matrix[,j]==1],na.rm=T))
           }
 
@@ -131,13 +132,13 @@ function(X, MS = TRUE, alpha = TRUE, lambda.2 = TRUE, LCRC = FALSE, nclass = ncl
           E21d <- ifelse(is.na(LeftN) ,NA,LeftPP   * (1 - P[j])/(1 - P[LeftN] ) +
                   P[i] * (P[j] -  P[LeftN])/(1 - P[LeftN] ))
 
-          PP[i,j] <- mean(c(E17a,E17b,E17c,E17d,E21a,E21b,E21c,E21d),na.rm=T)
+          PP.hat[i,j] <- mean(c(E17a,E17b,E17c,E17d,E21a,E21b,E21c,E21d),na.rm=T)
        }
      }
-     PP[is.nan(PP)] <- 0
-     PP[PP > upper.bound.PP & OO] <- upper.bound.PP[PP > upper.bound.PP & OO]
-     PP[PP < lower.bound.PP & OO] <- lower.bound.PP[PP < lower.bound.PP & OO]
-     res$MS <-  sum(PP-lower.bound.PP)/(var(apply(X,1,sum))*((N-1)/N))
+     PP.hat[is.nan(PP.hat)] <- 0
+     PP.hat[PP.hat > upper.bound.PP & OO] <- upper.bound.PP[PP.hat > upper.bound.PP & OO]
+     PP.hat[PP.hat < lower.bound.PP & OO] <- lower.bound.PP[PP.hat < lower.bound.PP & OO]
+     res$MS <-  sum(PP.hat-lower.bound.PP)/(var(apply(X,1,sum))*((N-1)/N))
    }  
 
    ## alpha   

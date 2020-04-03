@@ -102,5 +102,7 @@ iio.list3 <- check.iio(X3,method="IT")
 summary(iio.list3)
 }
 
-\keyword{summary}
-\keyword{iio}
+\concept{iio}
+\concept{miio}
+\concept{invariant item ordering}
+\concept{manifest invariant item ordering}

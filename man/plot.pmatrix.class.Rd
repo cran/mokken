@@ -82,5 +82,4 @@ pmatrix.list <- check.pmatrix(Communality)
 plot(pmatrix.list)
 summary(pmatrix.list)
 }
-\keyword{plot}
-\keyword{pmatrix}
+\concept{pmatrix}

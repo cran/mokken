@@ -56,4 +56,4 @@ R >= L2rij
 # Correlations that meet U2rij (possibly an underestimation of the upper bound). 
 R <= U2rij 
 }
-\keyword{bounds}
+\concept{bounds}

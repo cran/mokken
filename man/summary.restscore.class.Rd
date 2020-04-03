@@ -69,5 +69,4 @@ plot(restscore.list)
 summary(restscore.list)
 }
 
-\keyword{plot}
-\keyword{restscore}
+\concept{restscore}

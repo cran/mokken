@@ -13,6 +13,7 @@ export(
  check.pmatrix,
  check.reliability,
  check.restscore,
+ ICC,
  MLcoefH,
  MLweight,
  recode,
@@ -41,10 +42,11 @@ export(
 
 importFrom(graphics, plot)
 importFrom("graphics", "axis", "layout", "lines", "par", "polygon", "title")
-importFrom("stats", "as.formula", "cor", "cov", "aggregate", "median", "pchisq", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "t.test", "var")
+importFrom("stats", "as.formula", "cor", "cov", "aggregate", "median", "pchisq", "pf", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "t.test", "var")
 importFrom("grDevices", "col2rgb", "rgb")
 importFrom("utils", "combn", "flush.console")
 import(poLCA)
+import(Rcpp)
 
 S3method(summary, "monotonicity.class")
 S3method(summary, "pmatrix.class")

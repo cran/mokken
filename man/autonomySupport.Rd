@@ -31,13 +31,14 @@
 
 \source{
     The seven items are a subset from a self-constructed 27-item questionnaire on teacher's autonomy support. 
-    Data were collected and made available by V. E. C. Koopman from the University of Amsterdam.
+    Data were collected and made available by L. Koopman from the University of Amsterdam.
 }
 
 \references{
 
-Koopman, V. E. C., Van der Ark, L. A., & Zijlstra, B. J. H. (2017). 
-\emph{Standard errors of two-level scalability coefficients}. Manuscript in preparation.
+Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2019). 
+  Standard errors of two-level scalability coefficients. \emph{British Journal of Statistical and Mathematical Psychology}.
+  Advance online publication. doi: 10.1111/bmsp.12174 
 
 }
 

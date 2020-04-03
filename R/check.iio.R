@@ -1,3 +1,4 @@
+# Adapted Feb 19, 2020
 "check.iio" <- 
 function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
 {
@@ -311,39 +312,65 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    return(iio.list)
 }
 
- 
 coefHT <- function(Y, largeN = 1000){
-    eij <- function(x) {
-        tab <- tabulate(x[ ,1] + 2 * x[ ,2] + 1L, 4)
-        e <- min(tab[3], tab[2])
-        e0 <- ((tab[1] + e) * (e + tab[4])) / nrow(x)
-        return(c(e, e0))
-    }
-
    eq.var <- apply(Y, 1, sd)
    Y <- Y[eq.var > 0, ]
    N <- nrow(Y)
    tY <- t(Y)
-   if (N < largeN){ 
-      S    <- var(tY)
-      Smax <- var(apply(tY, 2, sort))
-      diag(S) <- diag(Smax) <- 0
-      HT <- sum(S)/sum(Smax)
-   } else {  
-      e1 <- 0L
-      e0 <- 0L
-      for (i in 1 : (ncol(tY) - 1)){
-         for (j in (i + 1) : ncol(tY)){
-            e <- eij(tY[, c(i,j)])
-            e1 <- e1 + e[1]
-            e0 <- e0 + e[2]
-         }
-         cat("\r", "Large sample size, computation may take several minutes. Progress: ", round((i * 100) / (ncol(tY) - 1), 1), "%      ", sep = "") 
-         flush.console()  # Make visible on RGui
-      }
-      cat("\r", "Large sample size, computation may take several minutes. Progress: DONE    ", sep = "") 
-      cat("\n")
-      HT <- 1 - e1/e0
+   tYm <- apply(tY, 2, sort)
+
+   G <- ceiling(N / largeN)
+   sum.S <- 0
+   sum.Smax <- 0
+   repeat{
+     if (N %% largeN != 1) break
+     largeN <- largeN -1
    }
-   return(HT)
+   for (i in 1 : G) for (j in 1 : G){
+     ni <- ifelse(i < G, largeN, N %% largeN)
+     nj <- ifelse(j < G, largeN, N %% largeN)
+     S <- var(tY[, (i-1) * largeN + 1 : ni], tY[, (j-1) * largeN + 1 : nj])
+     Smax <- var(tYm[, (i-1) * largeN + 1 : ni], tYm[, (j-1) * largeN + 1 : nj])
+     if (i == j) diag(S) <- diag(Smax) <- 0
+     sum.S <- sum.S + sum(S)
+     sum.Smax <- sum.Smax + sum(Smax)
+   }
+   return(sum.S / sum.Smax)
 }
+
+# DECREPIT New function above 
+#coefHT <- function(Y, largeN = 1000){
+#    eij <- function(x) {
+#        tab <- tabulate(x[ ,1] + 2 * x[ ,2] + 1L, 4)
+#        e <- min(tab[3], tab[2])
+#        e0 <- ((tab[1] + e) * (e + tab[4])) / nrow(x)
+#        return(c(e, e0))
+#    }
+#
+#   eq.var <- apply(Y, 1, sd)
+#   Y <- Y[eq.var > 0, ]
+#   N <- nrow(Y)
+#   tY <- t(Y)
+#   if (N < largeN){ 
+#      S    <- var(tY)
+#      Smax <- var(apply(tY, 2, sort))
+#      diag(S) <- diag(Smax) <- 0
+#      HT <- sum(S)/sum(Smax)
+#   } else {  
+#      e1 <- 0L
+#      e0 <- 0L
+#      for (i in 1 : (ncol(tY) - 1)){
+#         for (j in (i + 1) : ncol(tY)){
+#            e <- eij(tY[, c(i,j)])
+#            e1 <- e1 + e[1]
+#            e0 <- e0 + e[2]
+#         }
+#         cat("\r", "Large sample size, computation may take several minutes. Progress: ", round((i * 100) / (ncol(tY) - 1), 1), "%      ", sep = "") 
+#         flush.console()  # Make visible on RGui
+#      }
+#      cat("\r", "Large sample size, computation may take several minutes. Progress: DONE    ", sep = "") 
+#      cat("\n")
+#      HT <- 1 - e1/e0
+#   }
+#   return(HT)
+#}

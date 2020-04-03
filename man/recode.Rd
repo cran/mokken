@@ -46,4 +46,4 @@ The result is \code{X} for which columns \code{items} have been recoded.
   head(X)
 }
 
-\keyword{recode}
+\concept{recode}

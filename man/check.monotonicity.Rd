@@ -83,4 +83,5 @@ monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
 }
-\keyword{monotonicity}
+\concept{monotonicity}
+\concept{manifest monotonicity}

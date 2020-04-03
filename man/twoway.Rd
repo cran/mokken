@@ -67,4 +67,4 @@ twoway(X, nCompletedDataSets = 1, minX = defaultMinX, maxX = defaultMaxX, seed =
   head(X)
 }
 
-\keyword{twoway}
+\concept{twoway}

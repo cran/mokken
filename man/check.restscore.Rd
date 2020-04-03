@@ -79,4 +79,4 @@ restscore.list <- check.restscore(Communality)
 plot(restscore.list)
 summary(restscore.list)
 }
-\keyword{restscore}
+\concept{restscore}

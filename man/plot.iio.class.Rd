@@ -87,5 +87,9 @@ summary(iio.list)
 plot(iio.list)
 }
 
-\keyword{plot}
-\keyword{iio}
+\concept{iio}
+\concept{miio}
+\concept{invariant item ordering}
+\concept{manifest invariant item ordering}
+
+

@@ -210,8 +210,8 @@ output.matrix.sd. <- matrix(NA, 1, 4)
  dimnames(output.matrix.sd.) <- list("", c("SD","SE", "lo", "up"))
 
 output.matrix.Zy. <- matrix(NA, K, 4)
- output.matrix.Zy.[, 1] <- R-adjust
- output.matrix.Zy.[, 2] <- n
+ output.matrix.Zy.[, 1] <- Zy
+ output.matrix.Zy.[, 2] <- Se.Zy
  output.matrix.Zy.[, 3] <- loZy
  output.matrix.Zy.[, 4] <- upZy
  dimnames(output.matrix.Zy.) <- list(R-adjust, c("Zscores","SE", "lo", "up"))
@@ -224,8 +224,8 @@ output.matrix.Sty. <- matrix(NA, 8, 4)
  dimnames(output.matrix.Sty.) <- list(c("1-2","2-3","3-4","4-5","5-6","6-7","7-8","8-9"), c("Stanines","SE", "lo", "up"))
 
 output.matrix.Pry. <- matrix(NA, K, 4)
- output.matrix.Pry.[, 1] <- R-adjust
- output.matrix.Pry.[, 2] <- n
+ output.matrix.Pry.[, 1] <- Pry
+ output.matrix.Pry.[, 2] <- Se.Pry
  output.matrix.Pry.[, 3] <- loPry
  output.matrix.Pry.[, 4] <- upPry
  dimnames(output.matrix.Pry.) <- list(R-adjust, c("Percentiles","SE", "lo", "up"))

@@ -66,4 +66,4 @@ check.norms(y, nice.output = TRUE)
   check.norms(rowSums(Na))
   check.norms(rowSums(Si))
 }
-\keyword{check.norms}
+\concept{check.norms}

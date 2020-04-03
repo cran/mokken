@@ -1,7 +1,8 @@
 ## MLweight function 18-08-2017. Letty Koopman. 
-# Last adjusted 16-04-2018 improve orderings
+# Last adjusted 16-04-2018 improve orderings (fixed within items)
+# Last adjusted 21-11-2019 you can now add a fixed item-step order.
 
-"MLweight" <- function(X, maxx = NULL, minx = NULL){
+"MLweight" <- function(X, maxx = NULL, minx = NULL, itemstep.order = NULL){
   # Computes the two-level Guttman weights for two-level Mokken Scale Analysis.
   #
   # Args:
@@ -44,7 +45,7 @@
   names(CumRel) <- 1:length(CumRel)
   y <- sort(CumRel, decreasing=T)
   
-  if (any(duplicated(y))) {
+  if (any(duplicated(y)) & is.null(itemstep.order)) {
     perm <- function (n, r, v = 1:n, set = TRUE){
       if (r == 1)  
         matrix(v, n, 1)
@@ -72,7 +73,7 @@
         select <- matrix(0, nrow(g))
         for(j in 1:nrow(g)){
           h <- g[j, ]
-          if(any(h >= 1 & h <= maxx) & any(h >= maxx + 1 & h <= maxx * 2)){ # zitten de itemstappen binnen hetzelfde item?
+          if(any(h >= 1 & h <= maxx) & any(h >= maxx + 1 & h <= maxx * 2)){ 
             select[j] <- (all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])) & all(h[which(h >= maxx + 1 & h <= maxx * 2)] == sort(h[which(h >= maxx + 1 & h <= maxx * 2)]))) * j
           } else {
             i1 <- ifelse(any(h >= 1 & h <= maxx), all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])), 0)
@@ -81,7 +82,7 @@
             select[j] <- (i1 + i2) * j
           }
         }
-        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, collapse = "."))#, ncol = ncol(o[[i]]))
+        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, collapse = "."))
       }
     }
     
@@ -92,17 +93,16 @@
     Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
     Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
     for(i in 1:nrow(out)){
-      ords <- as.numeric(out[i, ])#as.numeric(unlist(strsplit(out[i, ],NULL)))
-      # Compute Z matrix for each item-response pattern
+      ords <- as.numeric(out[i, ])
+      # Compute Z matrix for each possible (tied) item-response pattern
       Z1 <- Z[, (ords)]
       # Compute weights
       w <- rbind(w, apply(Z1, 1, function(x){sum(x * cumsum(abs(x - 1)))}))#
     }
+    # Compute average weight per pattern
     wr <- matrix(colMeans(w), nrow = 1)
   } else {
-    #out <- paste(names(y), collapse = "")
-    
-    ords <- as.numeric(names(y))#as.numeric(unlist(strsplit(out,NULL)))
+    if (is.null(itemstep.order)) ords <- as.numeric(names(y)) else ords <- matrix(rank(itemstep.order), 1, maxx * 2)
     # Compute Z matrix for each item-response pattern
     Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
     Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
@@ -116,3 +116,15 @@
   return(wr)
 }
 
+"all.patterns" <- function(J,m){
+  grid <- list()
+  j <- 0;
+  p <- m^J
+  for (j in 1:J){
+    grid <- c(grid, j)
+    grid[[j]] <- 0:(m-1)
+  }
+  X <- t(expand.grid(grid))
+  dimnames(X) <- NULL
+  return(X[J:1,])
+}

@@ -76,6 +76,4 @@ pmatrix.list$results$Ppp
 pmatrix.list$results$Pmm
 }
 
-\keyword{summary}
-\keyword{pmatrix
-}
+\concept{pmatrix}

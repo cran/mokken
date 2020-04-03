@@ -82,4 +82,4 @@ plot(pmatrix.list)
 summary(pmatrix.list)
 }
 
-\keyword{pmatrix}
+\concept{pmatrix}

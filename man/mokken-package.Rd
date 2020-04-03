@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 2.8.11       \cr
-Date:       \tab 2018-06-03  \cr
+Version:    \tab 3.0.0       \cr
+Date:       \tab 2020-04-01  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -35,10 +35,10 @@ The package contains the following data sets
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
 
 Thanks are due 
- to Michael Allerhand, Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
- to Geert H. van Kollenburg, Letty Koopman, Rudy Ligtvoet, Patrick Mair, and J. Hendrik Straat for testing the software; 
+ to Michael Allerhand, Don van den Berg, Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
+ to Don van den Bergh, Geert H. van Kollenburg, Letty Koopman, Rudy Ligtvoet, Patrick Mair, J. Hendrik Straat, and Don van Ravenswaaij for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Roger Watson, and Na Yang for reporting comments or bugs;
+ to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
  to Harrie C. M. Vorst, Pierre Cavalini, and Johan Denollet for permission to use their data;
  to Robert J. Mokken for lending his last name.
@@ -133,23 +133,68 @@ The following modifications have been made in Version 2.8.11 in comparison to pr
 \code{\link{MLcoefH}}            \tab Code updated\cr
 }
 
+The following modifications have been made in Version 2.8.12 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{check.monotonicity}} \tab Z statistic adjusted (Molenaar & Sijtsma, 2000. p. 72 )\cr
+\code{\link{check.norms}}        \tab Z Output corrected for \code{nice.output = FALSE}\cr
+}
+
+The following modifications have been made in Version 2.9.0 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{coefH}}              \tab Z Solution of Koopman et al. (2017) implemented to solve the problem of equal item steps and code updated\cr
+\code{\link{MLcoefH}}            \tab Z Solution of Koopman et al. (2017) implemented to solve the problem of equal item steps and code updated\cr
+}
+
+The following modifications have been made in Version 3.0.0 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{aisp}}               \tab Genetic algorithm has been reprogrammed and is now much faster.\cr
+                                 \tab Argument \code{lowerbound} can now be a vector, enabling the investigation of several lower bounds simultaneously.\cr
+                                 \tab Extra argument to specify which standard errors should be used in Z-test (Koopman et al., 2020b).\cr
+                                 \tab Extra argument to indicate which null-hypothesis should be used to test Hi (i.e., Hi = c or Hi = 0)(Koopman et al., 2020b).\cr
+                                 \tab Extra argument to handle nested data (Koopman et al., 2020b).\cr
+\code{\link{check.iio}}          \tab Computation of Coefficient HT for large samples is now much faster.\cr
+\code{\link{coefH}}              \tab New standard errors for nested data (Koopman et al. 2020a).\cr
+\code{\link{coefZ}}              \tab Extra argument to compute the Z-score using \code{lowerbound} as the null hypothesis (Koopman et al., 2020b).\cr
+                                 \tab Extra argument to compute Z-score using delta method standard error, but the original method remains available (Koopman et al., 2020b).\cr 
+                                 \tab Extra argument to compute Z-score in nested data (Koopman et al., 2020b).\cr
+\code{\link{ICC}}                \tab New function for ICCs in two-level Mokken scale analysis (Koopman et al. 2020a)\cr
+\code{\link{MLcoefH}}            \tab Extra argument for weighted proportions. Reduces bias in two-level standard errors (Koopman et al. 2020a)\cr
+                                 \tab Extra argument for a fixed item-step order\cr
+\code{\link{SWMD}}               \tab New data file (Koopman et al. 2020a)\cr
+
+}
+
+
+. 
+. 
+
+
+
 }
 \author{
-L. Andries van der Ark
+L. Andries van der Ark \& L. Koopman
 Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>. 
 }
 
 \references{
 
-  Mokken, R. J. (1971) 
+  Koopman, L., Zijlstra, B. J. H. \& Van der Ark, L. A. (2020a).
+  A two-step procedure for scaling multilevel data using Mokken's scalability coefficients.
+  Paper submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H. \& Van der Ark, L. A. (2020b).
+  New advances in Mokken scale analysis.
+  Paper presented at the online meeting of the Psychometric Society, July, 2020.
+  
+  Mokken, R. J. (1971). 
   \emph{A Theory and Procedure of Scale Analysis}. 
   Berlin, Germany: De Gruyter.
   
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+  Molenaar, I.W. and Sijtsma, K. (2000). 
   \emph{User's Manual MSP5 for Windows} [Software manual].
   Groningen, The Netherlands: IEC ProGAMMA.
   
-  Sijtsma, K., and Molenaar, I. W. (2002)
+  Sijtsma, K., and Molenaar, I. W. (2002).
   \emph{Introduction to nonparametric item response theory}.
   Thousand Oaks, CA: Sage.
 
@@ -173,8 +218,6 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
   \emph{Journal of Statistical Software, 48}(5), 1-27.
   \url{http://www.jstatsoft.org/v48/i5}
 }
-
-\keyword{package}
 
 \examples{
 

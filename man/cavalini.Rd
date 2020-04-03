@@ -8,7 +8,7 @@ Data came from 17 polytomous items administered to 828 respondents (Cavalini, 19
  with the bad smell from a factory in the neighborhood of their homes.}
 \usage{data(cavalini)}
 \format{
-A 828 by 17 matrix containing integers. \code{attributes(transreas)} gives details on the items.
+A 828 by 17 matrix containing integers. \code{attributes(cavalini)} gives details on the items.
 }
 \details{
  Items have four ordered answer categories,

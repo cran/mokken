@@ -1,23 +1,27 @@
 Package: mokken
-Version: 2.8.11
-Date: 2018-06-03
+Version: 3.0.0
+Date: 2020-04-01
 Title: Conducts Mokken Scale Analysis
 Authors@R: c(person("L. Andries", "van der Ark", role = c("aut", "cre"),
                      email = "L.A.vanderArk@uva.nl"),
-              person("J. Hendrik", "Straat", role = "aut"),
-              person("Letty", "Koopman", role = "aut"))
+              person("Letty", "Koopman", role = "aut"),
+              person("J. Hendrik", "Straat", role = "ctb"),
+              person("Don", "van den Bergh", role = "ctb"))
 Author: L. Andries van der Ark [aut, cre],
-  J. Hendrik Straat [aut],
-  Letty Koopman [aut]
+  Letty Koopman [aut],
+  J. Hendrik Straat [ctb],
+  Don van den Bergh [ctb]
 Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>
-Depends: R (>= 3.0.0), graphics, poLCA
+Depends: R (>= 3.5.0), graphics, poLCA
 Suggests: MASS
 Description: Contains functions for performing Mokken
    scale analysis on test and questionnaire data (e.g., Sijtsma and Van der Ark, 2017, <doi:10.1111/bmsp.12078>).
    It includes an automated item selection algorithm, and various checks of model assumptions.
 License: GPL (>= 2)
 URL: https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken
+LinkingTo: Rcpp
+Imports: Rcpp
 NeedsCompilation: yes
-Packaged: 2018-06-03 14:39:16 UTC; lvdark1
+Packaged: 2020-04-03 16:20:06 UTC; lvdark1
 Repository: CRAN
-Date/Publication: 2018-06-03 15:25:30 UTC
+Date/Publication: 2020-04-03 17:10:02 UTC

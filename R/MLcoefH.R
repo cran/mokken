@@ -1,12 +1,20 @@
 ######## Letty Koopman 
 ######## University of Amsterdam
-# MLcoefH() version 17-04-2018
+# MLcoefH() version 07-02-2020
 #
 # Updates: 
+# Weighted proportions are used rather than average proportions (see Koopman et al 2020 Mokken's scalability coefficients for multilevel data (Quality of Life Research))
+# but averaged proportions can be used if weigh.props = FALSE
+# Uses weights() rather than MLweight() (such that weighted proportions are used)
+# check.data has been changed to check.ml.data (previously the first minx subjects were ignored with minx the minimum score value).
+# A fixed item ordering now can be used as argument
 # More efficient by using vectors with pasted score patterns, rather than matrices
 # Uses the harmonic mean when samples sizes are unequal
 
-"MLcoefH" <- function(X, se = TRUE, nice.output = TRUE, subject = 1){
+
+"MLcoefH" <- function(X, se = TRUE, nice.output = TRUE, 
+                      subject = 1, fixed.itemstep.order = NULL, 
+                      weigh.props = TRUE){
   # Computes the two-level scalability coefficients in Mokken scale analysis
   #
   # Args:
@@ -16,8 +24,11 @@
   #   nice.output: If TRUE, prints the coefficients and standard errors in a matrix with nice lay-out,
   #                if FALSE, they are printed in a regular type matrix which can be used for further computations. Default is TRUE.
   #   Subject: Represents the subject column. Default is column 1. 
+  #   fixed.itemstep.order: 
+  #   weight.props: If TRUE: Use weighted proportions across groups to estimate coefficients and standard errors,
+  #                 if FALSE: Use averaged proportions across groups to estimate coefficients and standard errors. Default is TRUE
   # 
-  # Depends on mokken functions "MLweight", "check.data", "all.patterns", "phi", and "dphi".
+  # Supporting mokken functions "MLweight", "weights", "check.ml.data", "all.patterns", "phi", and "dphi".
   #
   # Returns: 
   #   Two-level scalability coefficients and optionally their standard errors.
@@ -32,14 +43,33 @@
   LS <- length(Rs)
   S <- 1:LS 
   X[, 1] <- rep(S, Rs)
-  X <- check.data(X) 
+  X <- check.ml.data(X) 
   if(is.null(colnames(X))) colnames(X) <- c("Subs", paste("Item", 1:(ncol(X) - 1)))
+  
+  # Ensure item names are unique
   if(any(table(colnames(X)) > 1)){
-    warning("At least two items have the same name.")
+    warning("At least two items have the same name. The duplicates have received an index.")
     colnames(X) <- make.unique(colnames(X))
   }
+  
+  # Ensure variables are not constants
   if (any(apply(X, 2, var) < eps)) 
-    stop("One or more variables have zero variance. The duplicates have received an index.")
+    stop("One or more variables have zero variance.")
+  
+  # Ensure given item step order has correct format
+  if (!is.null(fixed.itemstep.order) && !is.matrix(fixed.itemstep.order)) {
+    fixed.itemstep.order <- NULL
+    warning("fixed.itemstep.order is not a matrix: fixed.itemstep.order ignored")
+  }
+  if (!is.null(fixed.itemstep.order) && is.matrix(fixed.itemstep.order)) 
+    if (ncol(fixed.itemstep.order) != ncol(X[, -1]) && nrow(fixed.itemstep.order) != 
+        max(X[, -1]) && sort(as.numeric(fixed.itemstep.order)) != 
+        1:(max(X[, -1]) * ncol(X[, -1]))) {
+      fixed.itemstep.order <- NULL
+      warning("fixed.itemstep.order as incorrect dimensions and/or incorrect values: fixed.itemstep.order ignored")
+    }
+  
+  # Ensure each subject has > 1 rater
   if(any(Rs == 1)){ 
     warning('For at least one subject there is only 1 rater. The scalability coefficients are computed without this (these) subject(s).') 
     X <- X[!(X[, 1] %in% which(Rs == 1)), ]
@@ -81,46 +111,83 @@
     
     n <- as.numeric(table(factor(Xred, levels=Rred))) 
     
-    npred <- tapply(n, Tred, sum)#Rtred <- aggregate(n, list(Tred), sum)
-    #npred <- Rtred[, 2]
-    Rtred <- names(npred)#Rtred[, 1]
+    npred <- tapply(n, Tred, sum)
+    Rtred <- names(npred)
     Lst <- length(npred)
-    nprelred <- tapply(n / (Rd * LS), Tred, sum)#aggregate(n / (Rd * LS), list(Tred), sum)[, 2]
+    if(weigh.props == TRUE) {
+      nprelred <- tapply(n / (sum(Rs)), Tred, sum)#/ (Rd * LS), Tred, sum) 
+    } else {
+      nprelred <- tapply(n / (Rd * LS), Tred, sum)
+    }
     
-    nNred <- tapply(1:length(Rred), Tred, unique)#aggregate(1:length(Rred), list(Tred), unique)[, 2]
+    nNred <- tapply(1:length(Rred), Tred, unique)
     
     covps <- matrix(0, Lst, Lst)
     p <- matrix(0, Lst)
-    for(s in S) {
-      pt <- rowSums(outer(Rtred, Vred[SubsX == s], "==")) / Rs[s]
-      prows <- which(pt > 0)
-      pt <- pt[prows]
-      p[prows] <- p[prows] + pt
-      #pSubs[s, ] <- rowSums(outer(patsR, patsX[SubsX == s], "==")) / Rs[s]#pt
-      covps[prows, prows] <- covps[prows, prows] + pt %*% t(pt)
-    }
     
-    p <- as.numeric(p / LS)
-    covps <- covps / LS - (p %*% t(p))
-    covp <- (diag(length(p)) * p - (p %*% t(p))) 
-    nu <- LS / sum(1 / Rs)#1 / (sum(1 / Rs) / LS) #mean(Rs)
-    
-    # Variance covariance matrix needed for delta method 
-    covtot <- LS * nu * (nu - 1) * covps + LS * nu * covp
-    
-
-    # Creating g3 and G3
-    ns <- list()
-    nuni <- matrix(0, J, g) # univariate props
-    for(i in 1:J) {
-      Xa <- R[, i + 1]
-      ns[[i]] <- matrix(0, g, LS)
-      for(a in 0:m){
-        nst <- tapply((Xa == a) * n, SubsR, sum)
-        ns[[i]][a + 1, ] <- nst
-        nuni[i, a + 1] <- sum(nst / (Rs * LS))
+    if(weigh.props == TRUE) {
+      for(s in S) {
+        pt <- rowSums(outer(Rtred, Vred[SubsX == s], "==")) 
+        prows <- which(pt > 0)
+        pt <- pt[prows]
+        p[prows] <- p[prows] + pt
+        covps[prows, prows] <- covps[prows, prows] + (pt %*% t(pt)) / Rs[s] 
       }
+      p <- as.numeric(p / sum(Rs)) # E(p) Eq 52 Koopman et al 2019 Standard Errors
+      covps <- covps / sum(Rs) - (p %*% t(p)) # E(p p') 
+      covp <- (diag(length(p)) * p - (p %*% t(p))) 
+      nu <- LS / sum(1 / Rs)
+      
+      # Variance covariance matrix needed for delta method 
+      covtot <- LS * nu * (nu - 1) * covps + LS * nu * covp 
+      
+      
+      # Creating g3 and G3
+      ns <- list()
+      nuni <- matrix(0, J, g) # univariate props
+      for(i in 1:J) {
+        Xa <- R[, i + 1]
+        ns[[i]] <- matrix(0, g, LS)
+        for(a in 0:m){
+          nst <- tapply((Xa == a) * n, SubsR, sum)
+          ns[[i]][a + 1, ] <- nst
+          nuni[i, a + 1] <- sum(nst / sum(Rs))
+        }
+      }
+      
+    } else {
+      for(s in S) {
+        pt <- rowSums(outer(Rtred, Vred[SubsX == s], "==")) / Rs[s]
+        prows <- which(pt > 0)
+        pt <- pt[prows]
+        p[prows] <- p[prows] + pt
+        covps[prows, prows] <- covps[prows, prows] + pt %*% t(pt)
+      }
+      p <- as.numeric(p / LS)
+      covps <- covps / LS - (p %*% t(p))
+      covp <- (diag(length(p)) * p - (p %*% t(p))) 
+      nu <- LS / sum(1 / Rs)
+      
+      # Variance covariance matrix needed for delta method 
+      covtot <- LS * nu * (nu - 1) * covps + LS * nu * covp
+      
+      
+      # Creating g3 and G3
+      ns <- list()
+      nuni <- matrix(0, J, g) # univariate props
+      for(i in 1:J) {
+        Xa <- R[, i + 1]
+        ns[[i]] <- matrix(0, g, LS)
+        for(a in 0:m){
+          nst <- tapply((Xa == a) * n, SubsR, sum)
+          ns[[i]][a + 1, ] <- nst
+          nuni[i, a + 1] <- sum(nst / (Rs * LS))
+        }
+      }
+      
     }
+    
+    
     
     
     Rt <- matrix(as.numeric(unlist(strsplit(Rtred, "[,]"))), nrow = Lst, byrow = T)
@@ -133,7 +200,20 @@
       Rb <- R[, z[2] + 1]
       Ta <- Rt[, z[1]]
       Tb <- Rt[, z[2]]
-      Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
+      if (is.null(fixed.itemstep.order)) {
+        if(weigh.props == TRUE) {
+          Weights <- weights(X[, z + 1], minx = 0, maxx = m)
+        } else {
+          Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
+        }
+      } else {
+        if(weigh.props == TRUE) {
+          Weights <- weights(X[, z + 1], minx = 0, maxx = m, itemstep.order = fixed.itemstep.order[, z])
+        } else {
+          Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m, itemstep.order = fixed.itemstep.order[, z])
+        }
+      }
+      
       Wmat <- Bmat <- Emat <- matrix(0, g^2, length(npred))
       
       for(x in 1:g^2){
@@ -141,17 +221,33 @@
           i <- Patterns[x, 1]
           j <- Patterns[x, 2]
           
-          temp <- (Ra == i) * (rep(ns[[z[2]]][j + 1, ], RRs) - (Rb == j)) * n
-          nw <- sum(n * (Ra == i & Rb == j) / (rep(Rs, RRs) * LS)) 
-          at <- temp / (rep(Rs, RRs) * (rep(Rs, RRs) - 1) * LS) 
-          at <- sapply(1:length(npred), function(x) sum(at[nNred[[x]]]))
+          if(weigh.props == TRUE) {
+            temp <- (Ra == i) * (rep(ns[[z[2]]][j + 1, ], RRs) - (Rb == j)) * n
+            nw <- sum(n * (Ra == i & Rb == j) / sum(Rs))
+            at <- temp / (sum(Rs * (Rs - 1)))
+            at <- sapply(1:length(npred), function(x) sum(at[nNred[[x]]]))
+            
+            Wmat[x, ] <- ((Ta == i & Tb == j) * nprelred / npred) * Weights[x]
+            Bmat[x, ] <- (at / npred) * Weights[x] 
+            Emat[x, ] <- Weights[x] / npred * ((Tb == j) * nuni[z[[1]], i + 1] + (Ta == i) * nuni[z[[2]], j + 1]) * nprelred
+            Fwt[x] <- Weights[x] * nw
+            Fbt[x] <- Weights[x] * sum(tapply(temp, SubsR, sum) / (sum(Rs * (Rs - 1))))
+            Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
+          } else {
+            temp <- (Ra == i) * (rep(ns[[z[2]]][j + 1, ], RRs) - (Rb == j)) * n
+            nw <- sum(n * (Ra == i & Rb == j) / (rep(Rs, RRs) * LS)) 
+            at <- temp / (rep(Rs, RRs) * (rep(Rs, RRs) - 1) * LS) 
+            at <- sapply(1:length(npred), function(x) sum(at[nNred[[x]]]))
+            
+            Wmat[x, ] <- ((Ta == i & Tb == j) * nprelred / npred) * Weights[x]
+            Bmat[x, ] <- (at / npred) * Weights[x] 
+            Emat[x, ] <- Weights[x] / npred * ((Tb == j) * nuni[z[[1]], i + 1] + (Ta == i) * nuni[z[[2]], j + 1]) * nprelred
+            Fwt[x] <- Weights[x] * nw
+            Fbt[x] <- Weights[x] * sum(tapply(temp, SubsR, sum) / (Rs * (Rs - 1) * LS)) 
+            Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
+          }
           
-          Wmat[x, ] <- ((Ta == i & Tb == j) * nprelred / npred) * Weights[x]
-          Bmat[x, ] <- (at / npred) * Weights[x] 
-          Emat[x, ] <- Weights[x] / npred * ((Tb == j) * nuni[z[[1]], i + 1] + (Ta == i) * nuni[z[[2]], j + 1]) * nprelred
-          Fwt[x] <- Weights[x] * nw
-          Fbt[x] <- Weights[x] * sum(tapply(temp, SubsR, sum) / (Rs * (Rs - 1) * LS)) 
-          Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
+          
         } else {
           Fwt[x] <- Fbt[x] <- Fet[x] <- 0
         }
@@ -362,53 +458,112 @@
     # Creating g3 and G3
     ns <- list()
     nuni <- matrix(0, J, g)
-    for(i in 1:J) {
-      Xa <- X[, i + 1]
-      ns[[i]] <- matrix(0, g, LS)
-      for(a in 0:m){
-        nst <- tapply((Xa == a), Subs, sum)
-        ns[[i]][a + 1, ] <- nst
-        nuni[i, a + 1] <- sum(nst / (Rs * LS))
+    if(weigh.props == TRUE) {
+      for(i in 1:J) {
+        Xa <- X[, i + 1]
+        ns[[i]] <- matrix(0, g, LS)
+        for(a in 0:m){
+          nst <- tapply((Xa == a), Subs, sum)
+          ns[[i]][a + 1, ] <- nst
+          nuni[i, a + 1] <- sum(nst / sum(Rs))#(Rs * LS))
+        }
+      }
+      Rss <- rep(Rs, Rs)
+      Fwt <- Fbt <- Fet <- matrix(0, 1, g^2)
+      Fw <- Fb <- Fe <- matrix(0, 1, K)
+      for(k in 1:K){
+        z <- cols[, k]
+        Xa <- X[, z[1] + 1]
+        Xb <- X[, z[2] + 1]
+        if (is.null(fixed.itemstep.order)) {
+          Weights <- weights(X[, z + 1], minx = 0, maxx = m)#MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
+        } else {
+          Weights <- weights(X[, z + 1], minx = 0, maxx = m, itemstep.order = fixed.itemstep.order[, z])#MLweight(X[, c(1, z + 1)], minx = 0, maxx = m, itemstep.order = fixed.itemstep.order[, z])
+        }
+        
+        for(x in 1:g^2){
+          if(Weights[x] > 0){
+            i <- Patterns[x, 1]
+            j <- Patterns[x, 2]
+            
+            nw <- sum((Xa == i & Xb == j) / sum(Rs))#(Rss * LS))
+            at <- sum((Xa == i) * (rep(ns[[z[2]]][j + 1, ], Rs) - (Xb == j)) / (sum(Rs * (Rs - 1))))#(Rss * (Rss - 1) * LS))
+            
+            Fwt[x] <- Weights[x] * nw
+            Fbt[x] <- Weights[x] * at
+            Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
+          } else {
+            Fwt[x] <- Fbt[x] <- Fet[x] <- 0
+          }
+        } 
+        
+        Fw[k] <- sum(Fwt)
+        Fb[k] <- sum(Fbt)
+        Fe[k] <- sum(Fet)
+      }
+      
+      Fwi <- Fbi <- Fei <- NULL
+      for(i in 1:J) {
+        items <- apply(cols, 2, function(x) any(x == i))
+        Fwi[i] <- sum(Fw[items])
+        Fbi[i] <- sum(Fb[items])
+        Fei[i] <- sum(Fe[items])
+      }
+    } else {
+      for(i in 1:J) {
+        Xa <- X[, i + 1]
+        ns[[i]] <- matrix(0, g, LS)
+        for(a in 0:m){
+          nst <- tapply((Xa == a), Subs, sum)
+          ns[[i]][a + 1, ] <- nst
+          nuni[i, a + 1] <- sum(nst / (Rs * LS))
+        }
+      }
+      Rss <- rep(Rs, Rs)
+      Fwt <- Fbt <- Fet <- matrix(0, 1, g^2)
+      Fw <- Fb <- Fe <- matrix(0, 1, K)
+      for(k in 1:K){
+        z <- cols[, k]
+        Xa <- X[, z[1] + 1]
+        Xb <- X[, z[2] + 1]
+        if (is.null(fixed.itemstep.order)) {
+          Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
+        } else {
+          Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m, itemstep.order = fixed.itemstep.order[, z])
+        }
+        
+        for(x in 1:g^2){
+          if(Weights[x] > 0){
+            i <- Patterns[x, 1]
+            j <- Patterns[x, 2]
+            
+            nw <- sum((Xa == i & Xb == j) / (Rss * LS))
+            at <- sum((Xa == i) * (rep(ns[[z[2]]][j + 1, ], Rs) - (Xb == j)) / (Rss * (Rss - 1) * LS))
+            
+            Fwt[x] <- Weights[x] * nw
+            Fbt[x] <- Weights[x] * at
+            Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
+          } else {
+            Fwt[x] <- Fbt[x] <- Fet[x] <- 0
+          }
+        } 
+        
+        Fw[k] <- sum(Fwt)
+        Fb[k] <- sum(Fbt)
+        Fe[k] <- sum(Fet)
+      }
+      
+      Fwi <- Fbi <- Fei <- NULL
+      for(i in 1:J) {
+        items <- apply(cols, 2, function(x) any(x == i))
+        Fwi[i] <- sum(Fw[items])
+        Fbi[i] <- sum(Fb[items])
+        Fei[i] <- sum(Fe[items])
       }
     }
     
-    Rss <- rep(Rs, Rs)
-    Fwt <- Fbt <- Fet <- matrix(0, 1, g^2)
-    Fw <- Fb <- Fe <- matrix(0, 1, K)
-    for(k in 1:K){
-      z <- cols[, k]
-      Xa <- X[, z[1] + 1]
-      Xb <- X[, z[2] + 1]
-      Weights <- MLweight(X[, c(1, z + 1)], minx = 0, maxx = m)
-      
-      for(x in 1:g^2){
-        if(Weights[x] > 0){
-          i <- Patterns[x, 1]
-          j <- Patterns[x, 2]
-          
-          nw <- sum((Xa == i & Xb == j) / (Rss * LS))
-          at <- sum((Xa == i) * (rep(ns[[z[2]]][j + 1, ], Rs) - (Xb == j)) / (Rss * (Rss - 1) * LS))
-          
-          Fwt[x] <- Weights[x] * nw
-          Fbt[x] <- Weights[x] * at
-          Fet[x] <- Weights[x] * nuni[z[[1]], i + 1] * nuni[z[[2]], j + 1] 
-        } else {
-          Fwt[x] <- Fbt[x] <- Fet[x] <- 0
-        }
-      } 
-      
-      Fw[k] <- sum(Fwt)
-      Fb[k] <- sum(Fbt)
-      Fe[k] <- sum(Fet)
-    }
     
-    Fwi <- Fbi <- Fei <- NULL
-    for(i in 1:J) {
-      items <- apply(cols, 2, function(x) any(x == i))
-      Fwi[i] <- sum(Fw[items])
-      Fbi[i] <- sum(Fb[items])
-      Fei[i] <- sum(Fe[items])
-    }
+    
     
     
     
@@ -485,3 +640,82 @@
 #                Xa = c(2, 0, 0, 1, 0, 2, 2, 0, 2, 2, 1, 2, 1, 2, 2), 
 #                Xb = c(1, 1, 1, 0, 1, 2, 2, 1, 2, 2, 1, 0, 2, 2, 2), 
 #                Xc = c(0, 0, 0, 1, 0, 2, 2, 1, 2, 1, 0, 0, 1, 1, 2))
+
+"weights" <-
+  # X: Data matrix N x 2 of integer scores [0,1, ..., maxx]
+  # w: Guttman weights 1 x g^2
+  # depends on "all.patterns"
+  function(X, maxx=max.x, minx=0){
+    max.x <- max(X)
+    g <- maxx + 1
+    N <- nrow(X)
+    if (ncol(X) != 2){
+      warning('X contains more than two columns. Only first two columns will be used')
+      X <- X[,1:2]
+    }
+    # Compute order of the ISRFs
+    if (maxx == 1) tmp.1 <- matrix(apply(X,2,tabulate, maxx), nrow=1) else tmp.1 <- apply(X,2,tabulate, maxx)
+    tmp.2 <- apply(tmp.1,2,function(x) rev(cumsum(rev(x))))+runif(2*maxx,0,1e-3)
+    
+    # runif is added to avoid equal ranks
+    order.of.ISRFs <- matrix(rank(-tmp.2),1,maxx*2)
+    # Compute
+    Y <- matrix(all.patterns(2,g),nrow=1)
+    Z <- matrix(rep(Y, maxx), nrow = maxx, byrow = TRUE)
+    Z <- ifelse(Z < row(Z),0,1)
+    Z <- matrix(as.vector(Z), ncol = maxx*2, byrow = T)
+    # COMPUTE WEIGHTS
+    Z <- Z[,order(order.of.ISRFs)]
+    w <- matrix(apply(Z,1,function(x){sum(x*cumsum(abs(x-1)))}),nrow=1)
+    return(w)
+  }
+
+"check.ml.data" <- function(X){
+  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
+    stop("Data are not matrix or data.frame")
+  matrix.X <- as.matrix(X)
+  if (any(is.na(matrix.X))) stop("Missing values are not allowed")
+  if (mode(matrix.X)!="numeric") stop("Data must be numeric")
+  if (any(matrix.X < 0)) stop("All scores should be nonnegative")
+  if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
+  matrix.X[, -1] <- matrix.X[, -1] - min(matrix.X[, -1])
+  return(matrix.X)
+}
+
+"all.patterns" <- function(J,m){
+  grid <- list()
+  j <- 0;
+  p <- m^J
+  for (j in 1:J){
+    grid <- c(grid, j)
+    grid[[j]] <- 0:(m-1)
+  }
+  X <- t(expand.grid(grid))
+  dimnames(X) <- NULL
+  return(X[J:1,])
+}
+
+"phi" <- function(A,f, action){
+  # Numerical values are translations h(A %*% f) = A %*% f -
+  eps = 1E-80;
+  switch(action,
+         "identity" = A %*% f,
+         "exp"      = A %*% exp(f),
+         "log"      = A %*% log(abs(f)+eps),
+         "sqrt"     = A %*% sqrt(f),
+         "xlogx"    = A %*% (-f*log(f+eps)),
+         "xbarx"    = A %*% (f*(1-f))  # x(1-x)
+  )
+}
+
+"dphi" <- function(A,f,df, action){
+  eps=1E-80;
+  switch(action,
+         "identity" = A %*% df,
+         "exp"      = A %*% (as.numeric(exp(f)) * df),
+         "log"      = A %*% (as.numeric(1/(f+eps)) * df),
+         "sqrt"     = A %*% (as.numeric(1/(2*sqrt(f))) * df),
+         "xlogx"    = A %*% (as.numeric(-1-log(f+eps)) * df),
+         "xbarx"    = A %*% (as.numeric(1-2*f) * df),  # x(1-x)
+  )
+}

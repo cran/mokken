@@ -22,8 +22,7 @@ function(X, lowerbound =.3, startset = default.startset, alpha = .05, verbose = 
 
    # initial calculations
    
-   X <- check.data(X)
-   item.label <- dimnames(X)[[2]]
+      item.label <- dimnames(X)[[2]]
    N <- nrow(X)
    S <- var(X)
 

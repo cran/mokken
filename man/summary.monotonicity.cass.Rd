@@ -68,5 +68,5 @@ plot(monotonicity.list)
 summary(monotonicity.list)
 }
 
-\keyword{summary}
-\keyword{monotonicity}
+\concept{manifest monotonicity}
+\concept{monotonicity}

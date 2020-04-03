@@ -74,4 +74,4 @@ check.ca(X, Windex = FALSE, MINSIZE = 4, NWEIGHTOPTION = "noweight",
   
   check.ca(Na, TRUE)
 }
-\keyword{check.ca}
+\concept{conditional association}

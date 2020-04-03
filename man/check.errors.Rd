@@ -80,4 +80,4 @@ Oplus <- check.errors(Communality, FALSE, TRUE)$Oplus
 
 hist(Gplus, breaks = 0:max(Gplus))
 }
-\keyword{restscore}
+\concept{restscore}

@@ -100,4 +100,4 @@ data(acl)
 Communality <- acl[,1:10]
 check.reliability(Communality, LCRC = TRUE)
 }
-\keyword{reliability}
+\concept{reliability}

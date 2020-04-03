@@ -64,7 +64,7 @@ function(X, minvi = .03, minsize = default.minsize){
         violation.matrix[i,5] <- sum(abs(V))
         freqd <- cbind(apply(as.matrix(freq[,1:i]),1,sum), apply(as.matrix(freq[,(i+1):m]),1,sum))
         Z <- abs(sign(-V) * 2 * (sqrt(outer(freqd[,2]+1,freqd[,1]+1)) - sqrt(outer(freqd[,1],freqd[,2]))) /
-              sqrt(outer(freqd[,2],freqd[,1],"+") + outer(freqd[,1],freqd[,2],"+")))
+              sqrt(outer(freqd[,2],freqd[,1],"+") + outer(freqd[,1],freqd[,2],"+") - 1))
         violation.matrix[i,7] <- max(Z)
         violation.matrix[i,8] <- min(col(Z)[Z==max(Z)])
         violation.matrix[i,9] <- min(row(Z)[Z==max(Z)])

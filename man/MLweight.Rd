@@ -10,13 +10,17 @@
 }
 
 \usage{
-    MLweight(X, maxx = NULL, minx = NULL)
+    MLweight(X, maxx = NULL, minx = NULL, itemstep.order = NULL)
 }
 
 \arguments{
   \item{X}{Data matrix with a subject column and two item columns. The subject column is assumed to be the first.}
-  \item{maxx}{The highest possible answer category. If not specified it is determined by using the lowest item score.}
-  \item{minx}{The lowest possible answer category. If not specified it is determined by using the highest item score.}
+  \item{maxx}{The highest possible answer category. If not specified it is determined by using the highest item score.}
+  \item{minx}{The lowest possible answer category. If not specified it is determined by using the lowest item score.}
+  \item{itemstep.order}{The two columns pertaining the two items in question, from a (possibly larger) matrix with 
+		number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). 
+		The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. 
+		Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
 }
 
 \value{
@@ -39,7 +43,7 @@
 }
 
 \seealso{
-    \code{\link{MLcoefH}}, 
+    \code{\link{MLcoefH}}
 }
 
 
@@ -52,6 +56,7 @@
     # Compute the weights
     I <- 3 
     for(i in 1:(I - 1)) for(j in (i + 1):I) 
-     print(MLweight(smallData[, c(1, i + 1, j + 1)], minx = 0, maxx = 2))
+    print(MLweight(smallData[, c(1, i + 1, j + 1)], minx = 0, maxx = 2))
 }
-\keyword{Weighted Guttman errors, two-level scalability coefficients}
+\concept{weighted Guttman errors} 
+\concept{two-level scalability coefficient}
