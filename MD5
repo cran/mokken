@@ -1,4 +1,4 @@
-e3f004474788dbe46e1952b86503bcd8 *DESCRIPTION
+69f9a412337e12a3e54547c84bd3cdbe *DESCRIPTION
 8af9944d18725ed28850a2cf6537585b *NAMESPACE
 d214c9f41e3ef1ea11af32aa6cbd8cb8 *R/ICC.R
 1da1bfc9d079713ea8a86af6c3392724 *R/MLcoefH.R
@@ -37,7 +37,7 @@ f91a7740e6239572e29a125a4a83dd46 *data/autonomySupport.rda
 b5e0f1b3ffa6073adc4348a39681a9bf *data/cavalini.rda
 bd3b0d572e862858473faf6a33dbe810 *data/transreas.rda
 f610eca42f8d9ebf9ce0cb14c6a01e37 *inst/CITATION
-7db5db5bca29795c8cc28aa2ee8446ff *inst/doc/GettingStartedWithMokken.pdf
+9cc118dd6cee07f03fffeeff79790854 *inst/doc/GettingStartedWithMokken.pdf
 8f205d6fe761ea8d020013ba4f8ce155 *man/DS14.Rd
 c14ff8d608044e1e2c0c7d16b475a31b *man/ICC.Rd
 5c3113105c6bd63c43fb67de94806302 *man/MLcoefH.Rd
@@ -58,7 +58,7 @@ fd5c5a199429449dedca3711d00147c3 *man/check.reliability.Rd
 7ca5ca70af815aa816cce88fd980ffab *man/check.restscore.Rd
 c7a9dfa47e5582288d55175b58da6be2 *man/coefH.Rd
 a93a98d52ba10ab89878b6f59f5b7c0b *man/coefZ.Rd
-68224c2b728d6934a864326b876f41fc *man/mokken-package.Rd
+690fdc383274e4545b43cfd3ac9769d0 *man/mokken-package.Rd
 c34716e95640884671496ccab10a11a0 *man/plot.iio.class.Rd
 7bfd0e313c36075664e64fbf61586339 *man/plot.monotonicity.class.Rd
 769df20e015921922b6646e7ad862d0a *man/plot.pmatrix.class.Rd
@@ -73,4 +73,4 @@ b4d2311fd1d64e74570acdc2bb10506c *man/summary.restscore.class.Rd
 e4a9a47c4a3aca98677ab8b16336e5de *src/Makevars
 e4a9a47c4a3aca98677ab8b16336e5de *src/Makevars.win
 5cd1938153149d4caf5c9565b568054d *src/RcppExports.cpp
-6462d58ed429ce7bb191e94e9ff3521d *src/geneticAlgorithm.cpp
+42a30928a7484ff8ce0ca05633f20654 *src/geneticAlgorithm.cpp

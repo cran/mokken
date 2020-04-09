@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.0.0       \cr
-Date:       \tab 2020-04-01  \cr
+Version:    \tab 3.0.1       \cr
+Date:       \tab 2020-04-08  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.

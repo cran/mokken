@@ -335,7 +335,7 @@ void TestHiRcpp(
 			}
 
 			if(sumSij > 0.000001)
-				Zi[i] = S * sqrt(NPERS - 1)/ sqrt(sumSij);
+				Zi[i] = S * sqrt(static_cast<double>(NPERS - 1))/ sqrt(sumSij);
 			else
 				Zi[i] = 0;
 
@@ -395,7 +395,7 @@ void testHijRcpp(
 	// TODO: return nscales rather than taking it by reference.
 	int i, j, k;                /* for-loop indicators */
 	int a, b;                   /* indicators for 'items' */
-	int randnum;                /* a randomly drawn number */
+	double randnum;             /* a randomly drawn number */
 
 	/* check whether all Hij coefficients are larger than 0 */
 	for(i=0; i<NUMITEMS[scale]; i++) {
@@ -904,7 +904,7 @@ void GeneticAlgorithmRcpp(
 
 	if (popSum == 0)
 	{
-		while(!TotalFitness)
+		while(!static_cast<bool>(TotalFitness))
 		{
 			count++;
 
@@ -984,9 +984,9 @@ IntegerMatrix runGeneticAlgorithm(
 	NumericMatrix HijMatrix(NITEM, NITEM);
 	IntegerMatrix newpopulation(POPSIZE, NITEM);
 
-	for(int i = 0; i<NITEM; i++)
+	for(size_t i = 0; i < static_cast<size_t>(NITEM); i++)
 	{
-		for(int j = 0; j<NITEM; j++)
+		for(size_t j = 0; j < static_cast<size_t>(NITEM); j++)
 		{
 			if (VAR(j, i) > 0.0000001)
 				HijMatrix(j, i) = VAR(j, i) / MAXVAR(j, i);
