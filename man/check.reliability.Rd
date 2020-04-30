@@ -80,6 +80,12 @@ The optimal number of latent classes should be determined prior to the computati
   Van der Ark, L. A., D. W. van der Palm, and K. Sijtsma (2011).
   A latent class approach to estimating test-score reliability.
   \emph{Applied Psychological Measurement, 35}, 380-392.
+  doi:10.1177/0146621610392911
+  
+  Van der Palm, D. W., Van der Ark, L. A. and Sijtsma, K. (2014).
+  A flexible latent class approach to estimating test-score reliability.
+  \emph{Journal of Educational Measurement, 51}, 339-357.
+  doi:10.1111/jedm.12053
 }
 
 \author{

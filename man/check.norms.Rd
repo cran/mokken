@@ -39,9 +39,9 @@ check.norms(y, nice.output = TRUE)
 }
 
 \references{
-  Oosterhuis, H. E. M., Van der Ark, L. A., and Sijtsma, K. (in press).
+  Oosterhuis, H. E. M., Van der Ark, L. A., and Sijtsma, K. (2017).
    Standard errors and confidence intervals of norm statistics for educational and psychological tests.
-  \emph{Psychometrika}. doi:10.1007/s11336-016-9535-8
+  \emph{Psychometrika, 82}, 559-588. doi:10.1007/s11336-016-9535-8
 }
 
 \seealso{

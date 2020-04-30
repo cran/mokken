@@ -541,7 +541,7 @@ void EvaluateRcpp(
 
 		/* Calculate the fitness value */
 		for (int k = 0; k < nclus; k++)
-			fitness[mem] += (pow(NITEM,-(k+1))*NUMITEMS[k]);
+			fitness[mem] += pow(static_cast<double>(NITEM),static_cast<double>(-(k+1))) * NUMITEMS[k];
 
 	}
 }

@@ -55,14 +55,19 @@ coefH(X, se = TRUE, nice.output = TRUE, level.two.var = NULL, group.var = NULL,
  \item{Groups}{Scalability coefficients for subgroups (see details)} }
 
 \references{
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
+  Koopman, L. Zijlstra, B. J. H, and Van der Ark, L. A. (2020). 
   \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
   Manuscript submitted for publication.
 
   Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
-  
+
+  Kuijpers, R. E., van der Ark, L. A., Croon, M. A., and Sijtsma, K.  (2016).
+  Bias in estimates and standard errors of Mokken's scalability coefficients.
+  \emph{Applied Psychological Measurement 40}, 331-345.
+  doi: 10.1177/0146621616638500
+    
   Loevinger, J. (1948). The technique of homogeneous tests compared with some aspects of `scale analysis' and factor analysis.
   \emph{Psychological Bulletin, 45}, 507-530.
    

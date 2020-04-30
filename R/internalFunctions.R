@@ -1,8 +1,9 @@
 "check.data" <-
 function(X){
    if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-     stop("Data are not matrix or data.frame")
+    stop("Data are not matrix or data.frame")
     matrix.X <- as.matrix(X)
+    if (any(dim(matrix.X) == 0)) stop("Matrix has no rows or columns")
     if (any(is.na(matrix.X))) stop("Missing values are not allowed")
     if (mode(matrix.X)!="numeric") stop("Data must be numeric")
     if (any(matrix.X < 0)) stop("All scores should be nonnegative")

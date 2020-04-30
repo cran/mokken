@@ -43,10 +43,11 @@ These data have also been analyzed in papers on Mokken scale analysis (Sijtsma a
  Association of Type D personality with increased vulnerability to depression: Is there a role for inflammation or endothelial dysfunction? - The Maastricht Study. 
  \emph{Journal of Affective Disorders, 189}, 118-125. 
 
- Sijtsma, K., and Van der Ark, L. A. (2016).
+ Sijtsma, K., and Van der Ark, L. A. (2017).
  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
- \emph{British Journal of Mathematical and Statistical Psychology}.
+ \emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
  doi: 10.1111/bmsp.12078
+
 
  Straat, J. H., van der Ark, L. A., and Sijtsma, K. (2016).
  Using conditional association to identify locally independent item sets.

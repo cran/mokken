@@ -55,13 +55,19 @@
   An introduction and an application. In L. A. Van der Ark, D. M. Bolt, W.-C. Wang, & M. Wiberg (Eds.), 
   \emph{Quantitative psychology research}. New York, NY: Springer. doi: 10.1007/978-3-319-38759-8_11
   
-  Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2019). 
-  Standard errors of two-level scalability coefficients. \emph{British Journal of Statistical and Mathematical Psychology}.
-  Advance online publication. doi: 10.1111/bmsp.12174 
+  Koopman, L. Zijlstra, B. J. H, and Van der Ark, L. A. (2020). 
+  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+  Manuscript submitted for publication.
 
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
-  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. Manuscript submitted 
-     for publication.
+  Koopman, L., Zijlstra, B. J. H., and Van der Ark, L. A. (2020).
+  Standard errors of two-level scalability coefficients.
+  \emph{British Journal of Mathematical and Statistical Psychology, 73,} 213-236.
+  doi: 10.1111/bmsp.12174
+
+  Koopman, L., Zijlstra, B. J. H., De Rooij, M., and Van der Ark, L. A. (2020).
+  Bias of two-level scalability coefficients and their standard errors.
+  \emph{Applied Psychological Measurement, 44}, 197-214.
+  doi: 10.1177/0146621619843821
 
   Snijders, T. A. B. (2001). Two-level non-parametric scaling for dichotomous data. In A. Boomsma, 
   M. A. J. van Duijn, & T. A. B. Snijders (Eds.), \emph{Essays on item response theory} (p. 319-338). 

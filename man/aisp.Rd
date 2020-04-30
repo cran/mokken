@@ -99,8 +99,9 @@
 }
 \author{
  L. A. van der Ark \email{L.A.vanderArk@uva.nl},
- J. H. Straat
+ D. van den Bergh
  L. Koopman
+ J. H. Straat
 }
 
 \seealso{
