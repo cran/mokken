@@ -18,7 +18,7 @@
 \usage{
     aisp(X, lowerbound=.3, search="normal", alpha=.05, StartSet=FALSE, popsize=20, 
          maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE, 
-         type.se = "delta", test.Hi = FALSE, level.two.var = NULL)
+         type.se = "Z", test.Hi = FALSE, level.two.var = NULL)
 }
 
 \arguments{
@@ -27,9 +27,9 @@
           Missing values are not allowed}
   \item{search}{Type of item selection procedure: 
             "normal": Mokken's automated item selection procedure 
-           (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002);
+           (Mokken, 1971; Molenaar & Sijtsma, 2000; Sijtsma & Molenaar, 2002);
            "ga": item selection using a genetic algorithm
-           (Straat, van der Ark, and Sijtsma, 2013). The default is "normal".}
+           (Straat, van der Ark, & Sijtsma, 2013). The default is "normal".}
   \item{lowerbound}{Value or vector with numeric scaling criteria; 0 <= \code{lowerbound} < 1.  The default is \code{0.3}.}
   \item{alpha}{Type I error level. The default is \code{0.05}.}
   \item{StartSet}{Startset of items for the first scale. Vector of item numbers. If \code{StartSet == FALSE} no startset is provided (default).}
@@ -40,7 +40,8 @@
   \item{verbose}{Logical, indicating whether should output to the screen the results of the model. If \code{FALSE}, no output is produced. The default is \code{TRUE}.}
   \item{type.se}{Indicates which type of standard errors is used in a Z-test whether coefficients meet the scaling criteria:
              "delta": uses standard errors approximated by the delta method (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020);
-             "Z": uses original Z-test (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). The default is "delta".}
+             "Z": uses original Z-test (Mokken, 1971; Molenaar & Sijtsma, 2000; Sijtsma & Molenaar, 2002). 
+             The default is "Z", but is automatically changed to "delta" for test.Hi == TRUE or if a level.two.var is given.}
   \item{test.Hi}{If \code{FALSE}: tests if Hi is significantly larger than zero; 
               If \code{TRUE} tests if Hi is significantly larger than \code{lowerbound}. The default is \code{FALSE}.}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
@@ -67,41 +68,42 @@
   \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
   Manuscript submitted for publication.
 
-  Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
+  Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
+  \url{https://doi.org/10.1177/0081175013481958}
   
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
-  Berlin, Germany: De Gruyter.
+  De Gruyter.
   
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+  Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
+  IEC ProGAMMA.
   
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
+  Sage.
 
-   Straat, J. H., Van der Ark, L. A., and Sijtsma, K. (2013).
+  Straat, J. H., Van der Ark, L. A., & Sijtsma, K. (2013).
   Comparing optimization algorithms for item selection in Mokken scale analysis.
   \emph{Journal of Classification, 30,} 72-99.
+  \url{https://doi.org/10.1007/s00357-013-9122-y}
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
   Van der Ark, L. A. (2012). 
   New developments in {M}okken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}, 48. 
-  doi:10.18637/jss.v048.i05
+  \url{https://www.jstatsoft.org/article/view/v048i05}
 }
 \author{
  L. A. van der Ark \email{L.A.vanderArk@uva.nl},
- D. van den Bergh
+ J. H. Straat,
  L. Koopman
- J. H. Straat
 }
 
 \seealso{
@@ -129,7 +131,7 @@ scales
 }
 
 # Use a significant test for criteria Hi > c (rather than the point estimate)
-scale <- aisp(Communality, test.Hi = TRUE, verbose = TRUE)
+scale <- aisp(Communality, type.se = "delta", test.Hi = TRUE, verbose = TRUE)
 coefH(Communality[,scale==1])
 
 # Partition these 10 items into mokken scales using a genetic algorithm.
@@ -140,7 +142,7 @@ coefH(Communality[,scale==1])
 data(autonomySupport)
 scores <- autonomySupport[, -1]
 classes <- autonomySupport[, 1]
-scale <- aisp(scores, level.two.var = classes)
+scale <- aisp(scores, type.se = "delta", level.two.var = classes)
 coefH(scores[, scale==1], level.two.var = classes)
 
 }

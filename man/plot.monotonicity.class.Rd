@@ -42,24 +42,24 @@ For \code{ask=="FALSE"}, the default graphic device in R may only display the la
 }
 
 \references{
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+  Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
+  IEC ProGAMMA.
   
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
+  Sage.
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
- Van der Ark, L. A. (2014).
+  Van der Ark, L. A. (2014).
   Visualizing uncertainty of estimated response functions in nonparametric item response theory.
-  In R. E. Millsap, L. A. van der Ark, D. Bolt, and C. M. Woods (Eds.),
+  In R. E. Millsap, L. A. van der Ark, D. Bolt, & C. M. Woods (Eds.),
   \emph{New developments in quantitative psychology} (pp. 59-68). New York: Springer.
-
+  \url{https://doi.org/10.1007/978-1-4614-9348-8_5}
 
 }
 

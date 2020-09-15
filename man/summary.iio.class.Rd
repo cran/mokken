@@ -26,13 +26,13 @@ Summarize checks of invariant item ordering.
    showing for each item a summary of the violations of an invariant item ordering:
     \code{itemH} = Item-scalability coefficient; 
     \code{#ac} = number of active pairs that were investigated; 
-    \code{#vi} = number of violations in which the item is involved;
+    \code{#vi} = number of violations in which the item is intvolved;
     \code{#vi/#ac} = propotion of active pairs that is involved in a violation;
     \code{maxvi} = maximum violation;
     \code{sum} = sum of all violations;
     \code{tmax} (for method MIIO), \code{zmax} (for method MSCPM), or \code{xmax} (for method IT) = maximum t-value, z-value, and chi-square value, respectively;
     \code{tsig} (for method MIIO), \code{zsig} (for method MSCPM), or \code{xsig} (for method IT) = number of significant t-values, z-values, and chi-square values, respectively;
-    \code{crit} = Crit value (Molenaar and Sijtsma, 2000, pp. 49, 74).}
+    \code{crit} = Crit value (Molenaar & Sijtsma, 2000, pp. 49, 74).}
  \item{backward.selection}{Matrix showing the number of violations for each item (rows) at each step of the backward item selection proces (columns).
     The first column shows the number of violations for each item. Then in an iterative procedure, the item whose removal results in the largest 
     decrease of violations is removed and the number of violations is computated again. If the reduction in the number of violations is undecisive
@@ -43,31 +43,34 @@ Summarize checks of invariant item ordering.
 }
 
 \references{
-  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, and K. Sijtsma (2010).
+  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
+  \url{https://doi.org/10.1177/0013164409355697}
 
-  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, and K. Sijtsma (2011).
+  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, & K. Sijtsma (2011).
   Polytomous latent scales for the investigation of the ordering of items.
   \emph{Psychometrika, 76}, 200-216.
+  \url{https://doi.org/10.1007/s11336-010-9199-8}
 
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+  Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
-
-  Sijtsma, K., R. R. Meijer, and L. A. van der Ark (2011).
+  IEC ProGAMMA.
+  
+  Sijtsma, K., R. R. Meijer, & Van der Ark, L. A. (2011).
   Mokken scale analysis as time goes by: An update for scaling practitioners.
   \emph{Personality and Individual Differences, 50}, 31-37.
-
+  \url{https://doi.org/10.1016/j.paid.2010.08.016} 
+ 
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 20} (11), 1-19.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
   Van der Ark, L. A. (2012).
   New developments in Mokken scale analysis in R.
  \emph{Journal of Statistical Software, 48}(5), 1-27.
-  \url{http://www.jstatsoft.org/v48/i5}
+  \url{https://www.jstatsoft.org/article/view/v048i05}
 
 }
 

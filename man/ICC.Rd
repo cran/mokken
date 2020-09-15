@@ -29,11 +29,11 @@
 
 \references{
   Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
-  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. Manuscript submitted 
-     for publication.
+  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+  Manuscript submitted for publication.
 
   Snijders, T. A. B., & Bosker, R. J. (2012). 
-  \emph{Multilevel analysis: An introduction to basic and advanced multilevel modeling} (2nd ed.). London: Sage.
+  \emph{Multilevel analysis: An introduction to basic and advanced multilevel modeling} (2nd ed.). Sage.
 }
 
 \author{

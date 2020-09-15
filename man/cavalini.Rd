@@ -13,7 +13,7 @@ A 828 by 17 matrix containing integers. \code{attributes(cavalini)} gives detail
 \details{
  Items have four ordered answer categories,
 \emph{never} (score 0), \emph{seldom} (1), \emph{often} (2), and \emph{always} (3).
-The 17 items constitute 4 scales (for detailed information, see Sijtsma and Molenaar, 2002, pp. 82-86).
+The 17 items constitute 4 scales (for detailed information, see Sijtsma & Molenaar, 2002, pp. 82-86).
 
 
 \tabular{ll}{
@@ -43,9 +43,9 @@ Cavalini, P. M. (1992).
 \emph{It's an ill wind that brings no good. Studies on odour annoyance and the dispersion of odorant concentrations from industries.} 
 Unpublished doctoral disseratation. University of Groningen, The Netherlands.
 
-Sijtsma, K. and Molenaar, I. W. (2002). 
-\emph{Introduction to nonparametric item response theory}, 
-Thousand Oaks, CA: Sage.
+Sijtsma, K., & Molenaar, I. W. (2002)
+\emph{Introduction to nonparametric item response theory}.
+Sage.
 
 }
 

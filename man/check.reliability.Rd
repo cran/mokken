@@ -6,9 +6,9 @@ Computation of reliability statistics
 }
 
 \description{
-Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) statistic (a.k.a rho; also see, Sijtsma and Molenaar, 1987; Van der Ark, 2010), 
+Returns a list of reliability statistics: Molenaar Sijtsma (MS, 1984, 1988) statistic (a.k.a rho; also see, Sijtsma & Molenaar, 1987; Van der Ark, 2010), 
     Cronbach's (1951) alpha, Guttman's (1945) lambda 2, and the latent class reliability coefficient
-    (LCRC; Van der Ark, Van der Palm, and Sijtsma, 2011).
+    (LCRC; Van der Ark, Van der Palm, & Sijtsma, 2011).
 }
 
 \usage{
@@ -49,43 +49,49 @@ The optimal number of latent classes should be determined prior to the computati
   Cronbach, L. (1951).
   Coefficient alpha and the internal structure of tests.
   \emph{Psychometrika, 16}, 297-334.
-
+  \url{https://doi.org/10.1007/BF02310555}
+  
   Guttman, L. (1945).
   A basis for analyzing test-retest reliability.
   \emph{Psychometrika, 10},255-282.
+ \url{https://doi.org/10.1007/BF02288892}
 
-  Molenaar, I. W. and K. Sijtsma (1984).
+  Molenaar, I. W., &  Sijtsma, K. (1984).
   Internal consistency and reliability in Mokken's nonparametric item response model.
   \emph{Tijdschrift voor onderwijsresearch, 9}, 257--268.
+  Retrieved from \url{https://pure.uvt.nl/ws/portalfiles/portal/1030704/INTERNAL.PDF}
 
-  Molenaar, I. W. and K. Sijtsma (1988).
+  Molenaar, I. W., & Sijtsma, K. (1988).
   Mokken's approach to reliability estimation extended to multicategory items.
   \emph{Kwantitatieve methoden, 9(28)}, 115-126.
+  Retrieved from \url{https://pure.uvt.nl/ws/portalfiles/portal/1030575/MOKKEN__.PDF}
   
-  Sijtsma, K. and I. W. Molenaar (1987).
+  Sijtsma, K., & Molenaar, I. W. (1987).
   Reliability of test scores in nonparametric item response theory.
   \emph{Psychometrika, 52},79-97.
+  \url{https://doi.org/10.1007/BF02293957}
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
   Van der Ark, L. A. (2010). 
   Computation of the Molenaar Sijtsma statistic. 
-  In A. Fink, B. Lausen, W. Seidel, and A. Ultsch (Eds.),
+  In A. Fink, B. Lausen, W. Seidel, & A. Ultsch (Eds.),
   \emph{Advances in data analysis, data handling and business intelligence} (pp. 775-784).
-  Berlin: Springer.
+  Springer.
+  \url{https://doi.org/10.1007/978-3-642-01044-6_7}
 
-  Van der Ark, L. A., D. W. van der Palm, and K. Sijtsma (2011).
+  Van der Ark, L. A., Van der Palm, D. W., & Sijtsma, K. (2011).
   A latent class approach to estimating test-score reliability.
   \emph{Applied Psychological Measurement, 35}, 380-392.
-  doi:10.1177/0146621610392911
+  \url{https://doi.org/10.1177/0146621610392911}
   
-  Van der Palm, D. W., Van der Ark, L. A. and Sijtsma, K. (2014).
+  Van der Palm, D. W., Van der Ark, L. A. & Sijtsma, K. (2014).
   A flexible latent class approach to estimating test-score reliability.
   \emph{Journal of Educational Measurement, 51}, 339-357.
-  doi:10.1111/jedm.12053
+  \url{https://doi.org/10.1111/jedm.12053}
 }
 
 \author{

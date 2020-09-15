@@ -82,7 +82,7 @@ function(X, minvi = .03, minsize = default.minsize){
     results[[j]][[4]] <- paste("Minsize = ",minsize," Minvi = ",minvi,sep="")
 
   }
- Hi <- coefH(X,FALSE)$Hi
+ Hi <- coefHTiny(X)$Hi
  monotonicity.list <- list(results = results, I.labels = I.labels, Hi = Hi, m = m, X = X)
  class(monotonicity.list) <- "monotonicity.class"
  return(monotonicity.list)

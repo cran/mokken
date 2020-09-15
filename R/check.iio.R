@@ -34,7 +34,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    X <- X[, item.order]
    I.labels <- dimnames(X)[[2]]
    dimnames(vi.matrix) <- list(I.labels,I.labels)
-   Hi <- coefH(X, FALSE)$Hi
+   Hi <- coefHTiny(X)$Hi
    g <- 0
    gg <- 0
    h <- 0
@@ -289,7 +289,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
        maxvi <- which(nvi ==max(nvi))
        if(length(maxvi) > 1){ 
           H <- rep(0,length(maxvi))
-          for (i in 1:length(maxvi)) H[i] <- coefH(X[,-c(items.removed,maxvi[i])],FALSE)$H + rnorm(1,0,1e-5)
+          for (i in 1:length(maxvi)) H[i] <- coefHTiny(X[,-c(items.removed,maxvi[i])])$H + rnorm(1,0,1e-5)
           maxvi <- maxvi[which(H==max(H))[1]]
        }# end if 
        vi.matrix.a[maxvi,] <- vi.matrix.a[,maxvi] <- 0

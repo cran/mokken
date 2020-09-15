@@ -15,6 +15,7 @@ export(
  check.restscore,
  ICC,
  MLcoefH,
+ MLcoefZ,
  MLweight,
  recode,
  twoway
@@ -42,7 +43,7 @@ export(
 
 importFrom(graphics, plot)
 importFrom("graphics", "axis", "layout", "lines", "par", "polygon", "title")
-importFrom("stats", "as.formula", "cor", "cov", "aggregate", "median", "pchisq", "pf", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "t.test", "var")
+importFrom("stats", "as.formula", "cor", "cov", "aggregate", "median", "pchisq", "pf", "pnorm", "qnorm", "quantile", "rnorm", "runif", "sd", "setNames", "t.test", "var")
 importFrom("grDevices", "col2rgb", "rgb")
 importFrom("utils", "combn", "flush.console")
 import(poLCA)

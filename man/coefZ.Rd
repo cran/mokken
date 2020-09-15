@@ -8,15 +8,16 @@ Computation of Z-Values
 \description{
 Computes Zij-values of item pairs, Zi-values of items, and Z-value of the entire scale,
 which are used to test whether Hij, Hi, and H, respectively, are significantly 
-greater than some given lowerbound using the original method Z
+greater than zero using the original method Z
 (Molenaar and Sijtsma, 2000, pp. 59-62; Sijtsma and Molenaar, p. 40; Van der Ark, 2007; 2010)
-or the delta method (Kuijpers, Van der Ark, & Croon, 2013; Koopman, Zijlstra, & Van der Ark, 2020).
-The delta method can also handle nested data.
+or the delta method (Kuijpers, Van der Ark, & Croon, 2013; Koopman, Zijlstra, & Van der Ark, 2020a).
+The delta method can also handle nested data and can test other lowerbounds than zero.
+The test uses range-preserving asymptotic theory (Koopman, Zijlstra, & Van der Ark, 2020b)
 
 Used in the function \code{aisp}
 }
 \usage{
-coefZ(X, lowerbound = 0, type.se = "delta", level.two.var = NULL)
+coefZ(X, lowerbound = 0, type.se = "Z", level.two.var = NULL)
 }
 
 \arguments{
@@ -26,11 +27,11 @@ coefZ(X, lowerbound = 0, type.se = "delta", level.two.var = NULL)
   \item{lowerbound}{Value of the null hypothesis to which the scalability are compared to compute the Z-score (see details),
           0 <= \code{lowerbound} < 1. The default is 0.}
   \item{type.se}{Indicates which type of standard errors is used to compute the Z-score:
-          "delta": uses standard errors approximated by the delta method (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020);
-          "Z": uses original Z-test (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). 
-          The default is "delta".}
+          "delta": uses standard errors approximated by the delta method (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020a);
+          "Z": uses original Z-test and is only appropriate to test lowerbound = 0 
+	  (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). The default is "Z".}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
-          that indicates the level two variable for nested data (Koopman et al., 2020).}
+          that indicates the level two variable for nested data (Koopman et al., 2020a).}
 }
 
 \value{
@@ -40,31 +41,38 @@ coefZ(X, lowerbound = 0, type.se = "delta", level.two.var = NULL)
 }
 
 \details{
-The Z-score for the estimated item-pair coefficient \eqn{Hij} with standard error \eqn{SE(Hij)} is computed as \deqn{Z = (Hij - lowerbound) / SE(Hij)}
+The Z-score with type.se = "delta" for the estimated item-pair coefficient \eqn{Hij} with standard error \eqn{SE(Hij)} is computed as 
+\deqn{Z = -(log(1 - Hij) - log(1 - lowerbound)) / (SE(Hij) / (1 - Hij)) (Koopman, Zijlstra, Van der Ark, 2020b)}
 Unlike \code{coefH}, standard errors are not provided.
 }
 
 \references{
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
+  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
   \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
   Manuscript submitted for publication.
+  
+  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
+  \emph{Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis}. 
+  Manuscript submitted for publication.
 
-  Kuijpers, R. E., Van der Ark, L. A., and Croon, M. A. (2013).
+ 
+   Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
+  \url{https://doi.org/10.1177/0081175013481958}
  
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+  Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
+  IEC ProGAMMA.
   
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
+  Sage.
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
   Van der Ark, L. A. (2010). 
   Getting started with Mokken scale analysis in \pkg{R}. 
@@ -91,14 +99,14 @@ coefH(Communality)
 coefZ(Communality)
 
 # Using lowerbound .3
-coefZ(Communality, lowerbound = .3)
+coefZ(Communality, lowerbound = .3, type.se = "delta")
 
 # Z-scores for nested data
 data(autonomySupport)
 scores <- autonomySupport[, -1]
 classes <- autonomySupport[, 1]
 coefH(scores, level.two.var = classes)
-coefZ(scores, level.two.var = classes)
+coefZ(scores, type.se = "delta", level.two.var = classes)
 
 
 }

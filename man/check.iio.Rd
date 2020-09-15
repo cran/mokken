@@ -64,31 +64,34 @@ alpha = .05, item.selection=TRUE, verbose=FALSE)
 }
 
 \references{
-  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, and K. Sijtsma (2010).
+  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
+  \url{https://doi.org/10.1177/0013164409355697}
 
-  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, and K. Sijtsma (2011).
+  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, & K. Sijtsma (2011).
   Polytomous latent scales for the investigation of the ordering of items.
   \emph{Psychometrika, 76}, 200-216.
+  \url{https://doi.org/10.1007/s11336-010-9199-8}
 
-  Sijtsma, K., R. R. Meijer, and L. A. van der Ark (2011).
+  Sijtsma, K., R. R. Meijer, & Van der Ark, L. A. (2011).
   Mokken scale analysis as time goes by: An update for scaling practitioners.
   \emph{Personality and Individual Differences, 50}, 31-37.
+  \url{https://doi.org/10.1016/j.paid.2010.08.016} 
 
-  Sijtsma, K, and I. W. Molenaar (2002)
+  Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
+  Sage.
 
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 20} (11), 1-19.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
  Van der Ark, L. A. (2012).
   New developments in Mokken scale analysis in R.
  \emph{Journal of Statistical Software, 48}(5), 1-27.
-  \url{http://www.jstatsoft.org/v48/i5}
+  \url{https://www.jstatsoft.org/article/view/v048i05}
 
 }
 

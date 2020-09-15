@@ -8,13 +8,13 @@ citEntry(entry = "Article",
   volume       = "20",
   number       = "11",
   pages        = "1--19",
-  url          = "http://www.jstatsoft.org/v20/i11/",
+  url          = "https://www.jstatsoft.org/article/view/v020i11",
 
   textVersion  =
   paste("L. Andries van der Ark (2007).",
         "Mokken Scale Analysis in R.",
         "Journal of Statistical Software, 20(11), 1-19.",
-        "URL http://www.jstatsoft.org/v20/i11/.")
+        "URL https://www.jstatsoft.org/article/view/v020i11.")
 )
 
 citEntry(entry = "Article",
@@ -25,11 +25,11 @@ citEntry(entry = "Article",
   volume       = "48",
   number       = "5",
   pages        = "1--27",
-  url          = "http://www.jstatsoft.org/v48/i05/",
+  url          = "https://www.jstatsoft.org/article/view/v048i05",
 
   textVersion  =
   paste("L. Andries van der Ark (2012).",
         "New Developments in Mokken Scale Analysis in R.",
         "Journal of Statistical Software, 48(5), 1-27.",
-        "URL http://www.jstatsoft.org/v48/i05/.")
+        "https://www.jstatsoft.org/article/view/v048i05.")
 )

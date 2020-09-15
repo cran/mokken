@@ -38,17 +38,20 @@ twoway(X, nCompletedDataSets = 1, minX = defaultMinX, maxX = defaultMaxX, seed =
 
 \references{
 
-  Bernaards, C. A. and Sijtsma, K. (2000).  
+  Bernaards, C. A., & Sijtsma, K. (2000).  
   Influence of simple imputation and EM methods on factor analysis when item nonresponse in questionnaire data is nonignorable
   \emph{Multivariate Behavioral Research, 35}, 321-364.
+  \url{https://doi.org/10.1207/S15327906MBR3503_03}
 
-  Sijtsma, K. and Van der Ark, L. A. (2003).
+  Sijtsma, K., & Van der Ark, L. A. (2003).
   Investigation and treatment of missing item scores in test and questionnaire data.
   \emph{Multivariate Behavioral Research, 38}, 505-528.
+  \url{https://doi.org/10.1207/s15327906mbr3804_4}
 
-  Van Ginkel, J. R., Van dec Ark, L. A., and Sijtsma, K. (2007).
+  Van Ginkel, J. R., Van dec Ark, L. A., & Sijtsma, K. (2007).
   Multiple imputation of item scores in test and questionnaire data, and influence on psychometric results.
-  \emph{Multivariate Behavioral Research, 42}, 387-414.
+  \emph{Multivariate aBehavioral Research, 42}, 387-414.
+  \url{https://doi.org/10.1080/00273170701360803}
 }
 
 \author{

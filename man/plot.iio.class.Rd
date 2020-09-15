@@ -45,28 +45,32 @@ For \code{ask==FALSE}, the default graphic device in R may only display the last
 
 
 \references{
-  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, and K. Sijtsma (2010).
+  Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
+  \url{https://doi.org/10.1177/0013164409355697}
 
-  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, and K. Sijtsma (2011).
+  Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, & K. Sijtsma (2011).
   Polytomous latent scales for the investigation of the ordering of items.
   \emph{Psychometrika, 76}, 200-216.
+  \url{https://doi.org/10.1007/s11336-010-9199-8}
 
-  Sijtsma, K., R. R. Meijer, and L. A. van der Ark (2011).
+  Sijtsma, K., R. R. Meijer, & Van der Ark, L. A. (2011).
   Mokken scale analysis as time goes by: An update for scaling practitioners.
   \emph{Personality and Individual Differences, 50}, 31-37.
+  \url{https://doi.org/10.1016/j.paid.2010.08.016} 
 
   Van der Ark, L. A. (2012). 
-  New developments in Mokken scale analysis in \pkg{R}. 
+  New developjements in Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 48} (5), 1-27.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v048i05}
+  
   
   Van der Ark, L. A. (2014).
   Visualizing uncertainty of estimated response functions in nonparametric item response theory.
-  In R. E. Millsap, L. A. van der Ark, D. Bolt, and C. M. Woods (Eds.),
+  In R. E. Millsap, L. A. van der Ark, D. Bolt, & C. M. Woods (Eds.),
   \emph{New developments in quantitative psychology} (pp. 59-68). New York: Springer.
-
+  \url{https://doi.org/10.1007/978-1-4614-9348-8_5}
 }
 
 

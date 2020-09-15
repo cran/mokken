@@ -7,19 +7,19 @@
 Mokken Scale Analysis
 }
 \description{
-Mokken scale analysis (Mokken, 1971; Sijtsma and Molenaar, 2002; Sijtsma and Van der Ark, 2017) is a scaling procedure 
+Mokken scale analysis (Mokken, 1971; Sijtsma & Molenaar, 2002; Sijtsma & Van der Ark, 2017) is a scaling procedure 
 for both dichotomous and polytomous items.
 It consists of an item selection algorithm to partition a set of items into Mokken scales
  and several methods to check the assumptions of two nonparametric item response theory
 models: the monotone homogeneity model and the double monotonicity model.
-The output of this R-package resembles the output of the stand-alone program MSP (Molenaar and Sijtsma, 2000).
+The output of this R-package resembles the output of the stand-alone program MSP (Molenaar & Sijtsma, 2000).
 }
 \details{
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.0.2       \cr
-Date:       \tab 2020-04-28  \cr
+Version:    \tab 3.0.3       \cr
+Date:       \tab 2020-09-15  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -30,15 +30,17 @@ The package contains the following data sets
 \code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
 \code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
 \code{\link{DS14}}               \tab  Scores on a Type D test (bootstrap sample) \cr
+\code{\link{autonomySupport}}    \tab  Scores from students on their teacher's autonomy support \cr
+\code{\link{SWMD}}               \tab  Scores from pupils nested in classrooms on their well-being with teachers \cr
 }
 
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
-
+The Mokken package was created by Andries van der Ark, who is also the maintainer. Significant parts have been developed by Letty Koopman (multilevel analysis) and Don van den Berg and Hendrik Straat (all C and C++ codes). 
 Thanks are due 
- to Michael Allerhand, Don van den Berg, Geert H. van Kollenburg, Letty Koopman, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, J. Hendrik Straat, and Daniel W. van der Palm for contributing R code; 
- to Don van den Bergh, Geert H. van Kollenburg, Letty Koopman, Rudy Ligtvoet, Patrick Mair, J. Hendrik Straat, and Don van Ravenswaaij for testing the software; 
+ to Michael Allerhand, Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, Daniel W. van der Palm, and Max Welz for contributing R code; 
+ to Geert H. van Kollenburg, Patrick Mair, and Don van Ravenswaaij for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, and Na Yang for reporting comments or bugs;
+ to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, Max Welz, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
  to Harrie C. M. Vorst, Pierre Cavalini, and Johan Denollet for permission to use their data;
  to Robert J. Mokken for lending his last name.
@@ -161,62 +163,80 @@ The following modifications have been made in Version 3.0.0 in comparison to pre
 \code{\link{MLcoefH}}            \tab Extra argument for weighted proportions. Reduces bias in two-level standard errors (Koopman et al. 2020a)\cr
                                  \tab Extra argument for a fixed item-step order\cr
 \code{\link{SWMD}}               \tab New data file (Koopman et al. 2020a)\cr
-
 }
 
-
-. 
-. 
-
-
-
+The following modifications have been made in Version 3.0.3 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{coefZ}}              \tab Error handling added\cr
+                                 \tab The delta test uses range-preserving asymptotic theory (Koopman, Zijlstra, & Van der Ark, 2020c) \cr
+\code{\link{coefH}}              \tab Range-preserving confidence intervals added (Koopman et al., 2020c)\cr
+                                 \tab Extra argument to print variance-covariance matrices of estimated coefficients\cr
+                                 \tab Error handling added for more than 10 response categories\cr
+\code{\link{MLcoefH}}            \tab Range-preserving confidence intervals added (Koopman et al., 2020c)\cr
+                                 \tab Extra argument to print variance-covariance matrices of estimated coefficients\cr
+\code{\link{MLcoefZ}}            \tab New function for z-scores of two-level scalability coefficients (Koopman et al., 2020c)\cr
+\code{\link{aisp}}               \tab type.se default adjusted and additional error handling added\cr
+\code{\link{check.errors}}       \tab Repaired bug in check.errors\cr
+\code{\link{mcmi}}               \tab New data file (Sijtsma & van der Ark, 2020)\cr
+All functions                    \tab A warning has been added if items have different numbers of response categories       
 }
+}
+
 \author{
-L. Andries van der Ark \& L. Koopman
+L. Andries van der Ark & L. Koopman
 Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>. 
 }
 
 \references{
 
-  Koopman, L., Zijlstra, B. J. H. \& Van der Ark, L. A. (2020a).
-  A two-step procedure for scaling multilevel data using Mokken's scalability coefficients.
-  Paper submitted for publication.
-  
-  Koopman, L., Zijlstra, B. J. H. \& Van der Ark, L. A. (2020b).
-  New advances in Mokken scale analysis.
-  Paper presented at the online meeting of the Psychometric Society, July, 2020.
-  
-  Mokken, R. J. (1971). 
-  \emph{A Theory and Procedure of Scale Analysis}. 
-  Berlin, Germany: De Gruyter.
-  
-  Molenaar, I.W. and Sijtsma, K. (2000). 
-  \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
-  
-  Sijtsma, K., and Molenaar, I. W. (2002).
-  \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
+Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
+\emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+Manuscript submitted for publication.
 
-  Sijtsma, K., and Van der Ark, L. A. (2017).
-  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
-  \emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
-  doi: 10.1111/bmsp.12078
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020b).
+New advances in Mokken scale analysis.
+Paper presented at the online meeting of the Psychometric Society, July, 2020.
   
-  Van der Ark, L. A. (2007). 
-  Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software, 20}(11), 1-19.
-  \url{http://www.jstatsoft.org/v20/i11}
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020c).
+Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis.
+Manuscript in preparation.
+  
+Mokken, R. J. (1971) 
+\emph{A Theory and Procedure of Scale Analysis}. 
+De Gruyter.
 
-  Van der Ark, L. A. (2010). 
-  Getting started with Mokken scale analysis in \pkg{R}. 
-  Unpublished manuscript.
-  \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
+Molenaar, I.W., & Sijtsma, K. (2000) 
+\emph{User's Manual MSP5 for Windows} [Software manual].
+IEC ProGAMMA.
+  
+Sijtsma, K., & Molenaar, I. W. (2002)
+\emph{Introduction to nonparametric item response theory}.
+Sage.
 
-  Van der Ark, L. A. (2012). 
-  New developments in Mokken scale analysis in \pkg{R}. 
-  \emph{Journal of Statistical Software, 48}(5), 1-27.
-  \url{http://www.jstatsoft.org/v48/i5}
+Sijtsma, K., & Van der Ark, L. A. (2017).
+A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
+\emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
+\url{https://doi.org/10.1111/bmsp.12078}
+  
+Sijtsma, K., & Van der Ark, L. A. (2020),
+\emph{Measurement models for psychological attributes.}
+Boca Raton, FL: Chapman and Hall/CRC Press.
+\url{https://www.routledge.com/Measurement-Models-for-Psychological-Attributes/Sijtsma-Ark/p/book/9780367424527}
+
+Van der Ark, L. A. (2007). 
+Mokken scale analysis in \pkg{R}. 
+\emph{Journal of Statistical Software, 20}(11), 1-19.
+\url{https://www.jstatsoft.org/article/view/v020i11}
+
+Van der Ark, L. A. (2010). 
+Getting started with Mokken scale analysis in \pkg{R}. 
+Unpuablished manuscript.
+\url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}
+
+Van der Ark, L. A. (2012). 
+New developments in Mokken scale analysis in \pkg{R}. 
+\emph{Journal of Statistical Software, 48}(5), 1-27.
+\url{https://www.jstatsoft.org/article/view/v048i05}
 }
 
 \examples{

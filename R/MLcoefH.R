@@ -1,26 +1,31 @@
 ######## Letty Koopman 
 ######## University of Amsterdam
-# MLcoefH() version 07-02-2020
+# MLcoefH() version 11-09-2020
 #
-# Updates: 
-# Weighted proportions are used rather than average proportions (see Koopman et al 2020 Mokken's scalability coefficients for multilevel data (Quality of Life Research))
-# but averaged proportions can be used if weigh.props = FALSE
-# Uses weights() rather than MLweight() (such that weighted proportions are used)
-# check.data has been changed to check.ml.data (previously the first minx subjects were ignored with minx the minimum score value).
-# A fixed item ordering now can be used as argument
-# More efficient by using vectors with pasted score patterns, rather than matrices
-# Uses the harmonic mean when samples sizes are unequal
+## Updates: 
+#  Argument ci is added to compute range-preserving confidence intervals (Koopman et al 2020 range-preserving confidence intervals (IMPS proceedings))
+#  The variance-covariance matrices are invisibly printed but can be extracted
+## Previous updates:
+#  Weighted proportions are used rather than average proportions (see Koopman et al 2020 Mokken's scalability coefficients for multilevel data (Quality of Life Research))
+#  but averaged proportions can be used if weigh.props = FALSE
+#  Uses weights() rather than MLweight() (such that weighted proportions are used)
+#  check.data has been changed to check.ml.data (previously the first minx subjects were ignored with minx the minimum score value).
+#  A fixed item ordering now can be used as argument
+#  More efficient by using vectors with pasted score patterns, rather than matrices
+#  Uses the harmonic mean when samples sizes are unequal
 
 
-"MLcoefH" <- function(X, se = TRUE, nice.output = TRUE, 
+"MLcoefH" <- function(X, se = TRUE, ci = FALSE, nice.output = TRUE, 
                       subject = 1, fixed.itemstep.order = NULL, 
-                      weigh.props = TRUE){
+                      weigh.props = TRUE, cov.mat = FALSE){
   # Computes the two-level scalability coefficients in Mokken scale analysis
   #
   # Args:
   #   X: Data matrix with a subject column and one column per item. Preferably the subject column consists of integers.
   #   se: If TRUE, computes the standard errors for the coefficients, 
   #       if FALSE, only the coefficients are computed. Default is TRUE.
+  #   ci: The confidence level of the 95% range-preserving confidence intervals. Only evaluated when se = TRUE.
+  #       if FALSE, the intervals are not printed.
   #   nice.output: If TRUE, prints the coefficients and standard errors in a matrix with nice lay-out,
   #                if FALSE, they are printed in a regular type matrix which can be used for further computations. Default is TRUE.
   #   Subject: Represents the subject column. Default is column 1. 
@@ -28,10 +33,10 @@
   #   weight.props: If TRUE: Use weighted proportions across groups to estimate coefficients and standard errors,
   #                 if FALSE: Use averaged proportions across groups to estimate coefficients and standard errors. Default is TRUE
   # 
-  # Supporting mokken functions "MLweight", "weights", "check.ml.data", "all.patterns", "phi", and "dphi".
+  # Supporting mokken functions "MLweight", "weights", "check.ml.data", "all.patterns", "phi", and "dphi", "print.scalCoefsSE"
   #
   # Returns: 
-  #   Two-level scalability coefficients and optionally their standard errors.
+  #   Two-level scalability coefficients and optionally their standard errors and confidence intervals.
   
   # Error handling:
   if(subject != 1){
@@ -68,7 +73,13 @@
       fixed.itemstep.order <- NULL
       warning("fixed.itemstep.order as incorrect dimensions and/or incorrect values: fixed.itemstep.order ignored")
     }
-  
+  if (is.null(ci)) {
+    warning("ci needs to be the confidence level between zero and one, the default of .95 if used. Use ci = FALSE if the ci should not be printed.")
+    ci <- .95
+  } else if (ci < 0L | ci >= 1L | is.na(ci) | (!is.numeric(ci) & ci != FALSE)) {
+    warning("ci needs to be the confidence level between zero and one, the default of .95 if used. Use ci = FALSE if the ci should not be printed.")
+    ci <- .95
+  }  
   # Ensure each subject has > 1 rater
   if(any(Rs == 1)){ 
     warning('For at least one subject there is only 1 rater. The scalability coefficients are computed without this (these) subject(s).') 
@@ -94,7 +105,7 @@
   Patterns <- cbind("Xa" = rep(0:m, each = m + 1), "Xb" = rep(0:m, m + 1)) 
   
   
-  if(se == TRUE){
+  if(se | ci){
     Xred <- apply(X, 1, paste, collapse=",")
     uniqueRows <- which(!duplicated(Xred))
     R <- X[uniqueRows, ]
@@ -330,7 +341,8 @@
     g7 <- phi(A9, g6, "exp")
     G7 <- dphi(A9, g6, G6, "exp")
     
-    se.Hij <- sqrt(diag(G7 %*% (covtot %*% t(G7))))
+    ACM.Hij <- G7 %*% (covtot %*% t(G7))
+    se.Hij <- sqrt(diag(ACM.Hij))
     
     HBij <- g5[1:K, ]
     HWij <- g5[(K + 1):(K * 2), ]
@@ -355,7 +367,8 @@
     g7 <- phi(A9i, g6, "exp")
     G7 <- dphi(A9i, g6, G6, "exp")
     
-    se.Hi <- sqrt(diag(G7 %*% (covtot %*% t(G7))))
+    ACM.Hi <- G7 %*% (covtot %*% t(G7))
+    se.Hi <- sqrt(diag(ACM.Hi))
     
     HBi <- g5[1:J, ]
     HWi <- g5[(J + 1):(J * 2), ]
@@ -379,7 +392,8 @@
     g7 <- phi(A9ii, g6, "exp")
     G7 <- dphi(A9ii, g6, G6, "exp")
     
-    se.H <- sqrt(diag(G7 %*% (covtot %*% t(G7))))
+    ACM.H <- G7 %*% (covtot %*% t(G7))
+    se.H <- sqrt(diag(ACM.H))
     
     HB <- g5[1, ]
     HW <- g5[2, ]
@@ -390,7 +404,7 @@
     se.HBW <- se.H[3]
     
     
-    if(nice.output == TRUE){
+    if(nice.output){
       Hij <- HBijt <- matrix(0, J, J, dimnames = list(labels, labels))
       Hij[lower.tri(Hij)] <- HWij
       HBijt[lower.tri(HBijt)] <- HBij
@@ -401,58 +415,228 @@
       se.Hijt[lower.tri(se.Hijt)] <- se.HBij
       se.Hij <- se.Hij + t(se.Hijt)
       
+      gHij <- log(1 - Hij)
+      VgHij <- se.Hij^2 / (1 - Hij)^2
+      
       new.labels <- rep(labels, each = 2)
       new.labels[2 * 1:J] <- "(se)"
-      OM.Hij <- matrix(NA, J + 3, J * 2 + 1)
+      OM.Hij <- H.ci.matrix.Hij <- matrix(NA, J + 3, J * 2 + 1)
+      ci.matrix.Hij <- matrix(NA, J + 3, J + 1)
       for (j in 2 * (1:J)) {
-        OM.Hij[, j ] <- c("", "", "", format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right"))
+        H.ci.matrix.Hij[, j ] <- OM.Hij[, j ] <- c("", "", "", format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right"))
         OM.Hij[, j + 1] <- c("", "", "", format(paste("(", formatC(round(se.Hij[, j/2], 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right"))
+        ci.matrix.Hij[, j / 2 + 1] <- 
+          H.ci.matrix.Hij[, j + 1] <- 
+          c("", "", "", format(paste("[", 
+                                     formatC(round(1 - exp(gHij[, j/2] - qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                     ", ",
+                                     formatC(round(1 - exp(gHij[, j/2] + qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                     "] ", 
+                                     sep = ""), width = 7, justify = "right"))
       }
-      OM.Hij[, 1] <- OM.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]) + 0.5)] <- format("", width = 7, justify = "right")
-      OM.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]))] <- format("", width = 7, justify = "right")
-      OM.Hij[round(J / 2) + 3, 1] <- format("(HWij)", width = 7, justify = "centre")
-      OM.Hij[2, round(J / 2) * 2] <- format("(HBij)", width = 7, justify = "centre")
-      rownames(OM.Hij) <- c("", "", "", labels)
+      OM.Hij[, 1] <- 
+        OM.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]) + 0.5)] <- 
+        OM.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]))] <- 
+        H.ci.matrix.Hij[, 1] <- 
+        H.ci.matrix.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]) + 0.5)] <- 
+        H.ci.matrix.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]))] <- 
+        ci.matrix.Hij[, 1] <- 
+        ci.matrix.Hij[-c(1:3), -1][row(ci.matrix.Hij[-c(1:3), -1]) == (col(ci.matrix.Hij[-c(1:3), -1]))] <- 
+        format("", width = 7, justify = "right")
+      OM.Hij[round(J / 2) + 3, 1] <- H.ci.matrix.Hij[round(J / 2) + 3, 1] <- ci.matrix.Hij[round(J / 2) + 3, 1] <- format("(HWij)", width = 7, justify = "centre")
+      OM.Hij[2, round(J / 2) * 2] <- H.ci.matrix.Hij[2, round(J / 2) * 2] <- ci.matrix.Hij[2, round(J / 2)] <- format("(HBij)", width = 7, justify = "centre")
+      rownames(OM.Hij) <- rownames(H.ci.matrix.Hij) <- rownames(ci.matrix.Hij) <- c("", "", "", labels)
       colnames(OM.Hij) <- c("", new.labels)
+      new.labels[2 * 1:J] <- paste(ci * 100, "% ci", sep = "")
+      colnames(H.ci.matrix.Hij) <- c("", new.labels)
+      colnames(ci.matrix.Hij) <- c("", labels)
       OM.Hij <- noquote(OM.Hij)
+      H.ci.matrix.Hij <- noquote(H.ci.matrix.Hij)
+      ci.matrix.Hij <- noquote(ci.matrix.Hij)
       
       # HWi & HBi
-      OM.Hi <- matrix(NA, J, 7)
+      gHBi <- log(1 - HBi)
+      gHWi <- log(1 - HWi)
+      VgHBi <- se.HBi^2 / (1 - HBi)^2
+      VgHWi <- se.HWi^2 / (1 - HWi)^2
+      
+      OM.Hi <- matrix(NA, J, 10)
       OM.Hi[, 1] <- format("", width = 7, justify = "right")
       OM.Hi[, 2] <- format(formatC(round(HWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
       OM.Hi[, 3] <- format(paste("(", formatC(round(se.HWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.Hi[, 4] <- format(formatC(round(HBi, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.Hi[, 5] <- format(paste("(", formatC(round(se.HBi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.Hi[, 6] <- format(formatC(round(HBWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.Hi[, 7] <- format(paste("(", formatC(round(se.HBWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      dimnames(OM.Hi) <- list(labels, c("", "   HWi", "  (se)  ", "   HBi", "  (se)  ", "   BWi", "  (se)  "))
+      OM.Hi[, 4] <- format(paste("[",
+                                 formatC(round(1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                                               3), digits = 3, format = "f"),
+                                 ", ",
+                                 formatC(round(1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                                               3), digits = 3, format = "f"),
+                                 "] ", sep = ""), width = 7, 
+                           justify = "right")
+      OM.Hi[, 5] <- format(formatC(round(HBi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+      OM.Hi[, 6] <- format(paste("(", formatC(round(se.HBi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+      OM.Hi[, 7] <- format(paste("[",
+                                 formatC(round(1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                                               3), digits = 3, format = "f"),
+                                 ", ",
+                                 formatC(round(1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                                               3), digits = 3, format = "f"),
+                                 "] ", sep = ""), width = 7, 
+                           justify = "right")
+      OM.Hi[, 8] <- format(formatC(round(HBWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+      OM.Hi[, 9] <- format(paste("(", formatC(round(se.HBWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+      OM.Hi[, 10] <- format(paste("[",
+                                  formatC(round(HBWi + qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                  ", ",
+                                  formatC(round(HBWi - qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                  "] ", sep = ""), width = 7, 
+                            justify = "right")
+      dimnames(OM.Hi) <- list(labels, c("", 
+                                        "   HWi", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
+                                        "   HBi", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
+                                        "   BWi", " (se)  ", paste("    ", ci * 100, "% ci", sep = "")))
       OM.Hi <- noquote(OM.Hi)
       
+      
+      
+      
+      
       # HW & HB
-      OM.H <- matrix(NA, 1, 7)
+      gHB <- log(1 - HB)
+      gHW <- log(1 - HW)
+      VgHB <- se.HB^2 / (1 - HB)^2
+      VgHW <- se.HW^2 / (1 - HW)^2
+      
+      OM.H <- matrix(NA, 1, 10)
       OM.H[, 1] <- format("", width = 7, justify = "right")
       OM.H[, 2] <- format(formatC(round(HW, 3), digits = 3, format = "f"), width = 7, justify = "right")
       OM.H[, 3] <- format(paste("(", formatC(round(se.HW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.H[, 4] <- format(formatC(round(HB, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.H[, 5] <- format(paste("(", formatC(round(se.HB, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.H[, 6] <- format(formatC(round(HBW, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.H[, 7] <- format(paste("(", formatC(round(se.HBW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      dimnames(OM.H) <- list("Scale", c(" ", "   HW", "  (se)  ", "   HB", "  (se)  ", "   BW", "  (se)  "))
+      OM.H[, 4] <- format(paste("[",
+                                formatC(round(1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                                              3), digits = 3, format = "f"),
+                                ", ",
+                                formatC(round(1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                                              3), digits = 3, format = "f"),
+                                "] ", sep = ""), width = 7, 
+                          justify = "right")
+      OM.H[, 5] <- format(formatC(round(HB, 3), digits = 3, format = "f"), width = 7, justify = "right")
+      OM.H[, 6] <- format(paste("(", formatC(round(se.HB, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+      OM.H[, 7] <- format(paste("[",
+                                formatC(round(1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                                              3), digits = 3, format = "f"),
+                                ", ",
+                                formatC(round(1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                                              3), digits = 3, format = "f"),
+                                "] ", sep = ""), width = 7, 
+                          justify = "right")
+      OM.H[, 8] <- format(formatC(round(HBW, 3), digits = 3, format = "f"), width = 7, justify = "right")
+      OM.H[, 9] <- format(paste("(", formatC(round(se.HBW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+      OM.H[, 10] <- format(paste("[",
+                                 formatC(round(HBW + qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                 ", ",
+                                 formatC(round(HBW - qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                 "] ", sep = ""), width = 7, 
+                           justify = "right")
+      dimnames(OM.H) <- list("Scale", c("", 
+                                        "   HW", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
+                                        "   HB", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
+                                        "   BW", " (se)  ", paste("    ", ci * 100, "% ci", sep = "")))
       OM.H <- noquote(OM.H)
       
       # Output:
-      OL <- list(Hij = OM.Hij, Hi = OM.Hi, H = OM.H)
+      if(se & ci) {
+        OLcoefs <- list(Hij = OM.Hij, ci.Hij = ci.matrix.Hij, Hi = OM.Hi, H = OM.H)
+        OLcoefs <- setNames(OLcoefs, 
+                            c("Hij", paste(ci*100, "% ci", sep = ""), "Hi", "H"))
+        
+      } else if (!se) {
+        OLcoefs <- list(Hij = H.ci.matrix.Hij, Hi = OM.Hi[, -c(3, 6, 9)], H = OM.H[, -c(3, 6, 9)])
+      } else {
+        OLcoefs <- list(Hij = OM.Hij, Hi = OM.Hi[, -c(4, 7, 10)], H = OM.H[, -c(4, 7, 10)])
+      }
+      OL <- OLcoefs
       
-    } else {
-      Hij <- data.frame(HWij, se.HWij, HBij, se.HBij, HBWij,  se.HBWij) 
-      rownames(Hij) <- nams
-      Hi <- data.frame(HWi, se.HWi, HBi = HBi, se.HBi, HBWi, se.HBWi) 
-      rownames(Hi) <- labels
-      H <- data.frame(HW, se.HW, HB, se.HB, HBW, se.HBW)
-      OL <- list(Hij = Hij, Hi = Hi, H = H)
+    } else { # nice output == F
+      if(ci) {
+        gHWij <- log(1 - HWij)
+        gHBij <- log(1 - HBij)
+        VgHWij <- se.HWij^2 / (1 - HWij)^2
+        VgHBij <- se.HBij^2 / (1 - HBij)^2
+        
+        ci.HWij <- data.frame("ci.HWij.l" = 1 - exp(gHWij - qnorm((1 - ci) / 2) * sqrt(VgHWij)), 
+                              "ci.HWij.u" = 1 - exp(gHWij + qnorm((1 - ci) / 2) * sqrt(VgHWij)))
+        ci.HBij <- data.frame("ci.HBij.l" = 1 - exp(gHBij - qnorm((1 - ci) / 2) * sqrt(VgHBij)), 
+                              "ci.HBij.u" = 1 - exp(gHBij + qnorm((1 - ci) / 2) * sqrt(VgHBij)))
+        ci.HBWij <- data.frame("ci.HBWij.l" = HBWij + qnorm((1 - ci) / 2) * se.HBWij, 
+                               "ci.HBWij.u" = HBWij + qnorm((1 - ci) / 2) * se.HBWij)
+        
+        gHWi <- log(1 - HWi)
+        gHBi <- log(1 - HBi)
+        VgHWi <- se.HWi^2 / (1 - HWi)^2
+        VgHBi <- se.HBi^2 / (1 - HBi)^2
+        
+        ci.HWi <- data.frame("ci.HWi.l" = 1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                             "ci.HWi.u" = 1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)))
+        ci.HBi <- data.frame("ci.HBi.l" = 1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                             "ci.HBi.u" = 1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)))
+        ci.HBWi <- data.frame("ci.HBWi.l" = HBWi + qnorm((1 - ci) / 2) * se.HBWi, 
+                              "ci.HBWi.u" = HBWi + qnorm((1 - ci) / 2) * se.HBWi)
+        
+        gHW <- log(1 - HW)
+        gHB <- log(1 - HB)
+        VgHW <- se.HW^2 / (1 - HW)^2
+        VgHB <- se.HB^2 / (1 - HB)^2
+        
+        ci.HW <- data.frame("ci.HW.l" = 1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                            "ci.HW.u" = 1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)))
+        ci.HB <- data.frame("ci.HB.l" = 1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                            "ci.HB.u" = 1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)))
+        ci.HBW <- data.frame("ci.HBW.l" = HBW + qnorm((1 - ci) / 2) * se.HBW, 
+                             "ci.HBW.u" = HBW + qnorm((1 - ci) / 2) * se.HBW)
+        
+      }
+      if(se & ci) {
+        Hij <- data.frame(HWij, se.HWij, ci.HWij, 
+                          HBij, se.HBij, ci.HBij, 
+                          HBWij, se.HBWij, ci.HBWij) 
+        rownames(Hij) <- nams
+        Hi <- data.frame(HWi, se.HWi, ci.HWi,
+                         HBi, se.HBi, ci.HBi,
+                         HBWi, se.HBWi, ci.HBWi) 
+        rownames(Hi) <- labels
+        H <- data.frame(HW, se.HW, ci.HW,
+                        HB, se.HB, ci.HB,
+                        HBW, se.HBW, ci.HBW)
+      } else if(!se) {
+        Hij <- data.frame(HWij, ci.HWij, 
+                          HBij, ci.HBij, 
+                          HBWij, ci.HBWij) 
+        rownames(Hij) <- nams
+        Hi <- data.frame(HWi, ci.HWi,
+                         HBi, ci.HBi,
+                         HBWi, ci.HBWi) 
+        rownames(Hi) <- labels
+        H <- data.frame(HW, ci.HW,
+                        HB, ci.HB,
+                        HBW, ci.HBW)
+      } else {
+        Hij <- data.frame(HWij, se.HWij,  
+                          HBij, se.HBij,  
+                          HBWij,  se.HBWij) 
+        rownames(Hij) <- nams
+        Hi <- data.frame(HWi, se.HWi,
+                         HBi, se.HBi, 
+                         HBWi, se.HBWi) 
+        rownames(Hi) <- labels
+        H <- data.frame(HW, se.HW,
+                        HB, se.HB,
+                        HBW, se.HBW)
+      }
+      OL <- list(Hij = Hij, 
+                 Hi = Hi, 
+                 H = H)
     }
     
-  } else {
+  } else { # alleen coefs, geen se/ci
     
     Subs <- X[, 1]
     # Creating g3 and G3
@@ -579,7 +763,7 @@
     HW <- 1 - sum(Fw) / sum(Fe)
     HBW <- HB / HW
     
-    if(nice.output == TRUE){
+    if(nice.output){
       Hij <- HBijt <- matrix(0, J, J, dimnames = list(labels, labels))
       Hij[lower.tri(Hij)] <- HWij
       HBijt[lower.tri(Hij)] <- HBij
@@ -618,104 +802,26 @@
       OL <- list(Hij = OM.Hij, Hi = OM.Hi, H = OM.H)
       
     } else {
-      Hij <- data.frame(t(rbind(HWij, HBij, HBWij)), row.names = nams) 
+      Hij <- cbind(matrix(HWij), matrix(HBij), matrix(HBWij) )
+      rownames(Hij) <- nams
+      colnames(Hij) <- c("HWij", "HBij", "HBWij")
       Hi <- data.frame(HWi, HBi = HBi, HBWi, row.names = labels) 
       H <- data.frame(HW, HB, HBW)
       OL <- list(Hij = Hij, Hi = Hi, H = H)
     } 
   }
-  
-  
+  if(cov.mat == TRUE) {
+    if(ci == FALSE & se == FALSE) {
+      warning("cov.mat can only be printed if ci or se = TRUE")
+    } else {
+      colnames(ACM.Hij) <- rownames(ACM.Hij) <- paste(rep(c("HBij", "HWij", "HBWij"), each = K), nams)
+      colnames(ACM.Hi) <- rownames(ACM.Hi) <- paste(rep(c("HBi", "HWi", "HBWi"), each = J), labels)
+      colnames(ACM.H) <- rownames(ACM.H) <- c("HB", "HW", "HBW")
+      OL <- c(OL, list(covHij = ACM.Hij, 
+                       covHi = ACM.Hi, 
+                       covH = ACM.H))
+    }
+  }
   return(OL)
   
-}
-
-# example
-# X <-  data.frame(Subs = c(1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3),
-#       Xa   = c(0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1, 2, 0, 0, 0), 
-#       Xb   = c(0, 0, 1, 0, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 0))
-# MLcoefH(X)
-
-#X <- data.frame(Subs = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3),
-#                Xa = c(2, 0, 0, 1, 0, 2, 2, 0, 2, 2, 1, 2, 1, 2, 2), 
-#                Xb = c(1, 1, 1, 0, 1, 2, 2, 1, 2, 2, 1, 0, 2, 2, 2), 
-#                Xc = c(0, 0, 0, 1, 0, 2, 2, 1, 2, 1, 0, 0, 1, 1, 2))
-
-"weights" <-
-  # X: Data matrix N x 2 of integer scores [0,1, ..., maxx]
-  # w: Guttman weights 1 x g^2
-  # depends on "all.patterns"
-  function(X, maxx=max.x, minx=0){
-    max.x <- max(X)
-    g <- maxx + 1
-    N <- nrow(X)
-    if (ncol(X) != 2){
-      warning('X contains more than two columns. Only first two columns will be used')
-      X <- X[,1:2]
-    }
-    # Compute order of the ISRFs
-    if (maxx == 1) tmp.1 <- matrix(apply(X,2,tabulate, maxx), nrow=1) else tmp.1 <- apply(X,2,tabulate, maxx)
-    tmp.2 <- apply(tmp.1,2,function(x) rev(cumsum(rev(x))))+runif(2*maxx,0,1e-3)
-    
-    # runif is added to avoid equal ranks
-    order.of.ISRFs <- matrix(rank(-tmp.2),1,maxx*2)
-    # Compute
-    Y <- matrix(all.patterns(2,g),nrow=1)
-    Z <- matrix(rep(Y, maxx), nrow = maxx, byrow = TRUE)
-    Z <- ifelse(Z < row(Z),0,1)
-    Z <- matrix(as.vector(Z), ncol = maxx*2, byrow = T)
-    # COMPUTE WEIGHTS
-    Z <- Z[,order(order.of.ISRFs)]
-    w <- matrix(apply(Z,1,function(x){sum(x*cumsum(abs(x-1)))}),nrow=1)
-    return(w)
-  }
-
-"check.ml.data" <- function(X){
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-    stop("Data are not matrix or data.frame")
-  matrix.X <- as.matrix(X)
-  if (any(is.na(matrix.X))) stop("Missing values are not allowed")
-  if (mode(matrix.X)!="numeric") stop("Data must be numeric")
-  if (any(matrix.X < 0)) stop("All scores should be nonnegative")
-  if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
-  matrix.X[, -1] <- matrix.X[, -1] - min(matrix.X[, -1])
-  return(matrix.X)
-}
-
-"all.patterns" <- function(J,m){
-  grid <- list()
-  j <- 0;
-  p <- m^J
-  for (j in 1:J){
-    grid <- c(grid, j)
-    grid[[j]] <- 0:(m-1)
-  }
-  X <- t(expand.grid(grid))
-  dimnames(X) <- NULL
-  return(X[J:1,])
-}
-
-"phi" <- function(A,f, action){
-  # Numerical values are translations h(A %*% f) = A %*% f -
-  eps = 1E-80;
-  switch(action,
-         "identity" = A %*% f,
-         "exp"      = A %*% exp(f),
-         "log"      = A %*% log(abs(f)+eps),
-         "sqrt"     = A %*% sqrt(f),
-         "xlogx"    = A %*% (-f*log(f+eps)),
-         "xbarx"    = A %*% (f*(1-f))  # x(1-x)
-  )
-}
-
-"dphi" <- function(A,f,df, action){
-  eps=1E-80;
-  switch(action,
-         "identity" = A %*% df,
-         "exp"      = A %*% (as.numeric(exp(f)) * df),
-         "log"      = A %*% (as.numeric(1/(f+eps)) * df),
-         "sqrt"     = A %*% (as.numeric(1/(2*sqrt(f))) * df),
-         "xlogx"    = A %*% (as.numeric(-1-log(f+eps)) * df),
-         "xbarx"    = A %*% (as.numeric(1-2*f) * df),  # x(1-x)
-  )
 }

@@ -1,15 +1,43 @@
-"check.data" <-
-function(X){
+"check.data" <- function(X){
    if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-    stop("Data are not matrix or data.frame")
+     stop("Data are not matrix or data.frame")
     matrix.X <- as.matrix(X)
-    if (any(dim(matrix.X) == 0)) stop("Matrix has no rows or columns")
     if (any(is.na(matrix.X))) stop("Missing values are not allowed")
     if (mode(matrix.X)!="numeric") stop("Data must be numeric")
     if (any(matrix.X < 0)) stop("All scores should be nonnegative")
     if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
     matrix.X <- matrix.X - min(matrix.X)
+    if (max(matrix.X > 9)) stop("Some items have more than 10 categories. mokken cannot only handle up to 10 categories")
+    score.check <- apply(apply(matrix.X, 2, function(x) seq(0, max(matrix.X), 1) %in% x), 2, all)
+    if (!all(score.check)) 
+    warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
     return(matrix.X)
+}
+
+"check.ml.data" <- function(X){
+  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
+    stop("Data are not matrix or data.frame")
+  matrix.X <- as.matrix(X)
+  if (any(is.na(matrix.X))) stop("Missing values are not allowed")
+  if (mode(matrix.X)!="numeric") stop("Data must be numeric")
+  if (any(matrix.X < 0)) stop("All scores should be nonnegative")
+  if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
+  matrix.X[, -1] <- matrix.X[, -1] - min(matrix.X[, -1])
+    score.check <- apply(apply(matrix.X[, -1], 2, function(x) seq(0, max(matrix.X[, -1]), 1) %in% x), 2, all)
+    if (!all(score.check)) 
+    warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
+  return(matrix.X)
+}
+
+"coefHTiny" <- function(X){
+    S <- var(X)
+    Smax <- var(apply(X, 2, sort))
+    Hij <- S/Smax
+    diag(S) <- 0
+    diag(Smax) <- 0
+    Hi <- apply(S, 1, sum)/apply(Smax, 1, sum)
+    H <- sum(S)/sum(Smax)
+    return(list(Hij = Hij, Hi = Hi, H = H))
 }
 
 "all.patterns" <- function(J,m){
@@ -24,8 +52,6 @@ function(X){
   dimnames(X) <- NULL
   return(X[J:1,])
 }
-
-
 
 "phi" <- function(A,f, action){
   # Numerical values are translations h(A %*% f) = A %*% f -
@@ -54,13 +80,7 @@ function(X){
 
 "string2integer" <- function(s) as.numeric(unlist(strsplit(s,NULL)))
 
-"oldweights" <-
-# Decrepit as of 25-11-2019
-# X: Data matrix N x 2 of integer scores [0,1, ..., maxx]
-# w: Guttman weights 1 x g^2
-# depends on "all.patterns"
-
-function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
+"oldweights" <- function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
  max.x <- max(X)
  g <- maxx + 1
  N <- nrow(X)
@@ -84,9 +104,9 @@ function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
  w <- matrix(apply(Z, 1, function(x){sum(x * cumsum(abs(x - 1)))}), nrow = 1)
  return(w)
 }
+# Decrepit as of 25-11-2019
 
-## weights function 21-11-2019 by Letty Koopman, adjusted the original supporting function by Renske Kuijpers in coefH(). 
-
+## weights function 21-11-2019 by Letty Koopman, adjusted original supporting function by Renske Kuijpers in coefH(). 
 "weights" <- function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
   # Computes the Guttman weights in Mokken Scale Analysis.
   #
@@ -204,7 +224,6 @@ function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
   
 }
 
-
 "complete.observed.frequencies" <- function(data,J,m, order.items=FALSE){
   if(order.items) order <- rev(order(apply(data,2,mean))) else order <- 1:J
   data <- as.matrix(data[,order])
@@ -218,7 +237,7 @@ function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
   return(matrix(t.R[,J+1]))
 }
 
-direct.sum <- function (...){
+"direct.sum" <- function (...){
      p.tr = 0;p.ll = 0;
      matlist = list(...);
      nmat = length(matlist);
@@ -238,3 +257,9 @@ direct.sum <- function (...){
      }
      return(m1)
 }
+
+"print.scalCoefsSE" <- function(x){
+  maxl <- length(x)
+  print(x[1:(maxl - 3)])
+  invisible(x[(maxl - 2):maxl])
+}  

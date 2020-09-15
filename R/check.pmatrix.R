@@ -155,7 +155,7 @@ function(X, minvi = .03){
   res$max.z$Pmm <- apply(nz.Pmm,2,max)
   res$max.z$total <- pmax(res$max.z$Ppp,res$max.z$Pmm)
   
-  Hi <- coefH(X,FALSE)$Hi
+  Hi <- coefHTiny(X)$Hi
   pmatrix.list <- list(results=res, I.item=I.item, I.step=I.step, I.labels=I.labels, Hi=Hi, minvi=minvi, ncat=ncat, N=N)
   class(pmatrix.list) <- "pmatrix.class"  
   return(pmatrix.list)

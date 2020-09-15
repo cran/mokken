@@ -7,7 +7,7 @@
 
 
 
-# Aangepast op 21 oktober 2015, 29 juni 2016
+# Aangepast op 21 oktober 2015, 29 juni 2016, 2 sep 2020
 "search.normal" <-
 function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.var){
   #type.se should be "Z" or "delta"
@@ -23,7 +23,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
    newH <- function(j,in.this.set, x, lb, Z.c, type.se, test.Hi, level.two.var){ # can I use the same arguments as in function?
 
      newX <- cbind(x[, in.this.set == 1], x[, j])
-     H.list <- coefH(newX, FALSE)
+     H.list <- coefHTiny(newX)
      if (H.list$Hi[length(H.list$Hi)] < lb) return(-98) # less than lower bound
      Zi <- coefZ(newX, lowerbound = test.Hi * lb, type.se = type.se, level.two.var = level.two.var)$Zi # Test if Hi is significantly larger than zero (test.Hi == FALSE) or lowerbound c (test.Hi == TRUE)
      if (Zi[length(Zi)] < Z.c) return(-97)                      # not significant
@@ -160,7 +160,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
           StartHi <- coefZ(X[, StartSet], lowerbound = lb, type.se = type.se, level.two.var = level.two.var)$Zi
           checkHi <- min(abs(StartHi)) < Z.c
         } else {
-          StartHi <- coefH(X[, StartSet], FALSE)[[2]]
+          StartHi <- coefHTiny(X[, StartSet])$Hi
           checkHi <- min(StartHi) < lb
         } 
         if(checkHi){
@@ -174,7 +174,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
         # Add the StartSet to the scale 
         if(verbose) for (i in 1 : length(StartSet)){
           the.item <- ifelse(StartSet[i] > 9, as.character(StartSet[i]), paste(" ", as.character(StartSet[i]), sep = ""))
-          cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefH(X[, StartSet], FALSE)[[3]], 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
+          cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefHTiny(X[, StartSet])$H, 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
         } 
         InSet[StartSet] <- scale
    
@@ -295,7 +295,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
     newH <- function(j,in.this.set, x, lb, Z.c){
       
       newX <- cbind(x[, in.this.set == 1], x[, j])
-      H.list <- coefH(newX, FALSE)
+      H.list <- coefHTiny(newX)
       if (H.list$Hi[length(H.list$Hi)] < lb) return(-98) # less than lower bound
       Zi <- coefZ(newX)$Zi
       if (Zi[length(Zi)] < Z.c) return(-97)                      # not significant
@@ -405,7 +405,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
         }
         
         # (2) All Hi greater than lower bound (Check is always necessary)
-        StartHi  <- coefH(X[, StartSet], FALSE)[[2]]
+        StartHi  <- coefHTiny(X[, StartSet])$Hi
         if(min(StartHi) < lb){
           if(startset.provided & scale == 1) warning("Items in start set do not form a Mokken scale: Some Hj < ",lb) 
           if(!startset.provided | scale > 1) {  
@@ -417,7 +417,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
         # Add the StartSet to the scale 
         if(verbose) for (i in 1 : length(StartSet)){
           the.item <- ifelse(StartSet[i] > 9, as.character(StartSet[i]), paste(" ", as.character(StartSet[i]), sep = ""))
-          cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefH(X[, StartSet], FALSE)[[3]], 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
+          cat("Item ", the.item, ": ", fitstring(item.label[StartSet[i]],20), " Scale", scale," H = ",round(coefHTiny(X[, StartSet])$H, 2), ifelse(scale == 1 & startset.provided, "StartSet", ""), fill = TRUE)
         }  
         InSet[StartSet] <- scale
         

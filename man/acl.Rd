@@ -39,14 +39,14 @@ Aggression  \tab Items 101-110 \tab \tab Adapted Child       \tab  Items 210-218
  The original Adjective Checklist was developed by Gough and Heilbrun (1980).
 }
 \references{
-Gough, H. G. and Heilbrun,A. B. (1980) 
+ Gough, H. G., & Heilbrun,A. B. (1980) 
  \emph{The Adjective Check List, Manual 1980 Edition}.
- Palo Alto, CA: Consulting Psychologists Press.
+ Consulting Psychologists Press.
 
 Van der Ark, L. A. (2007) 
 Mokken scale analysis in \pkg{R}. 
 \emph{Journal of Statistical Software}.
-\url{http://www.jstatsoft.org/v20/i11}
+\url{https://www.jstatsoft.org/article/view/v020i11}
 
 }
 

@@ -7,7 +7,7 @@ Standard errors for norm statistics
 
 \description{
 The function presents standard errors for the mean, standard deviation, standard scores, stanine boundaries, and percentiles based on a vector of test scores
-(Oosterhuis, Van der Ark, and Sijtsma, in press).  
+(Oosterhuis, Van der Ark, & Sijtsma, 2017).  
 }
 \usage{
 check.norms(y, nice.output = TRUE)
@@ -39,9 +39,10 @@ check.norms(y, nice.output = TRUE)
 }
 
 \references{
-  Oosterhuis, H. E. M., Van der Ark, L. A., and Sijtsma, K. (2017).
+  Oosterhuis, H. E. M., Van der Ark, L. A., & Sijtsma, K. (2017).
    Standard errors and confidence intervals of norm statistics for educational and psychological tests.
-  \emph{Psychometrika, 82}, 559-588. doi:10.1007/s11336-016-9535-8
+  \emph{Psychometrika, 82}, 559-588. 
+  \url{https://doi.org/10.1007/s11336-016-9535-8}
 }
 
 \seealso{

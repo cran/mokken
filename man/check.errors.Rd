@@ -6,7 +6,7 @@ Check the number of Guttman errors (Gplus) and the number of infrequent scores (
 }
 
 \description{
-Returns a lost containing outlier scores Gplus (number of Guttman errors; Guttman, 1944) and Oplus for each respondent (Zijlstra, van der Ark and Sijtsma, 2007). 
+Returns a lost containing outlier scores Gplus (number of Guttman errors; Guttman, 1944) and Oplus for each respondent (Zijlstra, van der Ark & Sijtsma, 2007). 
 }
 \usage{
 check.errors(X, returnGplus = TRUE, returnOplus = FALSE)
@@ -29,32 +29,34 @@ check.errors(X, returnGplus = TRUE, returnOplus = FALSE)
 \references{
   Guttman, L. (1944) A basis for scaling qualitative data.
   \emph{American Sociological Review, 9}, 139-150.
-  
+    
   Meijer, R. R. (1994)
   The number of Guttman errors as a simple and powerful person-fit statistic.
   \emph{Applied Psychological Measurement, 18}, 311-314.
+  \url{https://doi.org/10.1177/014662169401800402}
+
 
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
-  Berlin, Germany: De Gruyter.
+  De Gruyter.
   
-  Molenaar, I.W. and Sijtsma, K. (2000) 
+   Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
-  Groningen, The Netherlands: IEC ProGAMMA.
+  IEC ProGAMMA.
   
-  Sijtsma, K, and Molenaar, I. W. (2002)
+  Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.
-  Thousand Oaks, CA: Sage.
-  
+  Sage.
+ 
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{http://www.jstatsoft.org/v20/i11}
+  \url{https://www.jstatsoft.org/article/view/v020i11}
 
-  Zijlstra, W. P.,  Van der Ark, L. A., and Sijtsma, K. (2007).
+  Zijlstra, W. P.,  Van der Ark, L. A., & Sijtsma, K. (e2007).
   Outlier detection in test and questionnaire data.
   \emph{Multivariate Behavioral Research, 42}, 531-555.
-
+  \url{https://doi.org/10.1080/00273170701384340}
 }
 
 \author{

@@ -140,7 +140,7 @@ function(X, minvi = .03, minsize = default.minsize){
 #       # END TMP
      }
    }
-   Hi <- coefH(X,FALSE)$Hi
+   Hi <- coefHTiny(X)$Hi
    restscore.list <- list(results=results,I.labels=I.labels,Hi=Hi,m=m)
    class(restscore.list) <- "restscore.class"
    return(restscore.list)

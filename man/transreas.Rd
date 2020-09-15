@@ -4,7 +4,7 @@
 \title{Transitive Reasoning}
 
 \description{
-Data came from 12 dichtomous items administered to 425 children in grades 2 through 6 (Verweij, Sijtsma, and Koops, 1996).
+Data came from 12 dichtomous items administered to 425 children in grades 2 through 6 (Verweij, Sijtsma, & Koops, 1996).
 Each item is a transitive reasoning task.}
 \usage{data(transreas)}
 \format{
@@ -14,7 +14,7 @@ A 425 by 13 (grade and scores on 12 items) matrix containing integers.
 \details{
  Items have two ordered answer categories,
 \emph{incorrect} (score 0), \emph{correct} (1).
-(for detailed information, see Sijtsma and Molenaar, 2002, p. 33).
+(for detailed information, see Sijtsma & Molenaar, 2002, p. 33).
 
 
 \tabular{lrlclr}{
@@ -36,13 +36,14 @@ T06A \tab   6  \tab    area \tab      YA > YB > YC \tab   discs \tab7.5, 7, 6.5 
 
 \references{
 
-Verweij, A. C., Sijtsma, K., and Koops, W. (1996). 
+Verweij, A. C., Sijtsma, K., & Koops, W. (1996). 
 A Mokken scale for transitive reasoning suited for longitudinal research.
 \emph{International Journal of Behavioral Development, 23}, 241-264.
-
-Sijtsma, K. and Molenaar, I. W. (2002). 
-\emph{Introduction to nonparametric item response theory}, 
-Thousand Oaks, CA: Sage.
+\url{https://doi.org/10.1177/016502549601900115}
+  
+Sijtsma, K., & Molenaar, I. W. (2002)
+\emph{Introduction to nonparametric item response theory}.
+Sage.
 
 }
 
