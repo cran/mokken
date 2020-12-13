@@ -8,7 +8,7 @@
                    pxover = 0.5, 
                    pmutation = 0.1,
                    verbose = FALSE,
-                   type.se = "Z", 
+                   type.z = "Z", 
                    test.Hi = FALSE, 
                    level.two.var = NULL)
 {
@@ -45,9 +45,9 @@
    } else if(search == "extended") {
       output <- search.extended(verbose) 
    } else {
-      if(test.Hi & type.se == "Z") {
-         type.se <- "delta"
-         warning("type.se has been changed to 'delta' to enable testing Hi > c.")
+      if(test.Hi & type.z == "Z") {
+         type.z <- "WB"
+         warning("type.z has been changed to 'WB' to enable testing Hi > c.")
       }
       if(!is.null(level.two.var)) {
          if (nrow(as.matrix(level.two.var)) != nrow(X)) {
@@ -58,9 +58,9 @@
             level.two.var <- NULL
             warning("level.two.var contains missing value(s): level.two.var is ignored.")
          } 
-         if(type.se == "Z") {
-            type.se <- "delta"
-            warning("type.se has been changed to 'delta' to enable testing in multilevel data.")
+         if(type.z == "Z") {
+            type.z <- "WB"
+            warning("type.z has been changed to 'WB' to enable testing in multilevel data.")
          }
          X <- X[order(level.two.var), ]
          level.two.var <- sort(level.two.var)
@@ -76,7 +76,7 @@
       }
       put <- NULL
       for (lb in lowerbound){ 
-         no <- search.normal(X, lb, alpha, StartSet, verbose, type.se, test.Hi, level.two.var)
+         no <- search.normal(X, lb, alpha, StartSet, verbose, type.z, test.Hi, level.two.var)
          output <- cbind(output, no)
       }  
    }

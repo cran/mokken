@@ -18,7 +18,7 @@
 \usage{
     aisp(X, lowerbound=.3, search="normal", alpha=.05, StartSet=FALSE, popsize=20, 
          maxgens=default.maxgens, pxover=0.5, pmutation=0.1, verbose=FALSE, 
-         type.se = "Z", test.Hi = FALSE, level.two.var = NULL)
+         type.z = "Z", test.Hi = FALSE, level.two.var = NULL)
 }
 
 \arguments{
@@ -37,11 +37,14 @@
   \item{maxgens}{Number of generations in genetic algorithm. The default is \code{10^(log2(ncol(X)/5)) * 1000}.}
   \item{pxover}{Cross-over probability in genetic algorithm. The default is \code{0.5}.}
   \item{pmutation}{Mutation probability in genetic algorithm. The default is \code{0.1}.}
-  \item{verbose}{Logical, indicating whether should output to the screen the results of the model. If \code{FALSE}, no output is produced. The default is \code{TRUE}.}
-  \item{type.se}{Indicates which type of standard errors is used in a Z-test whether coefficients meet the scaling criteria:
-             "delta": uses standard errors approximated by the delta method (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020);
+  \item{verbose}{Logical, indicating whether should output to the screen the results of the model. If \code{FALSE}, no output is produced. 
+              The default is \code{TRUE}.}
+  \item{type.z}{Indicates which type of Z-test is used to evaluate whether coefficients meet the scaling criteria:
+             "WB": Wald-based z-score based on standard errors as approximated by the delta method 
+                (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020a);
+             "RP": Range-preserving z-score, also based on the delta method (Koopman, Zijlstra, Van der Ark, 2020b);
              "Z": uses original Z-test (Mokken, 1971; Molenaar & Sijtsma, 2000; Sijtsma & Molenaar, 2002). 
-             The default is "Z", but is automatically changed to "delta" for test.Hi == TRUE or if a level.two.var is given.}
+             The default is "Z", but is changed to "WB" for test.Hi == TRUE or if a level.two.var is given.}
   \item{test.Hi}{If \code{FALSE}: tests if Hi is significantly larger than zero; 
               If \code{TRUE} tests if Hi is significantly larger than \code{lowerbound}. The default is \code{FALSE}.}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
@@ -131,7 +134,7 @@ scales
 }
 
 # Use a significant test for criteria Hi > c (rather than the point estimate)
-scale <- aisp(Communality, type.se = "delta", test.Hi = TRUE, verbose = TRUE)
+scale <- aisp(Communality, type.z = "WB", test.Hi = TRUE, verbose = TRUE)
 coefH(Communality[,scale==1])
 
 # Partition these 10 items into mokken scales using a genetic algorithm.
@@ -142,7 +145,7 @@ coefH(Communality[,scale==1])
 data(autonomySupport)
 scores <- autonomySupport[, -1]
 classes <- autonomySupport[, 1]
-scale <- aisp(scores, type.se = "delta", level.two.var = classes)
+scale <- aisp(scores, type.z = "WB", level.two.var = classes)
 coefH(scores[, scale==1], level.two.var = classes)
 
 }

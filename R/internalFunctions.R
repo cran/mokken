@@ -1,17 +1,20 @@
-"check.data" <- function(X){
-   if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-     stop("Data are not matrix or data.frame")
-    matrix.X <- as.matrix(X)
-    if (any(is.na(matrix.X))) stop("Missing values are not allowed")
-    if (mode(matrix.X)!="numeric") stop("Data must be numeric")
-    if (any(matrix.X < 0)) stop("All scores should be nonnegative")
-    if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
-    matrix.X <- matrix.X - min(matrix.X)
-    if (max(matrix.X > 9)) stop("Some items have more than 10 categories. mokken cannot only handle up to 10 categories")
+"check.data" <- function(X, checkScores = TRUE){
+  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
+    stop("Data are not matrix or data.frame")
+  matrix.X <- as.matrix(X)
+  if (any(is.na(matrix.X))) stop("Missing values are not allowed")
+  if (mode(matrix.X)!="numeric") stop("Data must be numeric")
+  if (any(matrix.X < 0)) stop("All scores should be nonnegative")
+  if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
+  matrix.X <- matrix.X - min(matrix.X)
+  if (max(matrix.X > 9)) stop("Some items have more than 10 categories. mokken cannot only handle up to 10 categories")
+  if(checkScores){
     score.check <- apply(apply(matrix.X, 2, function(x) seq(0, max(matrix.X), 1) %in% x), 2, all)
     if (!all(score.check)) 
-    warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
-    return(matrix.X)
+      warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have
+      different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
+  }
+  return(matrix.X)
 }
 
 "check.ml.data" <- function(X){

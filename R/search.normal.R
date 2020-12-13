@@ -1,16 +1,11 @@
-# Aangepast op 9 maart 2020 door Letty Koopman
-# - type.se argument: "Z" = Z-score zoals origineel geprogrammeerd, "d1" = delta method one-level, of "d2" delta method two-level
-# - test.Hi argument: If FALSE: Test if Hi is significantly larger than zero. If TRUE: Test if Hi is significantly larger than lowerbound c 
+# Aangepast op 30 nov 2020 door Letty Koopman
+# - type.z argument vervangt type.se: "Z" = (Mokken's) Z-score zoals origineel geprogrammeerd, 
+#   "WB" = Wald-based using delta method se, or "RP" range-preserving using transformed H and its se
 
-# - coefZ kan nu Zij, Zi, Z-score berekenen met null hypothese Hij, Hi, H = lowerbound, met originele berekening (Molenaar & Sijtsma 2000), 
-#         delta methode met eenlevel assumptie (Kuijpers et al., 2013) of delta methode met tweelevel assumptie (Koopman et al., 2019)
-
-
-
-# Aangepast op 21 oktober 2015, 29 juni 2016, 2 sep 2020
+# Aangepast op 21 oktober 2015, 29 juni 2016, 2 sep 2020, 30 nov 2020
 "search.normal" <-
-function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.var){
-  #type.se should be "Z" or "delta"
+function(X, lowerbound, alpha, StartSet, verbose, type.z, test.Hi, level.two.var){
+  #type.z should be "Z", "WB", or "RP"
 
    # Internal functions
    
@@ -20,12 +15,12 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
 
    fitstring <- function(string.arg,length.arg) substr(paste(string.arg,"                        "),1,length.arg)
    
-   newH <- function(j,in.this.set, x, lb, Z.c, type.se, test.Hi, level.two.var){ # can I use the same arguments as in function?
+   newH <- function(j,in.this.set, x, lb, Z.c, type.z, test.Hi, level.two.var){ # can I use the same arguments as in function?
 
      newX <- cbind(x[, in.this.set == 1], x[, j])
      H.list <- coefHTiny(newX)
      if (H.list$Hi[length(H.list$Hi)] < lb) return(-98) # less than lower bound
-     Zi <- coefZ(newX, lowerbound = test.Hi * lb, type.se = type.se, level.two.var = level.two.var)$Zi # Test if Hi is significantly larger than zero (test.Hi == FALSE) or lowerbound c (test.Hi == TRUE)
+     Zi <- coefZ(newX, lowerbound = test.Hi * lb, type.z = type.z, level.two.var = level.two.var)$Zi # Test if Hi is significantly larger than zero (test.Hi == FALSE) or lowerbound c (test.Hi == TRUE)
      if (Zi[length(Zi)] < Z.c) return(-97)                      # not significant
      return(H.list$H)
    }
@@ -35,9 +30,9 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
      if (nrow(as.matrix(level.two.var)) != nrow(X)) {
        level.two.var <- NULL
        warning("level.two.var not the same length/nrow as X: level.two.var is ignored.")
-     } else if(type.se == "Z") {
+     } else if(type.z == "Z") {
        level.two.var <- NULL
-       warning("level.two.var is ignored for type.se = 'Z'.")
+       warning("level.two.var is ignored for type.z = 'Z'.")
      } else if(any(is.na(level.two.var))) {
        level.two.var <- NULL
        warning("level.two.var contains missing value(s): level.two.var is ignored.")
@@ -82,7 +77,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
 
    Smax <- var(apply(X,2,sort))
    Hij <- S/Smax
-   Zij <- coefZ(X, lowerbound = 0, type.se = type.se, level.two.var = level.two.var)$Zij # Test if Hij is significantly larger than zero
+   Zij <- coefZ(X, lowerbound = 0, type.z = type.z, level.two.var = level.two.var)$Zij # Test if Hij is significantly larger than zero
 
    J <- nrow(Hij)
    output <- NULL
@@ -157,7 +152,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
    
         # (2) All Hi greater than lower bound (Check is always necessary)
         if(test.Hi) {
-          StartHi <- coefZ(X[, StartSet], lowerbound = lb, type.se = type.se, level.two.var = level.two.var)$Zi
+          StartHi <- coefZ(X[, StartSet], lowerbound = lb, type.z = type.z, level.two.var = level.two.var)$Zi
           checkHi <- min(abs(StartHi)) < Z.c
         } else {
           StartHi <- coefHTiny(X[, StartSet])$Hi
@@ -203,7 +198,7 @@ function(X, lowerbound, alpha, StartSet, verbose, type.se, test.Hi, level.two.va
          result[in.this.set != 0] <- -99  # items already selected in other scales
          K[step] <- length(available.items)
          Z.c <- abs(qnorm(adjusted.alpha(alpha, K)))
-         for (j in available.items) result[j] <- newH(j,in.this.set, X, lb, Z.c, type.se, test.Hi, level.two.var)
+         for (j in available.items) result[j] <- newH(j,in.this.set, X, lb, Z.c, type.z, test.Hi, level.two.var)
    
    
          # Is maximum value Hi greater than c?

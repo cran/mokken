@@ -8,16 +8,18 @@ Scalability coefficents H
 \description{
 Computes item-pair scalability coefficents Hij, item scalability coefficents Hi, and scale scalability coefficent H 
 (Loevinger, 1948; Mokken, 1971, pp. 148-153; Molenaar & Sijtsma, 2000, pp. 11-13; Sijtsma & Molenaar, chap. 4; Van der Ark, 2007; 2010),  
-as well as their standard errors (Kuijpers, Van der Ark, & Croon, 2013; also see Van der Ark, Croon, & Sijtsma, 2008). 
+as well as their standard errors (Kuijpers, Van der Ark, & Croon, 2013; also see Van der Ark, Croon, & Sijtsma, 2008)
+and possibly confidence intervals (Koopman, Zijlstra, & Van der Ark, 2020a, 2020b). 
 Mokken's coefficients and standard errors can also be estimated in two-level data (Koopman, Zijlstra, & Van der Ark, 2020a).
 It is also possible to compare scalability coefficients across groups using the item-step ordering of the entire sample 
 (cf. \code{CHECK=GROUPS} option in MSP; Molenaar and Sijtsma, 2000). The estimated variance-covariance matrix of the coefficients 
-are invisible but can be printed by saving the result, see examples.
+is invisible but can be printed by saving the result, see examples.
  }
 
 \usage{
 coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL, 
-     group.var = NULL, fixed.itemstep.order = NULL, print.to.screen = TRUE)
+     group.var = NULL, fixed.itemstep.order = NULL, type.ci = "WB", 
+     results = TRUE)
 }
 
 \arguments{
@@ -26,7 +28,7 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
           Missing values are not allowed}
   \item{se}{Logical: If \code{TRUE}, the standard errors of the scalability coefficients are given}
   \item{ci}{The confidence level between 0 and 1 of the range-preserving confidence intervals. 
-            If FALSE (default), no confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b).}
+            If \code{FALSE} (default), no confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b).}
   \item{nice.output}{Logical: If \code{TRUE}, scalability coefficients and standard errors are combined in an a single object of class \code{noquote}}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
           that indicates the level two variable for nested data to get appropriate standard errors (Koopman et al., 2020a.}
@@ -34,7 +36,8 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
   \item{fixed.itemstep.order}{matrix with number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). 
         The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. 
         Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
-  \item{print.to.screen}{Logical: If TRUE results are printed to the screen. Option FALSE is useful only for some internal functions}      
+  \item{type.ci}{If \code{WB}, Wald-based confidence interval are printed, if \code{RP} range-preserving confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Default is \code{WB}. Used only if \code{ci} has been specified.}
+  \item{results}{Logical: If TRUE results are printed to the screen. Option \code{FALSE} is useful only for some internal functions}      
 }
 
 \details{
@@ -59,15 +62,14 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
  \item{se.Hij}{standard errors of the scalability coefficients of the item pairs (only if \code{nice.output = FALSE} and \code{se = TRUE}; see details)}  
  \item{se.Hi}{standard errors of the scalability coefficients of the items (see details)}  
  \item{se.H}{standard error of the scalability coefficient of the entire scale (see details)} 
- \item{ci.Hij}{range-preserving confidence intervals of the scalability coefficients of the item pairs 
- (only if \code{nice.output = FALSE} and/or \code{se = TRUE}; see details)}  
- \item{ci.Hi}{range-preserving confidence intervals of the scalability coefficients of the items (see details)}  
- \item{ci.H}{range-preserving confidence intervals of the scalability coefficient of the entire scale (see details)} 
+ \item{ci.Hij}{confidence intervals of the scalability coefficients of the item pairs (only if \code{nice.output = FALSE} and/or \code{se = TRUE}; see details)}  
+ \item{ci.Hi}{confidence intervals of the scalability coefficients of the items (see details)}  
+ \item{ci.H}{confidence intervals of the scalability coefficient of the entire scale (see details)} 
  \item{Groups}{Scalability coefficients for subgroups (see details)} }
 
 \references{
   Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
-  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+  \emph{A two-step, test-guided Mokken scale analysis for nonclustered and clustered data}. 
   Manuscript submitted for publication.
 
   Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
@@ -120,7 +122,7 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
 
 \examples{
 data(acl)
-Communality <- acl[,1:10]
+Communality <- acl[, 1:10]
 
 # Compute scalability coefficients and standard errors
 Hs <- coefH(Communality)
@@ -129,7 +131,7 @@ Hs <- coefH(Communality)
 coefH(Communality, ci = .95)
 
 # Scalability coefficients but no standard errors
-coefH(Communality, se=FALSE)
+coefH(Communality, se = FALSE)
 
 # Scalability coefficients for different groups:
 subgroup <- ifelse(acl[,11] < 2,1,2)

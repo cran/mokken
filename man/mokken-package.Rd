@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.0.3       \cr
-Date:       \tab 2020-09-15  \cr
+Version:    \tab 3.0.4       \cr
+Date:       \tab 2020-12-13  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -27,11 +27,15 @@ The package contains principal functions for Mokken scale analysis.
 The package contains the following data sets
 \tabular{ll}{
 \code{\link{acl}}                \tab  Scores on a personality checklist. \cr
-\code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
-\code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
-\code{\link{DS14}}               \tab  Scores on a Type D test (bootstrap sample) \cr
 \code{\link{autonomySupport}}    \tab  Scores from students on their teacher's autonomy support \cr
+\code{\link{balance}}            \tab  Scores on balance taskts \cr
+\code{\link{cavalini}}           \tab  Scores on an inventory on industrial malodor \cr
+\code{\link{DS14}}               \tab  Scores on a Type D test (bootstrap sample) \cr
+\code{\link{mcmi}}               \tab  Scores on some items from the Dutch version of the Millon Clinical Multiaxial Inventory \cr
 \code{\link{SWMD}}               \tab  Scores from pupils nested in classrooms on their well-being with teachers \cr
+\code{\link{SWMDK}}              \tab  Scores from pupils nested in classrooms on their well-being with teachers and classmates \cr
+\code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
+\code{\link{transreas2}}         \tab  More scores on a transitive reasoning test \cr
 }
 
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
@@ -42,7 +46,7 @@ Thanks are due
  to Wijbrandt van Schuur for comments on the vignette;
  to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, Max Welz, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
- to Harrie C. M. Vorst, Pierre Cavalini, and Johan Denollet for permission to use their data;
+ to Samantha Bouwmeester, Pierre Cavalini, Johan Denollet, Gina Rossi, Harrie C. M. Vorst,  for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
 Version 0 was introduced in Van der Ark (2007). It included the functions
@@ -180,6 +184,19 @@ The following modifications have been made in Version 3.0.3 in comparison to pre
 \code{\link{mcmi}}               \tab New data file (Sijtsma & van der Ark, 2020)\cr
 All functions                    \tab A warning has been added if items have different numbers of response categories       
 }
+
+The following modifications have been made in Version 3.0.4 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{aisp}}               \tab Argument type.z replaces type.se to accommodate three types of z scores (Mokken's Z, Wald-based, and range-preserving) \cr
+\code{\link{search.normal}}      \tab Argument type.z replaces type.se to accommodate three types of z scores (Mokken's Z, Wald-based, and range-preserving) \cr
+\code{\link{coefZ}}              \tab Argument type.z replaces type.se to accommodate three types of z scores (Mokken's Z, Wald-based, and range-preserving)\cr
+\code{\link{MLcoefZ}}            \tab Argument type.z is added to accommodate two types of z scores (Wald-based and range-preserving) \cr
+\code{\link{coefH}}              \tab Argument type.ci is added to accommodate two types of confidence intervals (Wald-based and range-preserving) \cr
+				 \tab Argument print.to.screen is replaced by results \cr
+\code{\link{MLcoefH}}            \tab Argument type.ci is added to accommodate two types of confidence intervals (Wald-based and range-preserving) \cr
+\code{\link{SWMDK}}              \tab New data file (Koopman, Zijlstra, & Van der Ark 2020a)\cr
+All functions                    \tab A warning has been added if items have different numbers of response categories       
+}
 }
 
 \author{
@@ -190,7 +207,7 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
 \references{
 
 Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
-\emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+\emph{A two-step, test guided Mokken scale analysis for nonclustered and clustered data}. 
 Manuscript submitted for publication.
 
 Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020b).

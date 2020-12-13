@@ -10,14 +10,13 @@ Computes Zij-values of item pairs, Zi-values of items, and Z-value of the entire
 which are used to test whether Hij, Hi, and H, respectively, are significantly 
 greater than zero using the original method Z
 (Molenaar and Sijtsma, 2000, pp. 59-62; Sijtsma and Molenaar, p. 40; Van der Ark, 2007; 2010)
-or the delta method (Kuijpers, Van der Ark, & Croon, 2013; Koopman, Zijlstra, & Van der Ark, 2020a).
-The delta method can also handle nested data and can test other lowerbounds than zero.
-The test uses range-preserving asymptotic theory (Koopman, Zijlstra, & Van der Ark, 2020b)
-
+or the Wald-based method (\code{WB}) or range-preserving method (\code{RP}) 
+(Kuijpers, Van der Ark, & Croon, 2013; Koopman, Zijlstra, & Van der Ark, 2020a, 2020b).
+The Wald-based method  and range-preserving method  can also handle nested data and can test other lowerbounds than zero.
 Used in the function \code{aisp}
 }
 \usage{
-coefZ(X, lowerbound = 0, type.se = "Z", level.two.var = NULL)
+coefZ(X, lowerbound = 0, type.z = "Z", level.two.var = NULL)
 }
 
 \arguments{
@@ -26,8 +25,10 @@ coefZ(X, lowerbound = 0, type.se = "Z", level.two.var = NULL)
           Missing values are not allowed}
   \item{lowerbound}{Value of the null hypothesis to which the scalability are compared to compute the Z-score (see details),
           0 <= \code{lowerbound} < 1. The default is 0.}
-  \item{type.se}{Indicates which type of standard errors is used to compute the Z-score:
-          "delta": uses standard errors approximated by the delta method (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020a);
+  \item{type.z}{Indicates which type of z-score is computed:
+          "WB": Wald-based z-score based on standard errors as approximated by the delta method 
+                (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020a);
+          "RP": Range-preserving z-score, also based on the delta method (Koopman, Zijlstra, Van der Ark, 2020b);
           "Z": uses original Z-test and is only appropriate to test lowerbound = 0 
 	  (Mokken, 1971; Molenaar and Sijtsma, 2000; Sijtsma and Molenaar, 2002). The default is "Z".}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
@@ -41,9 +42,12 @@ coefZ(X, lowerbound = 0, type.se = "Z", level.two.var = NULL)
 }
 
 \details{
-The Z-score with type.se = "delta" for the estimated item-pair coefficient \eqn{Hij} with standard error \eqn{SE(Hij)} is computed as 
-\deqn{Z = -(log(1 - Hij) - log(1 - lowerbound)) / (SE(Hij) / (1 - Hij)) (Koopman, Zijlstra, Van der Ark, 2020b)}
-Unlike \code{coefH}, standard errors are not provided.
+For the estimated item-pair coefficient \eqn{Hij} with standard error \eqn{SE(Hij)}, the Z-score  is computed as   
+\deqn{Zij = (Hij - lowerbound) / SE(Hij)}  if \code{type.z = "WB"}, and the Z-score  is computed as
+\deqn{Zij = -(log(1 - Hij) - log(1 - lowerbound)) / (SE(Hij) / (1 - Hij))} if \code{type.z = "RP"}
+(Koopman, Zijlstra, Van der Ark, 2020b).
+For the estimate item-scalability coefficients \eqn{Hi} and total-scalbility coefficients \eqn{H} a similar procedure is used. 
+Standard errors of the Z-scores are not provided.
 }
 
 \references{
@@ -99,14 +103,14 @@ coefH(Communality)
 coefZ(Communality)
 
 # Using lowerbound .3
-coefZ(Communality, lowerbound = .3, type.se = "delta")
+coefZ(Communality, lowerbound = .3, type.z = "WB")
 
 # Z-scores for nested data
 data(autonomySupport)
 scores <- autonomySupport[, -1]
 classes <- autonomySupport[, 1]
 coefH(scores, level.two.var = classes)
-coefZ(scores, type.se = "delta", level.two.var = classes)
+coefZ(scores, type.z = "WB", level.two.var = classes)
 
 
 }

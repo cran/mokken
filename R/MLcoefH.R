@@ -1,12 +1,17 @@
 ######## Letty Koopman 
 ######## University of Amsterdam
+# MLcoefH() version 27-11-2020
+#
+## Update 27-11-2020: 
+# Argument type.ci is added to distinguish between range-preserving and wald-based confidence intervals (Koopman et al 2020 a two-step, test-guided MSA for nonclustered and clustered data (Quality of Life Research))
+#
 # MLcoefH() version 11-09-2020
 #
 ## Updates: 
 #  Argument ci is added to compute range-preserving confidence intervals (Koopman et al 2020 range-preserving confidence intervals (IMPS proceedings))
 #  The variance-covariance matrices are invisibly printed but can be extracted
 ## Previous updates:
-#  Weighted proportions are used rather than average proportions (see Koopman et al 2020 Mokken's scalability coefficients for multilevel data (Quality of Life Research))
+#  Weighted proportions are used rather than average proportions (see Koopman et al 2020 a two-step, test-guided MSA for nonclustered and clustered data (Quality of Life Research))
 #  but averaged proportions can be used if weigh.props = FALSE
 #  Uses weights() rather than MLweight() (such that weighted proportions are used)
 #  check.data has been changed to check.ml.data (previously the first minx subjects were ignored with minx the minimum score value).
@@ -17,14 +22,14 @@
 
 "MLcoefH" <- function(X, se = TRUE, ci = FALSE, nice.output = TRUE, 
                       subject = 1, fixed.itemstep.order = NULL, 
-                      weigh.props = TRUE, cov.mat = FALSE){
+                      weigh.props = TRUE, type.ci = "WB", cov.mat = FALSE){
   # Computes the two-level scalability coefficients in Mokken scale analysis
   #
   # Args:
   #   X: Data matrix with a subject column and one column per item. Preferably the subject column consists of integers.
   #   se: If TRUE, computes the standard errors for the coefficients, 
   #       if FALSE, only the coefficients are computed. Default is TRUE.
-  #   ci: The confidence level of the 95% range-preserving confidence intervals. Only evaluated when se = TRUE.
+  #   ci: The confidence level of the 95% Wald-based confidence intervals. 
   #       if FALSE, the intervals are not printed.
   #   nice.output: If TRUE, prints the coefficients and standard errors in a matrix with nice lay-out,
   #                if FALSE, they are printed in a regular type matrix which can be used for further computations. Default is TRUE.
@@ -32,6 +37,7 @@
   #   fixed.itemstep.order: 
   #   weight.props: If TRUE: Use weighted proportions across groups to estimate coefficients and standard errors,
   #                 if FALSE: Use averaged proportions across groups to estimate coefficients and standard errors. Default is TRUE
+  #   type.ci: The type of confidence interval, can be "WB" for Wald-based or "RP" for range-preserving.
   # 
   # Supporting mokken functions "MLweight", "weights", "check.ml.data", "all.patterns", "phi", and "dphi", "print.scalCoefsSE"
   #
@@ -76,10 +82,16 @@
   if (is.null(ci)) {
     warning("ci needs to be the confidence level between zero and one, the default of .95 if used. Use ci = FALSE if the ci should not be printed.")
     ci <- .95
-  } else if (ci < 0L | ci >= 1L | is.na(ci) | (!is.numeric(ci) & ci != FALSE)) {
-    warning("ci needs to be the confidence level between zero and one, the default of .95 if used. Use ci = FALSE if the ci should not be printed.")
-    ci <- .95
-  }  
+  } else {
+    if(type.ci != "WB" & type.ci != "RP" & ci != FALSE) {
+      warning("type.ci needs to be 'WB' (Wald-based) or 'RP' (range-preserving), the default 'WB' is used.")
+      type.ci <- "WB"
+    }
+    if (ci < 0L | ci >= 1L | is.na(ci) | (!is.numeric(ci) & ci != FALSE)) {
+      warning("ci needs to be the confidence level between zero and one, the default of .95 if used. Use ci = FALSE if the ci should not be printed.")
+      ci <- .95
+    } 
+  }
   # Ensure each subject has > 1 rater
   if(any(Rs == 1)){ 
     warning('For at least one subject there is only 1 rater. The scalability coefficients are computed without this (these) subject(s).') 
@@ -415,24 +427,40 @@
       se.Hijt[lower.tri(se.Hijt)] <- se.HBij
       se.Hij <- se.Hij + t(se.Hijt)
       
-      gHij <- log(1 - Hij)
-      VgHij <- se.Hij^2 / (1 - Hij)^2
       
       new.labels <- rep(labels, each = 2)
       new.labels[2 * 1:J] <- "(se)"
       OM.Hij <- H.ci.matrix.Hij <- matrix(NA, J + 3, J * 2 + 1)
       ci.matrix.Hij <- matrix(NA, J + 3, J + 1)
-      for (j in 2 * (1:J)) {
-        H.ci.matrix.Hij[, j ] <- OM.Hij[, j ] <- c("", "", "", format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right"))
-        OM.Hij[, j + 1] <- c("", "", "", format(paste("(", formatC(round(se.Hij[, j/2], 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right"))
-        ci.matrix.Hij[, j / 2 + 1] <- 
-          H.ci.matrix.Hij[, j + 1] <- 
-          c("", "", "", format(paste("[", 
-                                     formatC(round(1 - exp(gHij[, j/2] - qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
-                                     ", ",
-                                     formatC(round(1 - exp(gHij[, j/2] + qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
-                                     "] ", 
-                                     sep = ""), width = 7, justify = "right"))
+      if(type.ci == "WB") { # Wald-based
+        for (j in 2 * (1:J)) {
+          H.ci.matrix.Hij[, j ] <- OM.Hij[, j ] <- c("", "", "", format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right"))
+          OM.Hij[, j + 1] <- c("", "", "", format(paste("(", formatC(round(se.Hij[, j/2], 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right"))
+          ci.matrix.Hij[, j / 2 + 1] <- 
+            H.ci.matrix.Hij[, j + 1] <- 
+            c("", "", "", format(paste("[", 
+                                       formatC(round(Hij[, j/2] + qnorm((1 - ci) / 2) * se.Hij[, j/2], 3), digits = 3, format = "f"), 
+                                       ", ",
+                                       formatC(round(Hij[, j/2] - qnorm((1 - ci) / 2) * se.Hij[, j/2], 3), digits = 3, format = "f"), 
+                                       "] ", 
+                                       sep = ""), width = 7, justify = "right"))
+        }
+      } else { # Range-preserving
+        gHij <- log(1 - Hij)
+        VgHij <- se.Hij^2 / (1 - Hij)^2
+        
+        for (j in 2 * (1:J)) {
+          H.ci.matrix.Hij[, j ] <- OM.Hij[, j ] <- c("", "", "", format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right"))
+          OM.Hij[, j + 1] <- c("", "", "", format(paste("(", formatC(round(se.Hij[, j/2], 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right"))
+          ci.matrix.Hij[, j / 2 + 1] <- 
+            H.ci.matrix.Hij[, j + 1] <- 
+            c("", "", "", format(paste("[", 
+                                       formatC(round(1 - exp(gHij[, j/2] - qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                       ", ",
+                                       formatC(round(1 - exp(gHij[, j/2] + qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                       "] ", 
+                                       sep = ""), width = 7, justify = "right"))
+        }
       }
       OM.Hij[, 1] <- 
         OM.Hij[-c(1:3), -1][row(OM.Hij[-c(1:3), -1]) == (0.5 * col(OM.Hij[-c(1:3), -1]) + 0.5)] <- 
@@ -455,41 +483,75 @@
       ci.matrix.Hij <- noquote(ci.matrix.Hij)
       
       # HWi & HBi
-      gHBi <- log(1 - HBi)
-      gHWi <- log(1 - HWi)
-      VgHBi <- se.HBi^2 / (1 - HBi)^2
-      VgHWi <- se.HWi^2 / (1 - HWi)^2
+      
       
       OM.Hi <- matrix(NA, J, 10)
-      OM.Hi[, 1] <- format("", width = 7, justify = "right")
-      OM.Hi[, 2] <- format(formatC(round(HWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.Hi[, 3] <- format(paste("(", formatC(round(se.HWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.Hi[, 4] <- format(paste("[",
-                                 formatC(round(1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
-                                               3), digits = 3, format = "f"),
-                                 ", ",
-                                 formatC(round(1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
-                                               3), digits = 3, format = "f"),
-                                 "] ", sep = ""), width = 7, 
-                           justify = "right")
-      OM.Hi[, 5] <- format(formatC(round(HBi, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.Hi[, 6] <- format(paste("(", formatC(round(se.HBi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.Hi[, 7] <- format(paste("[",
-                                 formatC(round(1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
-                                               3), digits = 3, format = "f"),
-                                 ", ",
-                                 formatC(round(1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
-                                               3), digits = 3, format = "f"),
-                                 "] ", sep = ""), width = 7, 
-                           justify = "right")
-      OM.Hi[, 8] <- format(formatC(round(HBWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.Hi[, 9] <- format(paste("(", formatC(round(se.HBWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.Hi[, 10] <- format(paste("[",
-                                  formatC(round(HBWi + qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
-                                  ", ",
-                                  formatC(round(HBWi - qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
-                                  "] ", sep = ""), width = 7, 
-                            justify = "right")
+      if(type.ci == "WB") { # Wald-based
+        OM.Hi[, 1] <- format("", width = 7, justify = "right")
+        OM.Hi[, 2] <- format(formatC(round(HWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 3] <- format(paste("(", formatC(round(se.HWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 4] <- format(paste("[",
+                                   formatC(round(HWi + qnorm((1 - ci) / 2) * se.HWi, 
+                                                 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(HWi - qnorm((1 - ci) / 2) * se.HWi, 
+                                                 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+        OM.Hi[, 5] <- format(formatC(round(HBi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 6] <- format(paste("(", formatC(round(se.HBi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 7] <- format(paste("[",
+                                   formatC(round(HBi + qnorm((1 - ci) / 2) * se.HBi, 
+                                                 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(HBi - qnorm((1 - ci) / 2) * se.HBi, 
+                                                 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+        OM.Hi[, 8] <- format(formatC(round(HBWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 9] <- format(paste("(", formatC(round(se.HBWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 10] <- format(paste("[",
+                                    formatC(round(HBWi + qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                    ", ",
+                                    formatC(round(HBWi - qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                    "] ", sep = ""), width = 7, 
+                              justify = "right")
+      } else { # Range-preserving
+        gHBi <- log(1 - HBi)
+        gHWi <- log(1 - HWi)
+        VgHBi <- se.HBi^2 / (1 - HBi)^2
+        VgHWi <- se.HWi^2 / (1 - HWi)^2
+        
+        OM.Hi[, 1] <- format("", width = 7, justify = "right")
+        OM.Hi[, 2] <- format(formatC(round(HWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 3] <- format(paste("(", formatC(round(se.HWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 4] <- format(paste("[",
+                                   formatC(round(1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                                                 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                                                 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+        OM.Hi[, 5] <- format(formatC(round(HBi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 6] <- format(paste("(", formatC(round(se.HBi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 7] <- format(paste("[",
+                                   formatC(round(1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                                                 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                                                 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+        OM.Hi[, 8] <- format(formatC(round(HBWi, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.Hi[, 9] <- format(paste("(", formatC(round(se.HBWi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.Hi[, 10] <- format(paste("[",
+                                    formatC(round(HBWi + qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                    ", ",
+                                    formatC(round(HBWi - qnorm((1 - ci) / 2) * se.HBWi, 3), digits = 3, format = "f"),
+                                    "] ", sep = ""), width = 7, 
+                              justify = "right")
+      }
       dimnames(OM.Hi) <- list(labels, c("", 
                                         "   HWi", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
                                         "   HBi", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
@@ -501,41 +563,74 @@
       
       
       # HW & HB
-      gHB <- log(1 - HB)
-      gHW <- log(1 - HW)
-      VgHB <- se.HB^2 / (1 - HB)^2
-      VgHW <- se.HW^2 / (1 - HW)^2
       
       OM.H <- matrix(NA, 1, 10)
-      OM.H[, 1] <- format("", width = 7, justify = "right")
-      OM.H[, 2] <- format(formatC(round(HW, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.H[, 3] <- format(paste("(", formatC(round(se.HW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.H[, 4] <- format(paste("[",
-                                formatC(round(1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
-                                              3), digits = 3, format = "f"),
-                                ", ",
-                                formatC(round(1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)), 
-                                              3), digits = 3, format = "f"),
-                                "] ", sep = ""), width = 7, 
-                          justify = "right")
-      OM.H[, 5] <- format(formatC(round(HB, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.H[, 6] <- format(paste("(", formatC(round(se.HB, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.H[, 7] <- format(paste("[",
-                                formatC(round(1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
-                                              3), digits = 3, format = "f"),
-                                ", ",
-                                formatC(round(1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)), 
-                                              3), digits = 3, format = "f"),
-                                "] ", sep = ""), width = 7, 
-                          justify = "right")
-      OM.H[, 8] <- format(formatC(round(HBW, 3), digits = 3, format = "f"), width = 7, justify = "right")
-      OM.H[, 9] <- format(paste("(", formatC(round(se.HBW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-      OM.H[, 10] <- format(paste("[",
-                                 formatC(round(HBW + qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
-                                 ", ",
-                                 formatC(round(HBW - qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
-                                 "] ", sep = ""), width = 7, 
-                           justify = "right")
+      if(type.ci == "WB") { # Wald-based
+        OM.H[, 1] <- format("", width = 7, justify = "right")
+        OM.H[, 2] <- format(formatC(round(HW, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 3] <- format(paste("(", formatC(round(se.HW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 4] <- format(paste("[",
+                                  formatC(round(HW + qnorm((1 - ci) / 2) * se.HW, 
+                                                3), digits = 3, format = "f"),
+                                  ", ",
+                                  formatC(round(HW - qnorm((1 - ci) / 2) * se.HW, 
+                                                3), digits = 3, format = "f"),
+                                  "] ", sep = ""), width = 7, 
+                            justify = "right")
+        OM.H[, 5] <- format(formatC(round(HB, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 6] <- format(paste("(", formatC(round(se.HB, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 7] <- format(paste("[",
+                                  formatC(round(HB + qnorm((1 - ci) / 2) * se.HB, 
+                                                3), digits = 3, format = "f"),
+                                  ", ",
+                                  formatC(round(HB - qnorm((1 - ci) / 2) * se.HB, 
+                                                3), digits = 3, format = "f"),
+                                  "] ", sep = ""), width = 7, 
+                            justify = "right")
+        OM.H[, 8] <- format(formatC(round(HBW, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 9] <- format(paste("(", formatC(round(se.HBW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 10] <- format(paste("[",
+                                   formatC(round(HBW + qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(HBW - qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+      } else { # Range-preserving
+        gHB <- log(1 - HB)
+        gHW <- log(1 - HW)
+        VgHB <- se.HB^2 / (1 - HB)^2
+        VgHW <- se.HW^2 / (1 - HW)^2
+        
+        OM.H[, 1] <- format("", width = 7, justify = "right")
+        OM.H[, 2] <- format(formatC(round(HW, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 3] <- format(paste("(", formatC(round(se.HW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 4] <- format(paste("[",
+                                  formatC(round(1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                                                3), digits = 3, format = "f"),
+                                  ", ",
+                                  formatC(round(1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                                                3), digits = 3, format = "f"),
+                                  "] ", sep = ""), width = 7, 
+                            justify = "right")
+        OM.H[, 5] <- format(formatC(round(HB, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 6] <- format(paste("(", formatC(round(se.HB, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 7] <- format(paste("[",
+                                  formatC(round(1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                                                3), digits = 3, format = "f"),
+                                  ", ",
+                                  formatC(round(1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                                                3), digits = 3, format = "f"),
+                                  "] ", sep = ""), width = 7, 
+                            justify = "right")
+        OM.H[, 8] <- format(formatC(round(HBW, 3), digits = 3, format = "f"), width = 7, justify = "right")
+        OM.H[, 9] <- format(paste("(", formatC(round(se.HBW, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
+        OM.H[, 10] <- format(paste("[",
+                                   formatC(round(HBW + qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                   ", ",
+                                   formatC(round(HBW - qnorm((1 - ci) / 2) * se.HBW, 3), digits = 3, format = "f"),
+                                   "] ", sep = ""), width = 7, 
+                             justify = "right")
+      }
       dimnames(OM.H) <- list("Scale", c("", 
                                         "   HW", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
                                         "   HB", " (se)  ", paste("    ", ci * 100, "% ci", sep = ""), 
@@ -557,42 +652,65 @@
       
     } else { # nice output == F
       if(ci) {
-        gHWij <- log(1 - HWij)
-        gHBij <- log(1 - HBij)
-        VgHWij <- se.HWij^2 / (1 - HWij)^2
-        VgHBij <- se.HBij^2 / (1 - HBij)^2
-        
-        ci.HWij <- data.frame("ci.HWij.l" = 1 - exp(gHWij - qnorm((1 - ci) / 2) * sqrt(VgHWij)), 
-                              "ci.HWij.u" = 1 - exp(gHWij + qnorm((1 - ci) / 2) * sqrt(VgHWij)))
-        ci.HBij <- data.frame("ci.HBij.l" = 1 - exp(gHBij - qnorm((1 - ci) / 2) * sqrt(VgHBij)), 
-                              "ci.HBij.u" = 1 - exp(gHBij + qnorm((1 - ci) / 2) * sqrt(VgHBij)))
-        ci.HBWij <- data.frame("ci.HBWij.l" = HBWij + qnorm((1 - ci) / 2) * se.HBWij, 
-                               "ci.HBWij.u" = HBWij + qnorm((1 - ci) / 2) * se.HBWij)
-        
-        gHWi <- log(1 - HWi)
-        gHBi <- log(1 - HBi)
-        VgHWi <- se.HWi^2 / (1 - HWi)^2
-        VgHBi <- se.HBi^2 / (1 - HBi)^2
-        
-        ci.HWi <- data.frame("ci.HWi.l" = 1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
-                             "ci.HWi.u" = 1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)))
-        ci.HBi <- data.frame("ci.HBi.l" = 1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
-                             "ci.HBi.u" = 1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)))
-        ci.HBWi <- data.frame("ci.HBWi.l" = HBWi + qnorm((1 - ci) / 2) * se.HBWi, 
-                              "ci.HBWi.u" = HBWi + qnorm((1 - ci) / 2) * se.HBWi)
-        
-        gHW <- log(1 - HW)
-        gHB <- log(1 - HB)
-        VgHW <- se.HW^2 / (1 - HW)^2
-        VgHB <- se.HB^2 / (1 - HB)^2
-        
-        ci.HW <- data.frame("ci.HW.l" = 1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
-                            "ci.HW.u" = 1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)))
-        ci.HB <- data.frame("ci.HB.l" = 1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
-                            "ci.HB.u" = 1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)))
-        ci.HBW <- data.frame("ci.HBW.l" = HBW + qnorm((1 - ci) / 2) * se.HBW, 
-                             "ci.HBW.u" = HBW + qnorm((1 - ci) / 2) * se.HBW)
-        
+        if(type.ci == "WB") { # Wald-based
+          ci.HWij <- data.frame("ci.HWij.l" = HWij + qnorm((1 - ci) / 2) * se.HWij, 
+                                "ci.HWij.u" = HWij - qnorm((1 - ci) / 2) * se.HWij)
+          ci.HBij <- data.frame("ci.HBij.l" = HBij + qnorm((1 - ci) / 2) * se.HBij, 
+                                "ci.HBij.u" = HBij - qnorm((1 - ci) / 2) * se.HBij)
+          ci.HBWij <- data.frame("ci.HBWij.l" = HBWij + qnorm((1 - ci) / 2) * se.HBWij, 
+                                 "ci.HBWij.u" = HBWij - qnorm((1 - ci) / 2) * se.HBWij)
+          
+          ci.HWi <- data.frame("ci.HWi.l" = HWi + qnorm((1 - ci) / 2) * se.HWi, 
+                               "ci.HWi.u" = HWi - qnorm((1 - ci) / 2) * se.HWi)
+          ci.HBi <- data.frame("ci.HBi.l" = HBi + qnorm((1 - ci) / 2) * se.HBi, 
+                               "ci.HBi.u" = HBi - qnorm((1 - ci) / 2) * se.HBi)
+          ci.HBWi <- data.frame("ci.HBWi.l" = HBWi + qnorm((1 - ci) / 2) * se.HBWi, 
+                                "ci.HBWi.u" = HBWi - qnorm((1 - ci) / 2) * se.HBWi)
+          
+         ci.HW <- data.frame("ci.HW.l" = HW + qnorm((1 - ci) / 2) * se.HW, 
+                              "ci.HW.u" = HW - qnorm((1 - ci) / 2) * se.HW)
+          ci.HB <- data.frame("ci.HB.l" = HB + qnorm((1 - ci) / 2) * se.HB, 
+                              "ci.HB.u" = HB - qnorm((1 - ci) / 2) * se.HB)
+          ci.HBW <- data.frame("ci.HBW.l" = HBW + qnorm((1 - ci) / 2) * se.HBW, 
+                               "ci.HBW.u" = HBW - qnorm((1 - ci) / 2) * se.HBW)
+          
+        } else { # Range-preserving
+          gHWij <- log(1 - HWij)
+          gHBij <- log(1 - HBij)
+          VgHWij <- se.HWij^2 / (1 - HWij)^2
+          VgHBij <- se.HBij^2 / (1 - HBij)^2
+          
+          ci.HWij <- data.frame("ci.HWij.l" = 1 - exp(gHWij - qnorm((1 - ci) / 2) * sqrt(VgHWij)), 
+                                "ci.HWij.u" = 1 - exp(gHWij + qnorm((1 - ci) / 2) * sqrt(VgHWij)))
+          ci.HBij <- data.frame("ci.HBij.l" = 1 - exp(gHBij - qnorm((1 - ci) / 2) * sqrt(VgHBij)), 
+                                "ci.HBij.u" = 1 - exp(gHBij + qnorm((1 - ci) / 2) * sqrt(VgHBij)))
+          ci.HBWij <- data.frame("ci.HBWij.l" = HBWij + qnorm((1 - ci) / 2) * se.HBWij, 
+                                 "ci.HBWij.u" = HBWij - qnorm((1 - ci) / 2) * se.HBWij)
+          
+          gHWi <- log(1 - HWi)
+          gHBi <- log(1 - HBi)
+          VgHWi <- se.HWi^2 / (1 - HWi)^2
+          VgHBi <- se.HBi^2 / (1 - HBi)^2
+          
+          ci.HWi <- data.frame("ci.HWi.l" = 1 - exp(gHWi - qnorm((1 - ci) / 2) * sqrt(VgHWi)), 
+                               "ci.HWi.u" = 1 - exp(gHWi + qnorm((1 - ci) / 2) * sqrt(VgHWi)))
+          ci.HBi <- data.frame("ci.HBi.l" = 1 - exp(gHBi - qnorm((1 - ci) / 2) * sqrt(VgHBi)), 
+                               "ci.HBi.u" = 1 - exp(gHBi + qnorm((1 - ci) / 2) * sqrt(VgHBi)))
+          ci.HBWi <- data.frame("ci.HBWi.l" = HBWi + qnorm((1 - ci) / 2) * se.HBWi, 
+                                "ci.HBWi.u" = HBWi - qnorm((1 - ci) / 2) * se.HBWi)
+          
+          gHW <- log(1 - HW)
+          gHB <- log(1 - HB)
+          VgHW <- se.HW^2 / (1 - HW)^2
+          VgHB <- se.HB^2 / (1 - HB)^2
+          
+          ci.HW <- data.frame("ci.HW.l" = 1 - exp(gHW - qnorm((1 - ci) / 2) * sqrt(VgHW)), 
+                              "ci.HW.u" = 1 - exp(gHW + qnorm((1 - ci) / 2) * sqrt(VgHW)))
+          ci.HB <- data.frame("ci.HB.l" = 1 - exp(gHB - qnorm((1 - ci) / 2) * sqrt(VgHB)), 
+                              "ci.HB.u" = 1 - exp(gHB + qnorm((1 - ci) / 2) * sqrt(VgHB)))
+          ci.HBW <- data.frame("ci.HBW.l" = HBW + qnorm((1 - ci) / 2) * se.HBW, 
+                               "ci.HBW.u" = HBW - qnorm((1 - ci) / 2) * se.HBW)
+        }
       }
       if(se & ci) {
         Hij <- data.frame(HWij, se.HWij, ci.HWij, 
@@ -825,3 +943,4 @@
   return(OL)
   
 }
+

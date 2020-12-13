@@ -1,7 +1,13 @@
 # Aangepast door Letty Koopman op 11 juni 2020
 # Aangepast door Andries van der Ark op 2 september 2020
 
-coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL, group.var = NULL, fixed.itemstep.order = NULL, print.to.screen = TRUE) {
+## Update 27-11-2020 by Letty: 
+# Argument type.ci is added to distinguish between range-preserving and wald-based confidence intervals 
+# (Koopman et al 2020 a two-step, test-guided MSA for nonclustered and clustered data (Quality of Life Research))
+
+
+coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL, 
+                   group.var = NULL, fixed.itemstep.order = NULL, type.ci = "WB", results = TRUE) {
 
   X <- check.data(X)
   eps <- 1e-40
@@ -23,6 +29,12 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     warning("ci requires values between 0 and 1, ci is set to default value ci = .95.")
     ci <- .95
   }   
+  if(computeCI) {
+    if(type.ci != "WB" & type.ci != "RP") {
+      warning("type.ci needs to be 'WB' (Wald-based) or 'RP' (range-preserving), the default 'WB' is used.")
+      type.ci <- "WB"
+    }
+  }
   
   if (!is.null(fixed.itemstep.order) && is.matrix(fixed.itemstep.order)) 
     if (ncol(fixed.itemstep.order) != ncol(X) && nrow(fixed.itemstep.order) != max(X) && sort(as.numeric(fixed.itemstep.order)) != 1:(max(X) * ncol(X))) {
@@ -211,14 +223,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
       }
 
       
-      gHij <- log(1 - Hij)
-      VgHij <- se.Hij^2 / (1 - Hij)^2
       
-      gHi <- log(1 - Hi)
-      VgHi <- se.Hi^2 / (1 - Hi)^2
-      
-      gH <- log(1 - H)
-      VgH <- se.H^2 / (1 - H)^2
       
     }
     
@@ -230,7 +235,28 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
         for (j in 2 * (1:J)) {
           H.ci.matrix.Hij[, j - 1] <- output.matrix.Hij[, j - 1] <- format(paste(" ", formatC(round(Hij[, j/2], 3), digits = 3, format = "f"), " ", sep = ""), width = 7, justify = "right")
           output.matrix.Hij[, j] <- format(paste("(", formatC(round(se.Hij[, j/2], 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-          ci.matrix.Hij[, j / 2] <- H.ci.matrix.Hij[, j] <- format(paste("[", formatC(round(1 - exp(gHij[, j/2] - qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), ", ", formatC(round(1 - exp(gHij[, j/2] + qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), "] ", sep = ""), width = 7, justify = "right")
+          if(type.ci == "WB") {
+            ci.matrix.Hij[, j / 2] <- H.ci.matrix.Hij[, j] <- format(paste("[", 
+                                                                           formatC(round(Hij[, j/2] + qnorm((1 - ci) / 2) * se.Hij[, j/2], 3), digits = 3, format = "f"), 
+                                                                           ", ", 
+                                                                           formatC(round(Hij[, j/2] - qnorm((1 - ci) / 2) * se.Hij[, j/2], 3), digits = 3, format = "f"), 
+                                                                           "] ", sep = ""), width = 7, justify = "right")
+          } else {
+            gHij <- log(1 - Hij)
+            VgHij <- se.Hij^2 / (1 - Hij)^2
+            
+            gHi <- log(1 - Hi)
+            VgHi <- se.Hi^2 / (1 - Hi)^2
+            
+            gH <- log(1 - H)
+            VgH <- se.H^2 / (1 - H)^2
+            
+            ci.matrix.Hij[, j / 2] <- H.ci.matrix.Hij[, j] <- format(paste("[", 
+                                                                           formatC(round(1 - exp(gHij[, j/2] - qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                                                           ", ", 
+                                                                           formatC(round(1 - exp(gHij[, j/2] + qnorm((1 - ci) / 2) * sqrt(VgHij[, j/2])), 3), digits = 3, format = "f"), 
+                                                                           "] ", sep = ""), width = 7, justify = "right")
+          }
         }
         new.labels <- rep(labels, each = 2)
         new.labels[2 * (1:J)] <- "se"
@@ -255,14 +281,26 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
         output.matrix.Hi <- matrix(NA, J, 3)
         output.matrix.Hi[, 1] <- format(formatC(round(Hi, 3), digits = 3, format = "f"), width = 7, justify = "right")
         output.matrix.Hi[, 2] <- format(paste("(", formatC(round(se.Hi, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-        output.matrix.Hi[, 3] <- format(paste("[", formatC(round(1 - exp(gHi - qnorm((1 - ci) / 2) * sqrt(VgHi)), 3), digits = 3, format = "f"), ", ", formatC(round(1 - exp(gHi + qnorm((1 - ci) / 2) * sqrt(VgHi)), 3), digits = 3, format = "f"), "] ", sep = ""), width = 7, justify = "right")
+        if(type.ci == "WB") {
+          output.matrix.Hi[, 3] <- format(paste("[", formatC(round(Hi + qnorm((1 - ci) / 2) * se.Hi, 3), digits = 3, format = "f"), 
+                                                ", ", formatC(round(Hi - qnorm((1 - ci) / 2) * se.Hi, 3), digits = 3, format = "f"), "] ", sep = ""), width = 7, justify = "right")
+        } else {
+          output.matrix.Hi[, 3] <- format(paste("[", formatC(round(1 - exp(gHi - qnorm((1 - ci) / 2) * sqrt(VgHi)), 3), digits = 3, format = "f"), 
+                                                ", ", formatC(round(1 - exp(gHi + qnorm((1 - ci) / 2) * sqrt(VgHi)), 3), digits = 3, format = "f"), "] ", sep = ""), width = 7, justify = "right")
+        }
         dimnames(output.matrix.Hi) <- list(labels, c("Item H", "se", paste(ci*100, "% ci", sep = "")))
         output.matrix.Hi <- noquote(output.matrix.Hi)
         
         output.matrix.H <- matrix(NA, 1, 3)
         output.matrix.H[, 1] <- format(formatC(round(H, 3), digits = 3, format = "f"), width = 7, justify = "right")
         output.matrix.H[, 2] <- format(paste("(", formatC(round(se.H, 3), digits = 3, format = "f"), ")", sep = ""), width = 7, justify = "right")
-        output.matrix.H[, 3] <- format(paste("[", formatC(round(1 - exp(gH - qnorm((1 - ci) / 2) * sqrt(VgH)), 3), digits = 3, format = "f"), ", ", formatC(round(1 - exp(gH + qnorm((1 - ci) / 2) * sqrt(VgH)), 3), digits = 3, format = "f"), "]", sep = ""), width = 7, justify = "right")
+        if(type.ci == "WB") {
+          output.matrix.H[, 3] <- format(paste("[", formatC(round(H + qnorm((1 - ci) / 2) * se.H, 3), digits = 3, format = "f"), 
+                                               ", ", formatC(round(H - qnorm((1 - ci) / 2) * se.H, 3), digits = 3, format = "f"), "]", sep = ""), width = 7, justify = "right")
+        } else {
+          output.matrix.H[, 3] <- format(paste("[", formatC(round(1 - exp(gH - qnorm((1 - ci) / 2) * sqrt(VgH)), 3), digits = 3, format = "f"), 
+                                               ", ", formatC(round(1 - exp(gH + qnorm((1 - ci) / 2) * sqrt(VgH)), 3), digits = 3, format = "f"), "]", sep = ""), width = 7, justify = "right")
+        }
         dimnames(output.matrix.H) <- list("", c("Scale H", "se", paste(ci*100, "% ci", sep = "")))
         output.matrix.H <- noquote(output.matrix.H)
         
@@ -509,12 +547,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     print.list <- return.list  
     }
   }
-  if(print.to.screen) print(print.list)
+  if(results) print(print.list)
   invisible(return.list)    
 }
 
-#"print.scalCoefsSE" <- function(x){
-#  maxl <- length(x)
-#  print(x[1:(maxl - 3)])
-#  invisible(x[(maxl - 2):maxl])
-#}  

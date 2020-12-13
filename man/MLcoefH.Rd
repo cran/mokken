@@ -10,16 +10,18 @@
     that is, between- and within-rater item-pair scalability coefficents and their ratio (HBij, HWij, and BWij, respectively),
     between- and within-rater item scalability coefficients and their ratio (HBi, HWi, and BWi, respectively),
     and between- and within-rater total scale scalability coefficients and their ratio (HB, HW, and BW, respectively).
-    In addition, standard errors are estimated (Koopman, et al., 2019). Note that this version is an 
-    adaptation of the estimation methods described in Snijders (1999) and in Koopman et al. (2019), as the group proportions are now by 
-    default weighted for group size (Koopman, Zijlstra, & Van der Ark, 2020a). As a result, the estimates for the 
-    autonomySupport data differs from the printed table in Koopman et al. (2019). The estimated variance-covariance matrix 
-    of the coefficients are invisible but can be printed by saving the result, see examples.
+    In addition, standard errors are estimated (Koopman, et al., 2020a) and if requested 
+    incorporated in confidence intervals (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Note that this version is an 
+    adaptation of the estimation methods described in Snijders (1999) and in Koopman et al. (2020a), as the group proportions are now by 
+    default weighted for group size (Koopman, Zijlstra, & Van der Ark, 2020b). As a result, the estimates for the 
+    autonomySupport data differs from the printed table in Koopman et al. (2020a). The estimated variance-covariance matrix 
+    of the coefficients can also be printed if requested.
 }
 
 \usage{
     MLcoefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, subject = 1, 
-            fixed.itemstep.order = NULL, weigh.props = TRUE, cov.mat = FALSE)
+            fixed.itemstep.order = NULL, weigh.props = TRUE, 
+            type.ci = "WB", cov.mat = FALSE)
 }
 
 \arguments{
@@ -32,8 +34,13 @@
   \item{nice.output}{Logical: If \code{TRUE}, scalability coefficients and standard errors are combined 
            in an a single object of class \code{noquote}. Item-pair ratios BWij are only printed if \code{FALSE}}
   \item{subject}{Represents the subject column. Default is column 1.}
-  \item{fixed.itemstep.order}{matrix with number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
-  \item{weigh.props}{If \code{TRUE}: Use weighted proportions across groups to estimate coefficients and standard errors, if \code{FALSE}: Use averaged proportions across groups to estimate coefficients and standard errors.}
+  \item{fixed.itemstep.order}{matrix with number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). 
+           The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. 
+           Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
+  \item{weigh.props}{If \code{TRUE}: Use weighted proportions across groups to estimate coefficients and standard errors, if \code{FALSE}: 
+           Use averaged proportions across groups to estimate coefficients and standard errors.}
+  \item{type.ci}{If \code{WB}, Wald-based confidence interval are printed, if \code{RP} range-preserving confidence intervals are printed 
+          (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Default is \code{WB}. Only used if \code{ci} is specified.}
   \item{cov.mat}{Logical: If \code{TRUE}, the variance-covariance matrices of the estimated coefficients are printed. Default is \code{FALSE}.}
 }
 
@@ -41,7 +48,7 @@
  If \code{se = TRUE} and \code{nice.output = TRUE}, the result is a list of 3 objects of class \code{noquote};  
  if \code{se = TRUE} and \code{nice.output = FALSE}, the result is a list of 3 matrices, one per set of coefficients; and 
  if \code{se = FALSE}, the result is a list of 3 matrices containing only the scalability coefficients;
- if \code{ci = TRUE} and \code{nice.output = TRUE}, there is one additional matrix for the ci's of the Hij coefficients.
+ if \code{ci} is specified and \code{nice.output = TRUE}, there is one additional matrix for the ci's of the Hij coefficients.
  Computation of standard errors can be slow for a combination of many subjects and a large number of items;
  if \code{cov.mat = TRUE} three additional matrices are printed with the variance-covariances of Hij, Hi, and H.
 }
@@ -62,18 +69,18 @@ In L. A. Van der Ark, D. M. Bolt, W.-C. Wang, & M. Wiberg (Eds.),
 Springer. 
 \url{https://doi.org/10.1007/978-3-319-38759-8_11}
   
-Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2019). 
+Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2020a). 
 Standard errors of two-lvel scalability coefficients. 
 \emph{British Journal of Statistical and Mathematical Psychology, 73,} 213-236. 
 \url{https://doi.org/10.1111/bmsp.12174} 
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
-\emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
+Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
+\emph{A two-step, test-guided Mokken scale analysis for nonclustered and clustered data}. 
 Manuscript submitted for publication.
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
+Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020c). 
 \emph{Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis}. 
-Manuscript in preparation.
+Manuscript submitted for publication.
 
 Snijders, T. A. B. (2001). Two-level non-parametric scaling for dichotomous data. 
 In A. Boomsma, M. A. J. van Duijn, & T. A. B. Snijders (Eds.), 

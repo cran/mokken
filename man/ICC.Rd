@@ -42,7 +42,7 @@
 }
 
 \seealso{
-\code{\link{SWMD}},
+\code{\link{SWMDK}},
 \code{\link{MLcoefH}}, 
 }
 
@@ -50,10 +50,10 @@
 \examples{
 
 # Data example (Koopman et al., 2020)
-data(SWMD)
+data(SWMDK)
 
 # Compute ICC
-ICC(SWMD)
+ICC(SWMDK)
 
 }
 \concept{intraclass correlation}

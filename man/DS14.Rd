@@ -24,8 +24,8 @@ The data contain the gender (\code{Male}) of the patients (1 = male, 0 =  female
 and the scores to DS14. Ten item scores are missing. Items 1 and 3 must be recoded before the data can beused meaningfully.
 The data have been used to investigate predictive value of social inhibition and negative affectivity for 
 cardiovascular events and mortality in patients with coronary artery disease (Denollet et al., 2013),
-to investigate the relation between Type D and inflammation and endothelial dysfunction' (van Dooren et al., 2016),
-and to investigate the relation between Type D and increased macrophage activity (Zuccarella-Hackl et al., 2016)
+to investigate the relation between Type D and inflammation and endothelial dysfunction (van Dooren et al., 2016),
+and to investigate the relation between Type D and increased macrophage activity (Zuccarella-Hackl et al., 2016).
 These data have also been analyzed in papers on Mokken scale analysis (Sijtsma & Van der Ark, 2016; Straat et al., 2016).
 }
 
@@ -37,8 +37,7 @@ These data have also been analyzed in papers on Mokken scale analysis (Sijtsma &
  Denollet, J., Pedersen, S. S., Vrints, C. J., & Conraads, V. M. (2013). 
  Predictive value of social inhibition and negative affectivity for cardiovascular events and mortality in patients with coronary artery disease: the Type D personality construct. 
  \emph{Psychosomatic Medicine, 75}, 873-981.
- \url{https://doi.org/10.1097/PSY.0000000000000001}
- 
+  
  van Dooren, F. E., Verhey, F. R., Pouwer, F., Schalkwijk, C. G., Sep, S. J., Stehouwer, C.D., Henry, R. M., Dagnelie, P. C., 
  Schaper, N. C., Van der Kallen, C. J., Koster, A., Schram, M. T., & Denollet, J. (2016).
  Association of Type D personality with increased vulnerability to depression: Is there a role for inflammation or endothelial dysfunction? - The Maastricht Study. 
@@ -55,7 +54,7 @@ These data have also been analyzed in papers on Mokken scale analysis (Sijtsma &
  \emph{Methodology, 12}, 117-123.
  \url{https://doi.org/10.1027/1614-2241/a000115}
    
- Zuccarella-Hackl, C., von K\"anel, R., Thomas, L., Kuebler, P., Schmid, J. P., Mattle. H. P., Mono, M. L., Rieben, R., 
+ Zuccarella-Hackl, C., von Kaenel, R., Thomas, L., Kuebler, P., Schmid, J. P., Mattle. H. P., Mono, M. L., Rieben, R., 
  Wiest, R., & Wirtz, P. H. (2016). 
  Higher macrophage superoxide anion production in coronary artery disease (CAD) patients with Type D personality. 
  \emph{Psychoneuroendocrinology, 68}, 186-193.

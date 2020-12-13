@@ -1,21 +1,22 @@
-\name{SWMD}
-\alias{SWMD}
+\name{SWMDK}
+\alias{SWMDK}
 \docType{data}
-\title{SWMD Data Subset}
+\title{SWMDK Data Subset}
 
 \description{
-    A subset of the COOL5-18 data (see below) with scores of 651 pupils nested in 30 classes
-    on the 7-item Schaal Welbevinden Met Docenten [Scale Well-Being With Teachers]
+    A subset of the COOL5-18 data (see below) with scores of 639 pupils nested in 30 classes
+    on the 7-item Schaal Welbevinden Met Docenten [Scale Well-Being With Teachers] and 6-item 
+    Schaal Welbevinden met Klasgenoten [Scale Well-Being With Classmates]
     (Peetsma, Wagenaar, & de Kat, 2001; 
     Zijsling, Keuning, Keizer-Mittelhauser, Naaijer, & Timmermans, 2017).
-    See \code{attributes(SWMD)} for the original item labels and content.
+    See \code{attributes(SWMDK)} for the original item labels and content.
     R-code to get this subsample is available as online supplement to 
     Koopman, Zijlstra, & Van der Ark (2020).
 }
-\usage{data(SWMD)}
+\usage{data(SWMDK)}
 \format{
-    A 651 by 8 data frame containing integers. The first column reflects a classroom indicator, 
-    the remaining columns the 7 items, see \code{colnames(SWMD)}.
+    A 639 by 14 data frame containing integers. The first column reflects a classroom indicator, 
+    the remaining columns the 13 items, see \code{colnames(SWMDK)}.
 }
 \details{
     Each item has five ordered answer categories from \emph{not true at all} (score 0) 
@@ -30,10 +31,15 @@
     Item5  \tab lv_wdo5 \tab The teachers understand me \cr   
     Item6  \tab lv_wdo6 \tab I have good contact with the teachers \cr   
     Item7  \tab lv_wdo7 \tab I would prefer to have other teachers (inversely coded) \cr   
+    Item8  \tab lv_wkl1 \tab I have a lot of contact with my classmates \cr                 
+    Item9  \tab lv_wkl2 \tab I would prefer to be in a different class (inversely coded) \cr
+    Item10 \tab lv_wkl3 \tab We have a nice class \cr
+    Item11 \tab lv_wkl4 \tab I get along well with my classmates \cr                      
+    Item12 \tab lv_wkl5 \tab I sometimes feel alone in the class (inversely coded) \cr     
+    Item13 \tab lv_wkl6 \tab I enjoy hanging out with my classmates \cr 
     }
 
-    The items were translated from Dutch. For the original items, see p. 79 in Zijsling et al. (2017). The scores on these items plus seven additional items are available in dataset \code{\link{SWMDK}}.
-    
+    The items were translated from Dutch. For the original items, see pp. 79-83 in Zijsling et al. (2017). The first seven items are also available in dataset \code{\link{SWMD}}.
 }
 
 \source{
@@ -63,19 +69,21 @@ Zijsling, D., Keuning, J., Keizer-Mittelhaeuser, M.-A., Naaijer, H., & Timmerman
 }
 
 \seealso{
+\code{\link{coefH}},
 \code{\link{MLcoefH}}, 
 \code{\link{ICC}}, 
+\code{\link{SWMD}} 
 }
 
 \examples{
 # Data example (Koopman et al., 2020)
-data(SWMD)
+data(SWMDK)
 
 # Item content, see labels
-attributes(SWMD)$labels
+attributes(SWMDK)$labels
 
 # Compute ICC
-ICC(SWMD)
+ICC(SWMDK)
 }
 
 \keyword{datasets}

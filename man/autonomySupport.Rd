@@ -11,7 +11,7 @@
 \usage{data(autonomySupport)}
 \format{
     A 259 by 8 data frame containing integers. The first column reflects a teacher indicator, 
-    the remaining columns the 7 items, see colnames(autonomySupport).
+    the remaining columns the 7 items, see \code{colnames(autonomySupport)}.
 }
 \details{
     Each item has five ordered answer categories from \emph{not at all/never} (score 1) 
