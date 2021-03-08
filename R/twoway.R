@@ -1,8 +1,7 @@
 "twoway" <- function(X, nCompletedDataSets = 1, minX = defaultMinX, maxX = defaultMaxX, seed = FALSE){
 
-   if (class(seed) == "numeric") set.seed(seed)
-   dataClass <- data.class(X)
-   if (dataClass != "matrix" && dataClass != "data.frame") stop("X must be a matrix or a data.frame")
+   if (is.numeric(seed)) set.seed(seed)
+   if (!is.matrix(X) && !is.data.frame(X)) stop("X must be a matrix or a data.frame")
    Xm <- as.matrix(X)
    if (mode(Xm)!="numeric") stop("X must be numeric")
    if (any(Xm < 0, na.rm = TRUE)) stop("All scores must be nonnegative")

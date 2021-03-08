@@ -49,12 +49,12 @@ The optimal number of latent classes should be determined prior to the computati
   Cronbach, L. (1951).
   Coefficient alpha and the internal structure of tests.
   \emph{Psychometrika, 16}, 297-334.
-  \url{https://doi.org/10.1007/BF02310555}
+  \doi{10.1007/BF02310555}
   
   Guttman, L. (1945).
   A basis for analyzing test-retest reliability.
   \emph{Psychometrika, 10},255-282.
- \url{https://doi.org/10.1007/BF02288892}
+ \doi{10.1007/BF02288892}
 
   Molenaar, I. W., &  Sijtsma, K. (1984).
   Internal consistency and reliability in Mokken's nonparametric item response model.
@@ -69,7 +69,7 @@ The optimal number of latent classes should be determined prior to the computati
   Sijtsma, K., & Molenaar, I. W. (1987).
   Reliability of test scores in nonparametric item response theory.
   \emph{Psychometrika, 52},79-97.
-  \url{https://doi.org/10.1007/BF02293957}
+  \doi{10.1007/BF02293957}
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
@@ -81,17 +81,17 @@ The optimal number of latent classes should be determined prior to the computati
   In A. Fink, B. Lausen, W. Seidel, & A. Ultsch (Eds.),
   \emph{Advances in data analysis, data handling and business intelligence} (pp. 775-784).
   Springer.
-  \url{https://doi.org/10.1007/978-3-642-01044-6_7}
+  \doi{10.1007/978-3-642-01044-6_7}
 
   Van der Ark, L. A., Van der Palm, D. W., & Sijtsma, K. (2011).
   A latent class approach to estimating test-score reliability.
   \emph{Applied Psychological Measurement, 35}, 380-392.
-  \url{https://doi.org/10.1177/0146621610392911}
+  \doi{10.1177/0146621610392911}
   
   Van der Palm, D. W., Van der Ark, L. A. & Sijtsma, K. (2014).
   A flexible latent class approach to estimating test-score reliability.
   \emph{Journal of Educational Measurement, 51}, 339-357.
-  \url{https://doi.org/10.1111/jedm.12053}
+  \doi{10.1111/jedm.12053}
 }
 
 \author{

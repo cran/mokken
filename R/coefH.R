@@ -1,6 +1,5 @@
 # Aangepast door Letty Koopman op 11 juni 2020
 # Aangepast door Andries van der Ark op 2 september 2020
-
 ## Update 27-11-2020 by Letty: 
 # Argument type.ci is added to distinguish between range-preserving and wald-based confidence intervals 
 # (Koopman et al 2020 a two-step, test-guided MSA for nonclustered and clustered data (Quality of Life Research))
@@ -8,6 +7,8 @@
 
 coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL, 
                    group.var = NULL, fixed.itemstep.order = NULL, type.ci = "WB", results = TRUE) {
+
+# se = TRUE; ci = FALSE; nice.output = TRUE; level.two.var = NULL; group.var = NULL; fixed.itemstep.order = NULL; type.ci = "WB"; results = TRUE
 
   X <- check.data(X)
   eps <- 1e-40
@@ -71,7 +72,6 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     }
   }
   
- 
   if (!se && is.null(group.var) && is.null(fixed.itemstep.order) && !computeCI) {
     S <- var(X)
     Smax <- var(apply(X, 2, sort))

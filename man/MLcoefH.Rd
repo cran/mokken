@@ -67,12 +67,12 @@ Scalability coefficients for two-level polytomous item scores: An introduction a
 In L. A. Van der Ark, D. M. Bolt, W.-C. Wang, & M. Wiberg (Eds.), 
 \emph{Quantitative psychology research}. 
 Springer. 
-\url{https://doi.org/10.1007/978-3-319-38759-8_11}
+\doi{10.1007/978-3-319-38759-8_11}
   
 Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2020a). 
 Standard errors of two-lvel scalability coefficients. 
 \emph{British Journal of Statistical and Mathematical Psychology, 73,} 213-236. 
-\url{https://doi.org/10.1111/bmsp.12174} 
+\doi{10.1111/bmsp.12174} 
 
 Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
 \emph{A two-step, test-guided Mokken scale analysis for nonclustered and clustered data}. 
@@ -86,7 +86,7 @@ Snijders, T. A. B. (2001). Two-level non-parametric scaling for dichotomous data
 In A. Boomsma, M. A. J. van Duijn, & T. A. B. Snijders (Eds.), 
 \emph{Essays on item response theory} (pp. 319-338). 
 Springer. 
-\url{https://doi.org/10.1007/978-1-4613-0169-1_17}
+\doi{10.1007/978-1-4613-0169-1_17}
 }
 
 \author{

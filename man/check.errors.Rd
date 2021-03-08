@@ -33,7 +33,7 @@ check.errors(X, returnGplus = TRUE, returnOplus = FALSE)
   Meijer, R. R. (1994)
   The number of Guttman errors as a simple and powerful person-fit statistic.
   \emph{Applied Psychological Measurement, 18}, 311-314.
-  \url{https://doi.org/10.1177/014662169401800402}
+  \doi{10.1177/014662169401800402}
 
 
   Mokken, R. J. (1971) 
@@ -56,7 +56,7 @@ check.errors(X, returnGplus = TRUE, returnOplus = FALSE)
   Zijlstra, W. P.,  Van der Ark, L. A., & Sijtsma, K. (e2007).
   Outlier detection in test and questionnaire data.
   \emph{Multivariate Behavioral Research, 42}, 531-555.
-  \url{https://doi.org/10.1080/00273170701384340}
+  \doi{10.1080/00273170701384340}
 }
 
 \author{

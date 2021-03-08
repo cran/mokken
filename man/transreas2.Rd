@@ -29,7 +29,7 @@ A 606 by 16 data frame containing integers.
 Bouwmeester, S., & Sijtsma, K. (2004). 
 Measuring the ability of transitive reasoning, using product and strategy information. 
 \emph{Psychometrika, 69}, 123-146. 
-\url{https://doi.org/10.1007/BF02295843}
+\doi{10.1007/BF02295843}
 
 Sijtsma, K., & Van der Ark, L. A. (2020),
 \emph{Measurement models for psychological attributes.} Chapman and Hall/CRC Press.

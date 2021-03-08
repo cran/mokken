@@ -44,14 +44,14 @@ check.ca(X, Windex = FALSE, MINSIZE = 4, NWEIGHTOPTION = "noweight",
   Straat, J. H., Van der Ark, L. A., & Sijtsma, K. (2016).
   Using conditional association to identify locally Independent item sets.
   \emph{Methodology, 12}, 117-123.
-  \url{https://doi.org/10.1027/1614-2241/a000115}
+  \doi{10.1027/1614-2241/a000115}
 
  Sijtsma, K., van der Ark, L. A., & Straat, J. H. (2015) 
  Goodness of fit methods for nonparametric IRT models.
  In L. A. van der Ark, D. M. Bolt, W.-C. Wang, J. Douglas, & S.-M. Chow (Eds.),
  \emph{Quantitative psychology research: The 79th Annual Meeting of the Psychometric Society, Madison, Wisconsin, 2014.} (pp. 109 - 120)
  Springer.
- \url{https://doi.org/10.1007/978-3-319-19977-1_9}
+ \doi{10.1007/978-3-319-19977-1_9}
 }
 
 \seealso{

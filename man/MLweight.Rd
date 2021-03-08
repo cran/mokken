@@ -34,7 +34,7 @@
   In L. A. Van der Ark, S. Culpepper, J. A. Douglas, W.-C. Wang, & M. Wiberg (Eds.), 
   \emph{Quantitative Psychology: The 81st Annual Meeting of the Psychometric Society, Asheville, North Carolina, 2016} (pp. 183-190). 
   Springer. 
-  \url{https://doi.org/10.1007/978-3-319-56294-0_17} 
+  \doi{10.1007/978-3-319-56294-0_17} 
 
 }
 

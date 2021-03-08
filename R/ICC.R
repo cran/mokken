@@ -17,8 +17,7 @@
   #
   # Error handling:
   #
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-    stop("Data are not matrix or data.frame")
+  if (!is.matrix(X) && !is.data.frame(X)) stop("Data are not matrix or data.frame")
   if (ncol(X) < 2) stop("Data must consist of one groupingscolumn and at least one column with item or test scores")
   if (any(is.na(X))) stop("Missing values are not allowed")
   X <- X[order(X[, 1]), ] 

@@ -62,7 +62,7 @@
       if (length(m) <= 1) {
         return(m)
       }
-      # do.call(paste0, as.data.frame(perm(length(m), length(m), m)))
+      # ado.call(paste0, as.data.frame(perm(length(m), length(m), m)))
       as.data.frame(perm(length(m), length(m), m))
     })
     

@@ -74,7 +74,7 @@
   Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
-  \url{https://doi.org/10.1177/0081175013481958}
+  \doi{10.1177/0081175013481958}
   
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
@@ -91,7 +91,7 @@
   Straat, J. H., Van der Ark, L. A., & Sijtsma, K. (2013).
   Comparing optimization algorithms for item selection in Mokken scale analysis.
   \emph{Journal of Classification, 30,} 72-99.
-  \url{https://doi.org/10.1007/s00357-013-9122-y}
+  \doi{10.1007/s00357-013-9122-y}
   
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 

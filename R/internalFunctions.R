@@ -1,6 +1,5 @@
 "check.data" <- function(X, checkScores = TRUE){
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-    stop("Data are not matrix or data.frame")
+  if (!is.matrix(X) && !is.data.frame(X)) stop("X is not matrix or data.frame")
   matrix.X <- as.matrix(X)
   if (any(is.na(matrix.X))) stop("Missing values are not allowed")
   if (mode(matrix.X)!="numeric") stop("Data must be numeric")
@@ -8,27 +7,26 @@
   if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
   matrix.X <- matrix.X - min(matrix.X)
   if (max(matrix.X > 9)) stop("Some items have more than 10 categories. mokken cannot only handle up to 10 categories")
-  if(checkScores){
-    score.check <- apply(apply(matrix.X, 2, function(x) seq(0, max(matrix.X), 1) %in% x), 2, all)
-    if (!all(score.check)) 
-      warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have
-      different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
-  }
+ # if(checkScores){
+ #   score.check <- apply(apply(matrix.X, 2, function(x) seq(0, max(matrix.X), 1) %in% x), 2, all)
+ #   if (!all(score.check)) 
+ #     warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have
+ #     different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
+ # }
   return(matrix.X)
 }
 
 "check.ml.data" <- function(X){
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
-    stop("Data are not matrix or data.frame")
+  if (!is.matrix(X) && !is.data.frame(X)) stop("X is not matrix or data.frame")
   matrix.X <- as.matrix(X)
   if (any(is.na(matrix.X))) stop("Missing values are not allowed")
   if (mode(matrix.X)!="numeric") stop("Data must be numeric")
   if (any(matrix.X < 0)) stop("All scores should be nonnegative")
   if (any(matrix.X %% 1 !=0)) stop("All scores must be integers")
   matrix.X[, -1] <- matrix.X[, -1] - min(matrix.X[, -1])
-    score.check <- apply(apply(matrix.X[, -1], 2, function(x) seq(0, max(matrix.X[, -1]), 1) %in% x), 2, all)
-    if (!all(score.check)) 
-    warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
+  #  score.check <- apply(apply(matrix.X[, -1], 2, function(x) seq(0, max(matrix.X[, -1]), 1) %in% x), 2, all)
+  #  if (!all(score.check)) 
+  #  warning("Varying numbers of item scores were observed across the items.\n  Either the items have the same number of response categories but some item categories were not endorsed;\n  or the items have different numbers of categories by design. \n  In the latter case, the sum score cannot be used for (ordinal) measurement.")
   return(matrix.X)
 }
 
@@ -111,6 +109,7 @@
 
 ## weights function 21-11-2019 by Letty Koopman, adjusted original supporting function by Renske Kuijpers in coefH(). 
 "weights" <- function(X, maxx = max.x, minx = 0, itemstep.order = NULL){
+  # maxx = max.x; minx = 0; itemstep.order = NULL
   # Computes the Guttman weights in Mokken Scale Analysis.
   #
   # Args:
@@ -141,7 +140,7 @@
   # Cumulative frequencies, dealing with equal ranks
   CumRel <- c(rev(cumsum(rev(Rel1[-1]))), rev(cumsum(rev(Rel2[-1]))))
   names(CumRel) <- 1:length(CumRel)
-  y <- sort(CumRel, decreasing = T)
+  y <- sort(CumRel, decreasing = TRUE)
   
   if (any(duplicated(y)) & is.null(itemstep.order)) {
     perm <- function(n, r, v = 1:n, set = TRUE) {
@@ -151,9 +150,8 @@
         matrix(v, 1, r)
       else {
         X <- NULL
-        for (i in 1:n) X <- rbind(X, cbind(v[i], Recall(n - 
-                                                          1, r - 1, v[-i])))
-        X
+        for (i in 1:n) X <- rbind(X, cbind(v[i], Recall(n - 1, r - 1, v[-i])))
+        return(X)
       }
     }
     o <- lapply(unique(y), function(val) {
@@ -169,37 +167,25 @@
       if (length(unique(g)) > 1) {
         select <- matrix(0, nrow(g))
         for (j in 1:nrow(g)) {
-          h <- g[j, ]
-          if (any(h >= 1 & h <= maxx) & any(h >= maxx + 
-                                            1 & h <= maxx * 2)) {
-            select[j] <- (all(h[which(h >= 1 & h <= maxx)] == 
-                                sort(h[which(h >= 1 & h <= maxx)])) & all(h[which(h >= 
-                                                                                    maxx + 1 & h <= maxx * 2)] == sort(h[which(h >= 
-                                                                                                                                 maxx + 1 & h <= maxx * 2)]))) * j
+          h <- as.numeric(g[j, ]) 
+          if (any(h >= 1 & h <= maxx) & any(h >= maxx + 1 & h <= maxx * 2)) {
+            select[j] <- (all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])) & 
+                          all(h[which(h >= maxx + 1 & h <= maxx * 2)] == sort(h[which(h >= maxx + 1 & h <= maxx * 2)]))) * j
           }
           else {
-            i1 <- ifelse(any(h >= 1 & h <= maxx), all(h[which(h >= 
-                                                                1 & h <= maxx)] == sort(h[which(h >= 1 & 
-                                                                                                  h <= maxx)])), 0)
-            i2 <- ifelse(any(h >= maxx + 1 & h <= maxx * 
-                               2), all(h[which(h >= maxx + 1 & h <= maxx * 
-                                                 2)] == sort(h[which(h >= maxx + 1 & h <= 
-                                                                       maxx * 2)])), 0)
+            i1 <- ifelse(any(h >= 1 & h <= maxx), all(h[which(h >= 1 & h <= maxx)] == sort(h[which(h >= 1 & h <= maxx)])), 0)
+            i2 <- ifelse(any(h >= maxx + 1 & h <= maxx * 2), all(h[which(h >= maxx + 1 & h <= maxx * 2)] == sort(h[which(h >= maxx + 1 & h <= maxx * 2)])), 0)
             select[j] <- (i1 + i2) * j
           }
         }
-        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, 
-                               collapse = "."))
+        o[[i]] <- matrix(apply(o[[i]][select, ], 1, paste0, collapse = "."))
       }
     }
     out <- matrix(apply(expand.grid(o), 1, paste0, collapse = "."))
-    out <- matrix(unlist(strsplit(out, "[.]")), nrow = nrow(out), 
-                  byrow = T)
+    out <- matrix(unlist(strsplit(out, "[.]")), nrow = nrow(out), byrow = TRUE)
     w <- NULL
-    Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), 
-                    maxx), nrow = maxx, byrow = TRUE)
-    Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 
-                  2, byrow = TRUE)
+    Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
+    Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
     for (i in 1:nrow(out)) {
       ords <- as.numeric(out[i, ])
       # Compute Z matrix for each possible item-response pattern

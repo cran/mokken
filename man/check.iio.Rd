@@ -67,17 +67,17 @@ alpha = .05, item.selection=TRUE, verbose=FALSE)
   Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
-  \url{https://doi.org/10.1177/0013164409355697}
+  \doi{10.1177/0013164409355697}
 
   Ligtvoet, R., L. A. van der Ark, W. P. Bergsma, & K. Sijtsma (2011).
   Polytomous latent scales for the investigation of the ordering of items.
   \emph{Psychometrika, 76}, 200-216.
-  \url{https://doi.org/10.1007/s11336-010-9199-8}
+  \doi{10.1007/s11336-010-9199-8}
 
   Sijtsma, K., R. R. Meijer, & Van der Ark, L. A. (2011).
   Mokken scale analysis as time goes by: An update for scaling practitioners.
   \emph{Personality and Individual Differences, 50}, 31-37.
-  \url{https://doi.org/10.1016/j.paid.2010.08.016} 
+  \doi{10.1016/j.paid.2010.08.016} 
 
   Sijtsma, K., & Molenaar, I. W. (2002)
   \emph{Introduction to nonparametric item response theory}.

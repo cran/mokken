@@ -39,7 +39,7 @@
 \source{
     Data is a subset of respondents and items from the large-scale cohort study COOL5-18. 
     \url{http://www.cool5-18.nl/} (Zijsling et al., 2017).
-    For entire dataset see \url{https://doi.org/10.17026/dans-zfp-egnq}
+    For entire dataset see \doi{10.17026/dans-zfp-egnq}.
     Dataset is accessible after login.
 }
 
@@ -59,7 +59,6 @@ Peetsma, T. T. D., Wagenaar, E., & De Kat, E. (2001).
 Zijsling, D., Keuning, J., Keizer-Mittelhaeuser, M.-A., Naaijer, H., & Timmermans, A. (2017).
    \emph{Cohortonderzoek COOL5-18: Technisch rapport meting VO-3 in 2014}. 
    Onderwijs/Onderzoek. 
-   Retrieved from \url{https://www.rug.nl/research/portal/files/41740853/Cool_afn1314_vo3_techrapport.pdf}
 }
 
 \seealso{

@@ -63,7 +63,7 @@ The default number of plots can increase rapidly for large numbers of items.
   Visualizing uncertainty of estimated response functions in nonparametric item response theory.
   In R. E. Millsap, L. A. van der Ark, D. Bolt, & C. M. Woods (Eds.),
   \emph{New developments in quantitative psychology} (pp. 59-68). New York: Springer.
-  \url{https://doi.org/10.1007/978-1-4614-9348-8_5}
+  \doi{10.1007/978-1-4614-9348-8_5}
 
 
 }

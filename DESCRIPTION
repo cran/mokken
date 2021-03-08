@@ -1,6 +1,6 @@
 Package: mokken
-Version: 3.0.4
-Date: 2020-12-4
+Version: 3.0.6
+Date: 2021-3-8
 Title: Conducts Mokken Scale Analysis
 Authors@R: c(person("L. Andries", "van der Ark", role = c("aut", "cre"),
                      email = "L.A.vanderArk@uva.nl"),
@@ -22,6 +22,6 @@ URL: https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken
 LinkingTo: Rcpp
 Imports: Rcpp
 NeedsCompilation: yes
-Packaged: 2020-12-13 11:15:19 UTC; lvdark1
+Packaged: 2021-03-08 20:31:21 UTC; lvdark1
 Repository: CRAN
-Date/Publication: 2020-12-13 12:10:02 UTC
+Date/Publication: 2021-03-08 21:10:02 UTC

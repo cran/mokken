@@ -41,7 +41,7 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
   Junker, B.W., & Sijtsma, K. (2000). 
   Latent and manifest monotonicity in item response models. 
   \emph{Applied Psychological Measurement, 24}, 65-81.
-  \url{https://doi.org/10.1177/01466216000241004}
+  \doi{10.1177/01466216000241004}
 
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 

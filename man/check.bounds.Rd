@@ -33,7 +33,7 @@ check.bounds(X, quant = .90, lower = TRUE, upper = FALSE)
   Ellis, J. L. (2014). 
   An inequality for correlations in unidimensional monotone latent variable models for binary variables.
   \emph{Psychometrika, 79}, 303-316.
-  \url{https://doi.org/10.1007/S11336-013-9341-5}
+  \doi{10.1007/S11336-013-9341-5}
 }
 
 \author{

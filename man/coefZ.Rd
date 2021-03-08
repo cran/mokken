@@ -63,7 +63,7 @@ Standard errors of the Z-scores are not provided.
    Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
-  \url{https://doi.org/10.1177/0081175013481958}
+  \doi{10.1177/0081175013481958}
  
   Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].

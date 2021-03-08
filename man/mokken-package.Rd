@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.0.4       \cr
-Date:       \tab 2020-12-13  \cr
+Version:    \tab 3.0.6       \cr
+Date:       \tab 2021-03-08  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -197,6 +197,11 @@ The following modifications have been made in Version 3.0.4 in comparison to pre
 \code{\link{SWMDK}}              \tab New data file (Koopman, Zijlstra, & Van der Ark 2020a)\cr
 All functions                    \tab A warning has been added if items have different numbers of response categories       
 }
+
+The following modifications have been made in Version 3.0.6 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{coefH}}               \tab Fixed a bug for Linux environment
+}
 }
 
 \author{
@@ -233,7 +238,7 @@ Sage.
 Sijtsma, K., & Van der Ark, L. A. (2017).
 A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
 \emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
-\url{https://doi.org/10.1111/bmsp.12078}
+\doi{10.1111/bmsp.12078}
   
 Sijtsma, K., & Van der Ark, L. A. (2020),
 \emph{Measurement models for psychological attributes.}

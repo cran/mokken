@@ -79,7 +79,7 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
   Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
   \emph{Sociological Methodology, 43,} 42-69.
-  \url{https://doi.org/10.1177/0081175013481958}
+  \doi{10.1177/0081175013481958}
   
   Loevinger, J. (1948). 
   The technique of homogeneous tests compared with some aspects of 'scale analysis' and factor analysis.
@@ -110,7 +110,7 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
   Van der Ark, L. A., Croon, M. A., & Sijtsma (2008). 
   Mokken scale analysis for dichotomous items using marginal models.
   \emph{Psychometrika, 73}, 183-208.
-  \url{https://doi.org/10.1007/s11336-007-9034-z}
+  \doi{10.1007/s11336-007-9034-z}
  }
 
 \author{

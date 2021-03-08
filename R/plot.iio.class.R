@@ -45,8 +45,8 @@ up.lo.bound.mean <- function(n,alpha=.05){
     title(paste(results[[j]][[1]][1],"(solid)",results[[j]][[1]][2],"(dashed)"))
     axis(1, at=1:nrow(plot.matrix),labels=x.labels)
     if(ci){
-       polygon(c((1:length(up1))[!is.na(up1)],rev((1:length(lo1))[!is.na(lo1)])),c(up1[!is.na(up1)],rev(lo1[!is.na(lo1)])),col = colorCi[1], border=NA)
-       polygon(c((1:length(up2))[!is.na(up2)],rev((1:length(lo2))[!is.na(lo2)])),c(up2[!is.na(up2)],rev(lo2[!is.na(lo2)])),col = colorCi[2], border=NA)
+       polygon(c((1:length(up1))[!is.na(up1)],rev((1:length(lo1))[!is.na(lo1)])),c(up1[!is.na(up1)],rev(lo1[!is.na(lo1)])),col = colorCi[1])
+       polygon(c((1:length(up2))[!is.na(up2)],rev((1:length(lo2))[!is.na(lo2)])),c(up2[!is.na(up2)],rev(lo2[!is.na(lo2)])),col = colorCi[2])
     }   
     lines(plot.matrix[,1],mi1, lwd=4, lty=1, col = color[1])
     lines(plot.matrix[,1],mi2, lwd=4, lty=2, col = color[2])

@@ -11,6 +11,8 @@
                    type.z = "Z", 
                    test.Hi = FALSE, 
                    level.two.var = NULL)
+# default.maxgens <- 10^(log2(ncol(X)/5)) * 1000
+# lowerbound =.3; search = "normal"; alpha = .05; StartSet = FALSE; popsize = 20; maxgens = default.maxgens; pxover = 0.5; pmutation = 0.1; verbose = FALSE; type.z = "Z"; test.Hi = FALSE; level.two.var = NULL
 {
    X <- check.data(X)
    output <- NULL

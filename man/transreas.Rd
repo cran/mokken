@@ -39,7 +39,7 @@ T06A \tab   6  \tab    area \tab      YA > YB > YC \tab   discs \tab7.5, 7, 6.5 
 Verweij, A. C., Sijtsma, K., & Koops, W. (1996). 
 A Mokken scale for transitive reasoning suited for longitudinal research.
 \emph{International Journal of Behavioral Development, 23}, 241-264.
-\url{https://doi.org/10.1177/016502549601900115}
+\doi{10.1177/016502549601900115}
   
 Sijtsma, K., & Molenaar, I. W. (2002)
 \emph{Introduction to nonparametric item response theory}.

@@ -32,7 +32,7 @@ A 1208 by 44 data frame containing integers.
 de la Torre, J., Van der Ark, L. A., & Rossi, G. (2018).
 Analysis of clinical data from cognitive diagnosis modelling framework.
 \emph{Measurement and Evaluation in Counseling and Development, 51}, 281-296.
-\url{https://doi.org/10.1080/07481756.2017.1327286}
+\doi{10.1080/07481756.2017.1327286}
 
 Millon, T. (1994). \emph{Manual for the MCMI-III}. Minneapolis, MN: National Computer Systems.
 
@@ -40,7 +40,7 @@ Rossi, G., Elklit, A., & Simonsen, E. (2010).
 Empirical evidence for a four factor framework of personality disorder organization: 
 Multigroup confirmatory factor analysis of the million clinical multiaxial inventory-III personality disorders scales across Belgian and Danish data samples.
 \emph{Journal of Personality Disorders, 24}, 128-150. 
-\url{https://doi.org/10.1521/pedi.2010.24.1.128} 
+\doi{10.1521/pedi.2010.24.1.128} 
 
 Sijtsma, K., & Van der Ark, L. A. (2020),
 \emph{Measurement models for psychological attributes.} Chapman and Hall/CRC Press.
@@ -49,7 +49,7 @@ Sijtsma, K., & Van der Ark, L. A. (2020),
 Van der Ark, L. A., Rossi, G., & Sijtsma, K. (2019).
 Nonparametric item response theory and Mokken scale analysis, with relations to latent class models and cognitive diagnostic models.
 In M. von Davier & Y.- S. Lee (Eds.), \emph{Handbook of diagnostic classification models} (pp. 21-45). Springer.
-\url{https://doi.org/10.1007/978-3-030-05584-4}
+\doi{10.1007/978-3-030-05584-4}
 }
 
 \examples{

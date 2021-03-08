@@ -42,23 +42,23 @@ These data have also been analyzed in papers on Mokken scale analysis (Sijtsma &
  Schaper, N. C., Van der Kallen, C. J., Koster, A., Schram, M. T., & Denollet, J. (2016).
  Association of Type D personality with increased vulnerability to depression: Is there a role for inflammation or endothelial dysfunction? - The Maastricht Study. 
  \emph{Journal of Affective Disorders, 189}, 118-125. 
- \url{https://doi.org/10.1016/j.jad.2015.09.028}
+ \doi{10.1016/j.jad.2015.09.028}
 
  Sijtsma, K., & Van der Ark, L. A. (2017).
  A tutorial on how to do a Mokken scale analysis on your test and questionnaire data.
  \emph{British Journal of Mathematical and Statistical Psychology, 70}, 137-158.
- \url{https://doi.org/10.1111/bmsp.12078}
+ \doi{10.1111/bmsp.12078}
 
  Straat, J. H., Van der Ark, L. A., & Sijtsma, K. (2016).
  Using conditional association to identify locally Independent item sets.
  \emph{Methodology, 12}, 117-123.
- \url{https://doi.org/10.1027/1614-2241/a000115}
+ \doi{10.1027/1614-2241/a000115}
    
  Zuccarella-Hackl, C., von Kaenel, R., Thomas, L., Kuebler, P., Schmid, J. P., Mattle. H. P., Mono, M. L., Rieben, R., 
  Wiest, R., & Wirtz, P. H. (2016). 
  Higher macrophage superoxide anion production in coronary artery disease (CAD) patients with Type D personality. 
  \emph{Psychoneuroendocrinology, 68}, 186-193.
- \url{https://doi.org/10.1016/j.psyneuen.2016.02.031}
+ \doi{10.1016/j.psyneuen.2016.02.031}
 }
 
 \seealso{

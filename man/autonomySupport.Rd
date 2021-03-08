@@ -39,7 +39,7 @@
 Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2019). 
 Standard errors of two-lvel scalability coefficients. 
 \emph{British Journal of Statistical and Mathematical Psychology, 73,} 213-236. 
-\url{https://doi.org/10.1111/bmsp.12174} 
+\doi{10.1111/bmsp.12174} 
 }
 
 \seealso{
