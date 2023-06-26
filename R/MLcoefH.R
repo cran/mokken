@@ -39,7 +39,7 @@
   #                 if FALSE: Use averaged proportions across groups to estimate coefficients and standard errors. Default is TRUE
   #   type.ci: The type of confidence interval, can be "WB" for Wald-based or "RP" for range-preserving.
   # 
-  # Supporting mokken functions "MLweight", "weights", "check.ml.data", "all.patterns", "phi", and "dphi", "print.scalCoefsSE"
+  # Supporting mokken functions "MLweight", "weights", "check.ml.data", "allPatterns", "phi", and "dphi", "printScalCoefsSE"
   #
   # Returns: 
   #   Two-level scalability coefficients and optionally their standard errors and confidence intervals.

@@ -7,7 +7,7 @@ function(X, minvi = .03, minsize = default.minsize){
   m <- max(X) + 1
   I.labels <- dimnames(X)[[2]]
   if(length(I.labels)==0) I.labels <- paste("C",1:ncol(X))
-  default.minsize <- ifelse(N > 500, floor(N/10), floor(N/5))
+  default.minsize <- ifelse(N >= 500, floor(N/10), floor(N/5))
   default.minsize <- ifelse(N <= 250, floor(N/3), default.minsize)
   default.minsize <- ifelse(N <  150, 50, default.minsize)
 

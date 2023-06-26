@@ -42,6 +42,14 @@ For \code{ask=="FALSE"}, the default graphic device in R may only display the la
 }
 
 \references{
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
+  Assumptions and Properties of Two-Level Nonparametric Item Response 
+  Theory Models. Manuscript submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
+  Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
+  Manuscript submitted for publication.
+  
   Molenaar, I.W., & Sijtsma, K. (2000) 
   \emph{User's Manual MSP5 for Windows} [Software manual].
   IEC ProGAMMA.
@@ -53,7 +61,8 @@ For \code{ask=="FALSE"}, the default graphic device in R may only display the la
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+  \doi{10.18637/jss.v020.i11}
+  
 
   Van der Ark, L. A. (2014).
   Visualizing uncertainty of estimated response functions in nonparametric item response theory.
@@ -78,6 +87,14 @@ Communality <- acl[,1:10]
 monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
+
+# Compute two-level fit statistics (Koopman et al., 2023a, 2023b)
+data("autonomySupport")
+dat <- autonomySupport[, -1]
+groups <- autonomySupport[, 1]
+autonomyMM <- check.monotonicity(dat, level.two.var = groups)
+summary(autonomyMM)
+plot(autonomyMM)
 }
 \concept{manifest monotonicity}
 \concept{monotonicity}

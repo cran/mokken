@@ -8,7 +8,7 @@
 \description{
     Computes to intraclass correlation for multilevel data (ICC; 
     Snijders & Bosker, 1999, p. 17) for each item and the total scale of 
-    a questionnaire (Koopman, Van der Ark, & Zijlstra, 2020) and the F-test 
+    a questionnaire (Koopman et al., in press) and the F-test 
     for the null hypothesis that the (total scale) ICC is zero (Snijders & Bosker, 2012, p. 22)
 }
 
@@ -28,9 +28,10 @@
 }
 
 \references{
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
-  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
-  Manuscript submitted for publication.
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press).
+   A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+   \emph{Quality of Life Research}. (advanced online publication)
+   \doi{10.1007/s11136-021-02840-2}
 
   Snijders, T. A. B., & Bosker, R. J. (2012). 
   \emph{Multilevel analysis: An introduction to basic and advanced multilevel modeling} (2nd ed.). Sage.

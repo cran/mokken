@@ -6,11 +6,10 @@
 \description{
     A subset of the COOL5-18 data (see below) with scores of 651 pupils nested in 30 classes
     on the 7-item Schaal Welbevinden Met Docenten [Scale Well-Being With Teachers]
-    (Peetsma, Wagenaar, & de Kat, 2001; 
-    Zijsling, Keuning, Keizer-Mittelhauser, Naaijer, & Timmermans, 2017).
+    (Peetsma, et al., 2001; Zijsling, et al., 2017).
     See \code{attributes(SWMD)} for the original item labels and content.
     R-code to get this subsample is available as online supplement to 
-    Koopman, Zijlstra, & Van der Ark (2020).
+    Koopman et al. (in press a).
 }
 \usage{data(SWMD)}
 \format{
@@ -39,7 +38,7 @@
 \source{
     Data is a subset of respondents and items from the large-scale cohort study COOL5-18. 
     \url{http://www.cool5-18.nl/} (Zijsling et al., 2017).
-    For entire dataset see \doi{10.17026/dans-zfp-egnq}.
+    For entire dataset see \doi{10.17026/dans-zfp-egnq}
     Dataset is accessible after login.
 }
 

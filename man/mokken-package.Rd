@@ -18,8 +18,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.0.6       \cr
-Date:       \tab 2021-03-08  \cr
+Version:    \tab 3.1.0       \cr
+Date:       \tab 2023-06-23  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -155,30 +155,30 @@ The following modifications have been made in Version 3.0.0 in comparison to pre
 \tabular{ll}{
 \code{\link{aisp}}               \tab Genetic algorithm has been reprogrammed and is now much faster.\cr
                                  \tab Argument \code{lowerbound} can now be a vector, enabling the investigation of several lower bounds simultaneously.\cr
-                                 \tab Extra argument to specify which standard errors should be used in Z-test (Koopman et al., 2020b).\cr
-                                 \tab Extra argument to indicate which null-hypothesis should be used to test Hi (i.e., Hi = c or Hi = 0)(Koopman et al., 2020b).\cr
-                                 \tab Extra argument to handle nested data (Koopman et al., 2020b).\cr
+                                 \tab Extra argument to specify which standard errors should be used in Z-test (Koopman et al., 2020).\cr
+                                 \tab Extra argument to indicate which null-hypothesis should be used to test Hi (i.e., Hi = c or Hi = 0)(Koopman et al., 2020).\cr
+                                 \tab Extra argument to handle nested data (Koopman et al., 2020).\cr
 \code{\link{check.iio}}          \tab Computation of Coefficient HT for large samples is now much faster.\cr
-\code{\link{coefH}}              \tab New standard errors for nested data (Koopman et al. 2020a).\cr
-\code{\link{coefZ}}              \tab Extra argument to compute the Z-score using \code{lowerbound} as the null hypothesis (Koopman et al., 2020b).\cr
-                                 \tab Extra argument to compute Z-score using delta method standard error, but the original method remains available (Koopman et al., 2020b).\cr 
-                                 \tab Extra argument to compute Z-score in nested data (Koopman et al., 2020b).\cr
-\code{\link{ICC}}                \tab New function for ICCs in two-level Mokken scale analysis (Koopman et al. 2020a)\cr
-\code{\link{MLcoefH}}            \tab Extra argument for weighted proportions. Reduces bias in two-level standard errors (Koopman et al. 2020a)\cr
+\code{\link{coefH}}              \tab New standard errors for nested data (Koopman et al. in press a).\cr
+\code{\link{coefZ}}              \tab Extra argument to compute the Z-score using \code{lowerbound} as the null hypothesis (Koopman et al., 2020).\cr
+                                 \tab Extra argument to compute Z-score using delta method standard error, but the original method remains available (Koopman et al., 2020).\cr 
+                                 \tab Extra argument to compute Z-score in nested data (Koopman et al., 2020).\cr
+\code{\link{ICC}}                \tab New function for ICCs in two-level Mokken scale analysis (Koopman et al. in press a)\cr
+\code{\link{MLcoefH}}            \tab Extra argument for weighted proportions. Reduces bias in two-level standard errors (Koopman et al. in press a)\cr
                                  \tab Extra argument for a fixed item-step order\cr
-\code{\link{SWMD}}               \tab New data file (Koopman et al. 2020a)\cr
+\code{\link{SWMD}}               \tab New data file (Koopman et al. in press a)\cr
 }
 
 The following modifications have been made in Version 3.0.3 in comparison to previous versions.
 \tabular{ll}{
 \code{\link{coefZ}}              \tab Error handling added\cr
-                                 \tab The delta test uses range-preserving asymptotic theory (Koopman, Zijlstra, & Van der Ark, 2020c) \cr
-\code{\link{coefH}}              \tab Range-preserving confidence intervals added (Koopman et al., 2020c)\cr
+                                 \tab The delta test uses range-preserving asymptotic theory (Koopman,et al., in press b) \cr
+\code{\link{coefH}}              \tab Range-preserving confidence intervals added (Koopman et al., in press b)\cr
                                  \tab Extra argument to print variance-covariance matrices of estimated coefficients\cr
                                  \tab Error handling added for more than 10 response categories\cr
-\code{\link{MLcoefH}}            \tab Range-preserving confidence intervals added (Koopman et al., 2020c)\cr
+\code{\link{MLcoefH}}            \tab Range-preserving confidence intervals added (Koopman et al., in press b)\cr
                                  \tab Extra argument to print variance-covariance matrices of estimated coefficients\cr
-\code{\link{MLcoefZ}}            \tab New function for z-scores of two-level scalability coefficients (Koopman et al., 2020c)\cr
+\code{\link{MLcoefZ}}            \tab New function for z-scores of two-level scalability coefficients (Koopman et al., in press b)\cr
 \code{\link{aisp}}               \tab type.se default adjusted and additional error handling added\cr
 \code{\link{check.errors}}       \tab Repaired bug in check.errors\cr
 \code{\link{mcmi}}               \tab New data file (Sijtsma & van der Ark, 2020)\cr
@@ -194,13 +194,23 @@ The following modifications have been made in Version 3.0.4 in comparison to pre
 \code{\link{coefH}}              \tab Argument type.ci is added to accommodate two types of confidence intervals (Wald-based and range-preserving) \cr
 				 \tab Argument print.to.screen is replaced by results \cr
 \code{\link{MLcoefH}}            \tab Argument type.ci is added to accommodate two types of confidence intervals (Wald-based and range-preserving) \cr
-\code{\link{SWMDK}}              \tab New data file (Koopman, Zijlstra, & Van der Ark 2020a)\cr
+\code{\link{SWMDK}}              \tab New data file (Koopman  et al., in press a)\cr
 All functions                    \tab A warning has been added if items have different numbers of response categories       
 }
 
-The following modifications have been made in Version 3.0.6 in comparison to previous versions.
+The following modifications have been made in Version 3.1.0 in comparison to previous versions.
 \tabular{ll}{
-\code{\link{coefH}}               \tab Fixed a bug for Linux environment
+\code{\link{check.monotonicity}} \tab Condition \code{N > 500} to determined the default value of \code{minsize} has been changed to \code{N >= 500} to match the help file. \cr
+\code{\link{check.restscore}}   \tab Condition \code{N > 500} to determined the default value of \code{minsize} has been changed to \code{N >= 500} to match the help file. \cr
+\code{\link{check.iio}}          \tab Condition \code{N > 500} to determined the default value of \code{minsize} has been changed to \code{N >= 500} to match the help file. \cr
+\code{\link{check.iio}}          \tab For dichtomous items, a z-test is used (rather than a t-test) to test violations of manifest invariant item ordering. \cr
+\code{\link{check.iio}}          \tab For polytomous items, a paired t-test (rather than independent two-sample t-test) is now performed for testing violations of manifest invariant item ordering. \cr
+\code{\link{check.monotonicity}} \tab Argument level.two.var is added to enable two-level model fit checks (Koopman et al., 2023a,b). \cr
+\code{\link{summary.monotonicity.class}} \tab Adjusted to handle two-level fit results from check.monotonicity. \cr
+\code{\link{plot.monotonicity.class}}     \tab  Adjusted to handle two-level fit results from check.monotonicity. \cr
+\code{\link{check.iio}}          \tab Argument level.two.var is added to enable two-level model fit checks (Koopman et al., 2023a,b). \cr
+\code{\link{summary.iio.class}} \tab Adjusted to handle two-level fit results from check.iio. \cr
+\code{\link{plot.iio.class}}     \tab  Adjusted to handle two-level fit results from check.iio. \cr
 }
 }
 
@@ -211,17 +221,30 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
 
 \references{
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
-\emph{A two-step, test guided Mokken scale analysis for nonclustered and clustered data}. 
-Manuscript submitted for publication.
-
-Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020b).
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
+  Assumptions and Properties of Two-Level Nonparametric Item Response 
+  Theory Models. Manuscript submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
+  Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
+  Manuscript submitted for publication.
+  
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020).
 New advances in Mokken scale analysis.
 Paper presented at the online meeting of the Psychometric Society, July, 2020.
+
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press a).
+   A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+   \emph{Quality of Life Research}. (advanced online publication)
+   \doi{10.1007/s11136-021-02840-2}
+
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press b).
+   Range-preserving confidence intervals and significance tests for scalability coefficients in Mokken scale analysis.
+   In M. Wiberg, D. Molenaar, J. Gonzalez, & Kim, J.-S. (Eds.),
+   \emph{Quantitative Psychology; The 1st Online Meeting of the Psychometric Society, 2020}.
+   Springer.
+   \doi{10.1007/978-3-030-74772-5_16}
   
-Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020c).
-Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis.
-Manuscript in preparation.
   
 Mokken, R. J. (1971) 
 \emph{A Theory and Procedure of Scale Analysis}. 
@@ -248,7 +271,8 @@ Boca Raton, FL: Chapman and Hall/CRC Press.
 Van der Ark, L. A. (2007). 
 Mokken scale analysis in \pkg{R}. 
 \emph{Journal of Statistical Software, 20}(11), 1-19.
-\url{https://www.jstatsoft.org/article/view/v020i11}
+\doi{10.18637/jss.v020.i11}
+
 
 Van der Ark, L. A. (2010). 
 Getting started with Mokken scale analysis in \pkg{R}. 
@@ -258,7 +282,8 @@ Unpuablished manuscript.
 Van der Ark, L. A. (2012). 
 New developments in Mokken scale analysis in \pkg{R}. 
 \emph{Journal of Statistical Software, 48}(5), 1-27.
-\url{https://www.jstatsoft.org/article/view/v048i05}
+\doi{10.18637/jss.v048.i05}
+
 }
 
 \examples{

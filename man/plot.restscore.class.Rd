@@ -57,7 +57,8 @@ The default number of plots can increase rapidly for large numbers of items.
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+  \doi{10.18637/jss.v020.i11}
+
 
   Van der Ark, L. A. (2014).
   Visualizing uncertainty of estimated response functions in nonparametric item response theory.

@@ -41,14 +41,14 @@
               The default is \code{TRUE}.}
   \item{type.z}{Indicates which type of Z-test is used to evaluate whether coefficients meet the scaling criteria:
              "WB": Wald-based z-score based on standard errors as approximated by the delta method 
-                (Kuijpers, Van der Ark, Kroon, 2013; Koopman, Zijlstra, Van der Ark, 2020a);
-             "RP": Range-preserving z-score, also based on the delta method (Koopman, Zijlstra, Van der Ark, 2020b);
+                (Kuijpers et al., 2013; Koopman et al., in press a);
+             "RP": Range-preserving z-score, also based on the delta method (Koopman, et al., in press b);
              "Z": uses original Z-test (Mokken, 1971; Molenaar & Sijtsma, 2000; Sijtsma & Molenaar, 2002). 
              The default is "Z", but is changed to "WB" for test.Hi == TRUE or if a level.two.var is given.}
   \item{test.Hi}{If \code{FALSE}: tests if Hi is significantly larger than zero; 
               If \code{TRUE} tests if Hi is significantly larger than \code{lowerbound}. The default is \code{FALSE}.}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
-          that indicates the level two variable for nested data (Koopman et al., 2020).}
+          that indicates the level two variable for nested data (Koopman et al., in press a).}
 }
 
 
@@ -67,9 +67,17 @@
 }
 
 \references{
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
-  \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. 
-  Manuscript submitted for publication.
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press a).
+   A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+   \emph{Quality of Life Research}. (advanced online publication)
+   \doi{10.1007/s11136-021-02840-2}
+
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press b).
+   Range-preserving confidence intervals and significance tests for scalability coefficients in Mokken scale analysis.
+   In M. Wiberg, D. Molenaar, J. Gonzalez, & Kim, J.-S. (Eds.),
+   \emph{Quantitative Psychology; The 1st Online Meeting of the Psychometric Society, 2020}.
+   Springer.
+   \doi{10.1007/978-3-030-74772-5_16}
 
   Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
@@ -96,12 +104,14 @@
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+    \doi{10.18637/jss.v020.i11}
+
 
   Van der Ark, L. A. (2012). 
   New developments in {M}okken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}, 48. 
-  \url{https://www.jstatsoft.org/article/view/v048i05}
+  \doi{10.18637/jss.v048.i05}
+
 }
 \author{
  L. A. van der Ark \email{L.A.vanderArk@uva.nl},
@@ -120,17 +130,17 @@ data(acl)
 Communality <- acl[,1:10]
 
 # Partition these 10 items into mokken scales using Mokken's automated item selection procedure.
-scale <- aisp(Communality)
-coefH(Communality[,scale==1])
+ scale <- aisp(Communality)
+ coefH(Communality[,scale==1], se = FALSE)
 
 # Same but using items 1 and 2 in the startset.
-scale <- aisp(Communality, StartSet = c(1, 2), verbose = TRUE)
+  scale <- aisp(Communality, StartSet = c(1, 2), verbose = TRUE)
 coefH(Communality[,scale==1])
 
 # Perform aisp for increasing lowerbounds
 \donttest{
-scales <- aisp(Communality, lowerbound = seq(0, .55, .05))
-scales
+ scales <- aisp(Communality, lowerbound = seq(0, .55, .05))
+ scales
 }
 
 # Use a significant test for criteria Hi > c (rather than the point estimate)
@@ -145,8 +155,8 @@ coefH(Communality[,scale==1])
 data(autonomySupport)
 scores <- autonomySupport[, -1]
 classes <- autonomySupport[, 1]
-scale <- aisp(scores, type.z = "WB", level.two.var = classes)
-coefH(scores[, scale==1], level.two.var = classes)
+ scale <- aisp(scores, type.z = "WB", level.two.var = classes)
+ coefH(scores[, scale==1], level.two.var = classes)
 
 }
 

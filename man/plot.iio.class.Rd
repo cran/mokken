@@ -45,6 +45,14 @@ For \code{ask==FALSE}, the default graphic device in R may only display the last
 
 
 \references{
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
+  Assumptions and Properties of Two-Level Nonparametric Item Response 
+  Theory Models. Manuscript submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
+  Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
+  Manuscript submitted for publication.
+
   Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
@@ -63,7 +71,8 @@ For \code{ask==FALSE}, the default graphic device in R may only display the last
   Van der Ark, L. A. (2012). 
   New developjements in Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 48} (5), 1-27.
-  \url{https://www.jstatsoft.org/article/view/v048i05}
+  \doi{10.18637/jss.v048.i05}
+
   
   
   Van der Ark, L. A. (2014).
@@ -89,6 +98,16 @@ Communality <- acl[,1:10]
 iio.list <- check.iio(Communality)
 summary(iio.list)
 plot(iio.list)
+
+# Compute two-level fit statistics (Koopman et al., 2023a, 2023b)
+data("autonomySupport")
+dat <- autonomySupport[, -1]
+groups <- autonomySupport[, 1]
+autonomyMIIO <- check.iio(dat, item.selection = FALSE, level.two.var = groups)
+summary(autonomyMIIO)
+plot(autonomyMIIO)
+
+
 }
 
 \concept{iio}

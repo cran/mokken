@@ -1,5 +1,6 @@
 # Aangepast door Letty Koopman op 11 juni 2020
 # Aangepast door Andries van der Ark op 2 september 2020
+
 ## Update 27-11-2020 by Letty: 
 # Argument type.ci is added to distinguish between range-preserving and wald-based confidence intervals 
 # (Koopman et al 2020 a two-step, test-guided MSA for nonclustered and clustered data (Quality of Life Research))
@@ -7,8 +8,6 @@
 
 coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL, 
                    group.var = NULL, fixed.itemstep.order = NULL, type.ci = "WB", results = TRUE) {
-
-# se = TRUE; ci = FALSE; nice.output = TRUE; level.two.var = NULL; group.var = NULL; fixed.itemstep.order = NULL; type.ci = "WB"; results = TRUE
 
   X <- check.data(X)
   eps <- 1e-40
@@ -19,7 +18,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     group.var <- NULL
     warning("group.var not the same length/nrow as X: group.var ignored")
   }
-  
+
   if (!is.null(fixed.itemstep.order) && !is.matrix(fixed.itemstep.order)) {
     fixed.itemstep.order <- NULL
     warning("fixed.itemstep.order is not a matrix: fixed.itemstep.order ignored")
@@ -36,13 +35,13 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
       type.ci <- "WB"
     }
   }
-  
+ 
   if (!is.null(fixed.itemstep.order) && is.matrix(fixed.itemstep.order)) 
     if (ncol(fixed.itemstep.order) != ncol(X) && nrow(fixed.itemstep.order) != max(X) && sort(as.numeric(fixed.itemstep.order)) != 1:(max(X) * ncol(X))) {
       fixed.itemstep.order <- NULL
       warning("fixed.itemstep.order as incorrect dimensions and/or incorrect values: fixed.itemstep.order ignored")
     }
-  
+ 
   if(!is.null(level.two.var)) {
     if (nrow(as.matrix(level.two.var)) != nrow(X)) {
       level.two.var <- NULL
@@ -72,6 +71,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     }
   }
   
+
   if (!se && is.null(group.var) && is.null(fixed.itemstep.order) && !computeCI) {
     S <- var(X)
     Smax <- var(apply(X, 2, sort))
@@ -84,7 +84,6 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     print.list <- list(Hij = Hij, Hi = Hi, H = H)
    
   } else {
-
     g <- max(X) - min(X) + 1
     J <- ncol(X)
     P <- choose(J, 2)
@@ -93,7 +92,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
       stop("One or more variables have zero variance")
     n <- as.matrix(table(apply(X, 1, paste, collapse = "")))
     lab.n <- matrix(names(table(apply(X, 1, paste, collapse = ""))))
-    lab.b <- apply(all.patterns(2, g), 2, paste, collapse = "")
+    lab.b <- apply(allPatterns(2, g), 2, paste, collapse = "")
     lab.u <- as.character(0:(g - 1))
     Bi <- substr(lab.b, 1, 1)
     Bj <- substr(lab.b, 2, 2)
@@ -107,31 +106,41 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     WE <- list()
     WF <- list()
     for (i in 1:J) {
+#      warning(paste("Regel 109, i = ", i))
       W[[i]] <- list()
       WA[[i]] <- list()
       WY[[i]] <- list()
       WE[[i]] <- list()
       WF[[i]] <- list()
+#      warning(paste("Regel 114, i = ", i))
       for (j in i:J) if (j > i) {
+#        warning(paste("Regel 115, i,j = ", i, " ",j))
         W[[i]][[j]] <- weights(X[, c(i, j)], g - 1)
+#        warning(paste("Regel 116, i,j = ", i, " ",j))
         if (!is.null(fixed.itemstep.order)) 
           W[[i]][[j]] <- weights(X[, c(i, j)], g - 1, itemstep.order = fixed.itemstep.order[, c(i, j)])
         A1a <- NULL
+ #       warning(paste("Regel 120, i,j = ", i, " ",j))
         for (a in 0:(g - 1)) for (b in 0:(g - 1)) A1a <- rbind(A1a, as.numeric(R[, i] == a & R[, j] == b))
         WA[[i]][[j]] <- W[[i]][[j]] %*% A1a
         Eij <- matrix(U[[i]][as.numeric(Bi) + 1], nrow = g^2, ncol = 1) * matrix(U[[j]][as.numeric(Bj) + 1], nrow = g^2, ncol = 1)/N
         Y22 <- cbind(outer(Bi, lab.u, "=="), outer(Bj, lab.u, "==")) * matrix(Eij, nrow = g^2, ncol = 2 * g)
+#        warning(paste("Regel 126, i,j = ", i, " ",j))
         Ri <- substr(lab.n, i, i)
         Rj <- substr(lab.n, j, j)
         Z2 <- rbind(outer(lab.u, Ri, "==")[, , 1], outer(lab.u, Rj, "==")[, , 1]) * c(1/U[[i]], 1/U[[j]])
         Z2[is.nan(Z2)] <- 1/eps
+#        warning(paste("Regel 130, i,j = ", i, " ",j))
         YZ2 <- Y22 %*% Z2 - Eij %*% matrix(1/N, 1, r)
         WY[[i]][[j]] <- W[[i]][[j]] %*% YZ2 
         Fij <- complete.observed.frequencies(X[, c(i, j)], 2, g)
         WF[[i]][[j]] <- W[[i]][[j]] %*% Fij
         WE[[i]][[j]] <- W[[i]][[j]] %*% Eij
+#        warning(paste("Regel 136, i,j = ", i, " ",j))
       }
+#    warning("Regel 138")
     }
+#    warning("Regel 139")
     g3 <- matrix(c(unlist(WF[[1]][[2]]), unlist(WF), unlist(WE)), nrow = 2 * P + 1, byrow = TRUE)
     A4 <- rbind(matrix(c(1, -1, rep(0, (J * (J - 1)) - 1)), 1, (J * (J - 1)) + 1), cbind(matrix(0, P, 1), diag(P), -1 * diag(P)))
     A5 <- cbind(matrix(1, P, 1), -1 * diag(P))
@@ -176,7 +185,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
     G4 <- dphi(A4, g3, G3, "log")
     G5i <- dphi(A5, g4, G4, "exp")
     Hi <- matrix(g5)
-   
+
     if (se | computeCI) {
 
        if(!is.null(level.two.var)) {
@@ -221,8 +230,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
           ACM.H <- G5 %*% (as.numeric(n) * t(G5))
           se.H <- sqrt(diag(ACM.H))
       }
-
-      
+    
       
       
     }
@@ -379,7 +387,7 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
           if (any(apply(X., 2, var) < eps)) warning(paste("In group", group.names[group], ", some variables have zero variance"))
           n. <- as.matrix(table(apply(X., 1, paste, collapse = "")))
           lab.n. <- matrix(names(table(apply(X., 1, paste, collapse = ""))))
-          lab.b. <- apply(all.patterns(2, g), 2, paste, collapse = "")
+          lab.b. <- apply(allPatterns(2, g), 2, paste, collapse = "")
           Bi. <- substr(lab.b., 1, 1)
           Bj. <- substr(lab.b., 2, 2)
           R. <- t(apply(lab.n., 1, string2integer))
@@ -549,5 +557,6 @@ coefH <- function (X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var =
   }
   if(results) print(print.list)
   invisible(return.list)    
+
 }
 

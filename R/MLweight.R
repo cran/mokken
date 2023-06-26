@@ -9,7 +9,7 @@
   #   X: Data matrix with a subject column and two item columns. The subject column is assumed to be the first.
   #   maxx: The highest possible answer category. If not specified it is determined by using the lowest item score.
   #   minx: The lowest possible answer category. If not specified it is determined by using the highest item score.
-  #   Depends on "all.patterns".
+  #   Depends on "allPatterns".
   #
   # Returns:
   #   Guttman weights for two-level data.
@@ -62,7 +62,7 @@
       if (length(m) <= 1) {
         return(m)
       }
-      # ado.call(paste0, as.data.frame(perm(length(m), length(m), m)))
+      # do.call(paste0, as.data.frame(perm(length(m), length(m), m)))
       as.data.frame(perm(length(m), length(m), m))
     })
     
@@ -90,7 +90,7 @@
     out <- matrix(unlist(strsplit(out, "[.]")), nrow = nrow(out), byrow = T)
     
     w <- NULL
-    Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
+    Z <- matrix(rep(matrix(allPatterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
     Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
     for(i in 1:nrow(out)){
       ords <- as.numeric(out[i, ])
@@ -104,7 +104,7 @@
   } else {
     if (is.null(itemstep.order)) ords <- as.numeric(names(y)) else ords <- matrix(rank(itemstep.order), 1, maxx * 2)
     # Compute Z matrix for each item-response pattern
-    Z <- matrix(rep(matrix(all.patterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
+    Z <- matrix(rep(matrix(allPatterns(2, maxx + 1), nrow = 1), maxx), nrow = maxx, byrow = TRUE)
     Z <- matrix(ifelse(Z < row(Z), 0, 1), ncol = (maxx) * 2, byrow = TRUE)
     Z <- Z[, (ords)]
     
@@ -116,7 +116,7 @@
   return(wr)
 }
 
-"all.patterns" <- function(J,m){
+"allPatterns" <- function(J,m){
   grid <- list()
   j <- 0;
   p <- m^J

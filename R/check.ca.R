@@ -10,8 +10,8 @@ coefHi <- function(X){
 compute.defaultminsize <- function(Y){
   is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
   N <- 0
-  if(is.matrix(Y)) N <- nrow(Y) 
-  if(is.numeric(Y)) if(is.wholenumber(Y)) N <- Y 
+  if(data.class(Y) == "matrix") N <- nrow(Y) 
+  if(data.class(Y) == "numeric") if(is.wholenumber(Y)) N <- Y 
   default.minsize <- ifelse(N > 500, floor(N / 10), floor(N / 5))
   default.minsize <- ifelse(N <= 250, floor(N / 3), default.minsize)
   default.minsize <- ifelse(N <  150, 50, default.minsize)

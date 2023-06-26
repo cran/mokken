@@ -1,6 +1,7 @@
 # Adapted Feb 19, 2020
 "check.iio" <- 
-function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, alpha = .05, item.selection=TRUE, verbose=FALSE)
+function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, 
+          alpha = .05, item.selection=TRUE, verbose=FALSE, level.two.var = NULL)
 {
    # CHECK DATA
    X <- check.data(X)
@@ -9,14 +10,23 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    J <- ncol(X)
    N <- nrow(X)
    ncat <- max(X) + 1 # CHECK VOOR IT EN MS-CPM (WAARSCHIJNLIJK GOED) VOOR MIIO WAARSCHIJNLIJK m <- max(X)
-
+  
+   if(!is.null(level.two.var)) {
+     X <- X[order(level.two.var), ]
+     level.two.var <- sort(level.two.var)
+     if(method != "MIIO"){
+       warning("Only method MIIO is available for level.two.var, method is changed to MIIO.")
+       method <- "MIIO"
+     }
+   } 
+   
    # DETERMINE METHOD
    if (substr(method,1,1)=="I" || substr(method,1,1)=="i") method="IT" else
    if (substr(method,1,2)=="MS"|| substr(method,1,2)=="ms" ||substr(method,1,1)=="C" ||substr(method,1,1)=="c") method="MSCPM" else method <- "MIIO"
    
    # DETERMINE MINVI and MINSIZE
    default.minvi <- ifelse(method=="MIIO",(ncat-1)*.03,.03)
-   default.minsize <- ifelse(N > 500, floor(N/10), floor(N/5))
+   default.minsize <- ifelse(N >= 500, floor(N/10), floor(N/5))
    default.minsize <- ifelse(N <= 250, floor(N/3), default.minsize)
    default.minsize <- ifelse(N < 150, 50, default.minsize)
    # minvi <- default.minvi
@@ -41,6 +51,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    i <- 1
    j <- 2
    k <- 0
+   Ll1 <- NULL
    item.mean <- colMeans(X)
    
    # METHOD IT
@@ -200,7 +211,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    }#end if (method MS-CPM)
 
    # METHOD MIIO
-   dich=1
+   dich=2
    if (method=="MIIO"){
       for (i in 1:(J-1)){
          R <- as.matrix(X) %*% (matrix(1,J,J) - diag(J)) - X[,i]
@@ -228,7 +239,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
             summary.matrix[, 1] <- 1:nrow(summary.matrix)
             summary.matrix[, 4] <- c(group, N) - c(0, group)
             group <- c(sorted.R[group],max(sorted.R))
-            L <- length(group)
+            L <- Ll1[j] <- length(group)
             summary.matrix[, 3] <- group
             summary.matrix[, 2] <- c(min(sorted.R), group[-L] + 1)
             member <- apply(1 - outer(R[,j], group, "<="),1,sum) + 1
@@ -254,7 +265,7 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
               for (gg in 1:L) {
                 if (d[gg] > 0) {
                    if (ncat > dich){
-                      tt <- t.test(X[member==gg,i],X[member==gg,j],alternative="less")
+                      tt <- t.test(X[member==gg,i],X[member==gg,j],alternative="less", paired = TRUE)
                       t.statistic[gg] <- abs(tt$statistic)
                       t.pvalue[gg] <- tt$p.value
                    } else {
@@ -275,8 +286,108 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
            results[[k]][[3]] <- violation.matrix
          }# end j-loop
       }# end i-loop
+     
+     if(!is.null(level.two.var)){
+       vi.matrixA <- matrix(0,J,J)
+       dimnames(vi.matrixA) <- list(I.labels,I.labels)
+       
+       Rs <- table(level.two.var)
+       Xa <- as.matrix(aggregate(X, by = list(level.two.var), FUN = mean)[, -1])
+       Xas <- Xa # / Rs
+       Na <- nrow(Xa)
+       resultsa <- list()
+       #Xa <- Xa[, item.order]
+       #Xas <- Xas[, item.order]
+       His <- MLcoefH(cbind(level.two.var, X), se = F, nice.output = F)$Hi #coefHTiny(X)$Hi
+       g <- 0
+       gg <- 0
+       h <- 0
+       i <- 1
+       j <- 2
+       k <- 0
+       
+       for (i in 1:(J-1)){
+         
+         Ras <- as.matrix(Xa) %*% (matrix(1,J,J) - diag(J)) - Xa[,i]
+         Ras <- round(Ras, 4)
+         Ras[, i] <- 0
+         
+         Ra <- Ras[rep(1:nrow(Ras), Rs), ]
+         Ra[,i] <- 0
+         
+         for (j in (i+1):J){
+           k <- k + 1
+           rvm <- 2
+           violation.matrix <- matrix(0, nrow = 1, ncol = 8)
+           dimnames(violation.matrix) <- list(c(t(paste("E(X",i,")  E(X",j,")", sep = ""))), 
+                                              c("#ac", "#vi", "#vi/#ac", "maxvi", "sum", "sum/#ac",ifelse(ncat == dich,"zmax", "tmax"), ifelse(ncat == dich, "#zsig", "#tsig")))
+           resultsa[[k]] <- list()
+           resultsa[[k]][[1]] <- list()
+           resultsa[[k]][[1]][1] <- I.labels[i]
+           resultsa[[k]][[1]][2] <- I.labels[j]
+           
+           ## Aggregated
+           sorted.Ra <- sort(round(Ra[,j], 4))
+           minsizeA <- floor(nrow(X) / (Ll1[j] + 1.75))
+           group <- max(which(sorted.Ra == sorted.Ra[minsizeA]))
+           repeat{
+             if(N - max(group) < minsizeA)break
+             group <- c(group,max(which(sorted.Ra==sorted.Ra[minsizeA+max(group)])))
+           }
+           group <- group[-length(group)]  
+           summary.matrix <- matrix(nrow = length(group) + 1, ncol = 8)
+           dimnames(summary.matrix)[[2]] <- c("Group", "Lo","Hi", "N", 
+                                              paste("E(X", i, ")", sep = ""), 
+                                              paste("E(X",j, ")", sep = ""),
+                                              paste("SD(X", i, ")", sep = ""), 
+                                              paste("SD(X",j, ")", sep = ""))
+           summary.matrix[, 1] <- 1:nrow(summary.matrix)
+           group <- c(sorted.Ra[group],max(sorted.Ra))
+           L <- length(group)
+           summary.matrix[, 3] <- group #/ Rs
+           summary.matrix[, 2] <- c(min(sorted.Ra), group[-L])
+           member <- apply(1 - outer(Ras[,j], group, "<="),1,sum) + 1
+           summary.matrix[, 4] <- table(member)#(c(group, N) - c(0, group)) / Rs
+           #member <- apply(1 - outer(Ra[,j], group, "<="),1,sum) + 1
+           
+           for (g in 1:L){
+             summary.matrix[g, 5] <- mean(Xas[member == g, i]) #s
+             summary.matrix[g, 6] <- mean(Xas[member == g, j]) #s
+             summary.matrix[g, 7] <- sd(Xas[member == g, i]) #s
+             summary.matrix[g, 8] <- sd(Xas[member == g, j]) #s
+           }# end g-loop
+           resultsa[[k]][[2]] <- summary.matrix
+           
+           ac <- violation.matrix[1:(rvm - 1), 1] <- L - 1
+           E.1 <- summary.matrix[, 5]
+           E.2 <- summary.matrix[, 6]
+           d <- E.2 - E.1
+           d[d <= minvi] <- 0
+           vi <- length(d[d > minvi/2])
+           sum.vi <- sum(d)
+           t.statistic <- rep(0, L)
+           t.pvalue <- rep(1, L)
+           if (any(d > 0)) {
+             for (gg in 1:L) {
+               if (d[gg] > 0) {
+                 tt <- t.test(Xas[member==gg,i],Xas[member==gg,j],alternative="less", paired = TRUE)
+                 t.statistic[gg] <- abs(tt$statistic)
+                 t.pvalue[gg] <- tt$p.value 
+               }#endif
+             }#end gg-loop
+           }#endif
+           violation.matrix[1, 2:8] <- c(vi,vi/ac, max(d), sum.vi, sum.vi/ac, max(t.statistic),sum(t.pvalue < alpha))
+           vi.matrixA[i,j] <- vi.matrixA[i,j] + sum(t.pvalue < alpha)
+           resultsa[[k]][[3]] <- violation.matrix
+         }# end j-loop
+       }# end i-loop
+       #vi.matrixA <- vi.matrix
+       vi.matrixA <- vi.matrixA + t(vi.matrixA)
+       VIA <- matrix(apply(sign(vi.matrixA),1,sum)) 
+       dimnames(VIA) <- list(I.labels,paste("step",1:ncol(VIA)))
+     } # end if(!is.null(level.two.var))
+     
    }# end if(method="MIIO") 
-
 
    vi.matrix <- vi.matrix + t(vi.matrix)
    vi.matrix.a <- vi.matrix
@@ -309,6 +420,16 @@ function (X, method="MIIO", minvi = default.minvi, minsize = default.minsize, al
    
    iio.list <- list(results = results, violations = VI, items.removed = items.removed, Hi = Hi, HT = HT, method = method, item.mean = item.mean, m = ncat-1)
    class(iio.list) <- "iio.class"
+   
+   if(!is.null(level.two.var)) {
+     HTA <- coefHT(Xas)
+     iio.lista <- list(results = resultsa, violations = VIA, items.removed = items.removed, Hi = His[, 2], HT = HTA, method = method, item.mean = item.mean, m = ncat-1)
+     class(iio.lista) <- "iio.class"
+     
+     iio.list <- list("Level.1" = iio.list, "Level.2" = iio.lista)
+     class(iio.list) <- "iio.class"
+   }
+   
    return(iio.list)
 }
 

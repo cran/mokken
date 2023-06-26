@@ -14,17 +14,19 @@ Three methods may be used for the investigation of invariant item ordering.
 
 For a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
 a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,
-Van der Ark, Bergsma, and Sijtsma (2011).
+Van der Ark, Bergsma, and Sijtsma (2011). 
+
+For two-level test data (clustered respondents) argument level.two.var exist, such that two lists are returned, containing the results for level 1 (person level) and level 2 (cluster level), respectively. Only method MIIO is implemented for two-level test data. 
 }
 \usage{
 check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, 
-alpha = .05, item.selection=TRUE, verbose=FALSE)
+alpha = .05, item.selection=TRUE, verbose=FALSE, level.two.var = NULL)
 }
 
 \details{
  The output is of class \code{iio.class}, and is often numerous. 
  Functions \code{plot} and \code{summary} can be used to summarize the output. 
- See Van der Ark (2014) for an example.      
+ See Van der Ark (2014) for an example. 
 }
 
 \arguments{
@@ -45,6 +47,7 @@ alpha = .05, item.selection=TRUE, verbose=FALSE)
   Default \code{item.selection=TRUE}}
   \item{verbose}{Show the results of the backward item selection algorithm on screen.
   Default \code{verbose=FALSE}}
+  \item{level.two.var}{Add respondent-clustering variable to get results for Level 1 (person level) and Level 2 (cluster level; see Koopman et al., 2023a,b)}.
 }
 
 \value{
@@ -64,6 +67,14 @@ alpha = .05, item.selection=TRUE, verbose=FALSE)
 }
 
 \references{
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
+  Assumptions and Properties of Two-Level Nonparametric Item Response 
+  Theory Models. Manuscript submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
+  Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
+  Manuscript submitted for publication.
+  
   Ligtvoet, R., L. A. van der Ark, J. M. te Marvelde, & K. Sijtsma (2010).
   Investigating an invariant item ordering for polytomously scored items. 
   \emph{Educational and Psychological Measurement, 70}, 578-595.
@@ -86,12 +97,13 @@ alpha = .05, item.selection=TRUE, verbose=FALSE)
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 20} (11), 1-19.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+    \doi{10.18637/jss.v020.i11}
+
 
  Van der Ark, L. A. (2012).
   New developments in Mokken scale analysis in R.
  \emph{Journal of Statistical Software, 48}(5), 1-27.
-  \url{https://www.jstatsoft.org/article/view/v048i05}
+  \doi{10.18637/jss.v048.i05}
 
 }
 
@@ -143,6 +155,15 @@ X3 <- X2[,is.na(charmatch(dimnames(X2)[[2]],names(iio.list2$items.removed)))]
 # Use Method IT
 iio.list3 <- check.iio(X3,method="IT")
 summary(iio.list3)
+
+# Compute two-level fit statistics (Koopman et al., 2023a, 2023b)
+data("autonomySupport")
+dat <- autonomySupport[, -1]
+groups <- autonomySupport[, 1]
+autonomyMIIO <- check.iio(dat, item.selection = FALSE, level.two.var = groups)
+summary(autonomyMIIO)
+plot(autonomyMIIO)
+
 
 }
 \concept{iio}

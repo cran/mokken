@@ -7,10 +7,12 @@ Check of Monotonicity
 
 \description{
 Returns a list (of class \code{monotonicity.class}) with results from the investigation of monotonicity (Junker & Sijtsma, 2000; Mokken, 1971; Molenaar & Sijtsma, 2000; Sijtsma & Molenaar, 2002).
+
+For two-level test data (clustered respondents) argument level.two.var exist, such that two lists are returned, containing the results for level 1 (person level) and level 2 (cluster level), respectively. Only method MIIO is implemented for two-level test data. 
 }
 
 \usage{
-check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
+check.monotonicity(X, minvi = 0.03, minsize = default.minsize, level.two.var = NULL)
 }
 
 \arguments{
@@ -22,6 +24,7 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
    \code{minsize} = \eqn{N/10} if \eqn{N \ge 500};
    \code{minsize} = \eqn{N/5 if} \eqn{250 \le N < 500}; and
    \code{minsize} = max\eqn{(N/3,50)} if \eqn{N < 250}}
+ \item{level.two.var}{Add respondent-clustering variable to get results for Level 1 (person level) and Level 2 (cluster level; see Koopman et al., 2023a,b)}.
 }
 
 \details{
@@ -43,6 +46,14 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
   \emph{Applied Psychological Measurement, 24}, 65-81.
   \doi{10.1177/01466216000241004}
 
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
+  Assumptions and Properties of Two-Level Nonparametric Item Response 
+  Theory Models. Manuscript submitted for publication.
+  
+  Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
+  Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
+  Manuscript submitted for publication.
+  
   Mokken, R. J. (1971) 
   \emph{A Theory and Procedure of Scale Analysis}. 
   De Gruyter.
@@ -58,7 +69,8 @@ check.monotonicity(X, minvi = 0.03, minsize = default.minsize)
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+    \doi{10.18637/jss.v020.i11}
+
 }
 
 \author{
@@ -83,6 +95,15 @@ Communality <- acl[,1:10]
 monotonicity.list <- check.monotonicity(Communality)
 plot(monotonicity.list)
 summary(monotonicity.list)
+
+# Compute two-level fit statistics (Koopman et al., 2023a, 2023b)
+data("autonomySupport")
+dat <- autonomySupport[, -1]
+groups <- autonomySupport[, 1]
+autonomyMM <- check.monotonicity(dat, level.two.var = groups)
+summary(autonomyMM)
+plot(autonomyMM)
+
 }
 \concept{monotonicity}
 \concept{manifest monotonicity}

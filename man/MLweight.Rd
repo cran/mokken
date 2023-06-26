@@ -6,7 +6,7 @@
 }
 
 \description{
-    Computes weights for Guttman errors in two-level test data (Koopman, Van der Ark, & Zijlstra, 2017)
+    Computes weights for Guttman errors in two-level test data (Koopman et al., 2017)
 }
 
 \usage{

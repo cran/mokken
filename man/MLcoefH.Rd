@@ -10,11 +10,11 @@
     that is, between- and within-rater item-pair scalability coefficents and their ratio (HBij, HWij, and BWij, respectively),
     between- and within-rater item scalability coefficients and their ratio (HBi, HWi, and BWi, respectively),
     and between- and within-rater total scale scalability coefficients and their ratio (HB, HW, and BW, respectively).
-    In addition, standard errors are estimated (Koopman, et al., 2020a) and if requested 
-    incorporated in confidence intervals (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Note that this version is an 
-    adaptation of the estimation methods described in Snijders (1999) and in Koopman et al. (2020a), as the group proportions are now by 
-    default weighted for group size (Koopman, Zijlstra, & Van der Ark, 2020b). As a result, the estimates for the 
-    autonomySupport data differs from the printed table in Koopman et al. (2020a). The estimated variance-covariance matrix 
+    In addition, standard errors are estimated (Koopman, et al., 2020) and if requested 
+    incorporated in confidence intervals (Koopman et al., in press a, in press b). Note that this version is an 
+    adaptation of the estimation methods described in Snijders (1999) and in Koopman et al. (2020), as the group proportions are now by 
+    default weighted for group size (Koopman, et al. , in press a). As a result, the estimates for the 
+    autonomySupport data differs from the printed table in Koopman et al. (2020). The estimated variance-covariance matrix 
     of the coefficients can also be printed if requested.
 }
 
@@ -30,7 +30,7 @@
            Missing values are not allowed}
   \item{se}{Logical: If \code{TRUE}, the standard errors are printed alongside the scalability coefficients}
   \item{ci}{The confidence level between 0 and 1 of the range-preserving confidence intervals. 
-            If FALSE (default), no confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b).}
+            If FALSE (default), no confidence intervals are printed (Koopman et al., in press a).}
   \item{nice.output}{Logical: If \code{TRUE}, scalability coefficients and standard errors are combined 
            in an a single object of class \code{noquote}. Item-pair ratios BWij are only printed if \code{FALSE}}
   \item{subject}{Represents the subject column. Default is column 1.}
@@ -40,7 +40,7 @@
   \item{weigh.props}{If \code{TRUE}: Use weighted proportions across groups to estimate coefficients and standard errors, if \code{FALSE}: 
            Use averaged proportions across groups to estimate coefficients and standard errors.}
   \item{type.ci}{If \code{WB}, Wald-based confidence interval are printed, if \code{RP} range-preserving confidence intervals are printed 
-          (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Default is \code{WB}. Only used if \code{ci} is specified.}
+          (Koopman et al., in press a, in press b). Default is \code{WB}. Only used if \code{ci} is specified.}
   \item{cov.mat}{Logical: If \code{TRUE}, the variance-covariance matrices of the estimated coefficients are printed. Default is \code{FALSE}.}
 }
 
@@ -69,18 +69,22 @@ In L. A. Van der Ark, D. M. Bolt, W.-C. Wang, & M. Wiberg (Eds.),
 Springer. 
 \doi{10.1007/978-3-319-38759-8_11}
   
-Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2020a). 
+Koopman, L., Zijlstra, B. J. H. & Van der Ark, L. A., (2020). 
 Standard errors of two-lvel scalability coefficients. 
 \emph{British Journal of Statistical and Mathematical Psychology, 73,} 213-236. 
 \doi{10.1111/bmsp.12174} 
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
-\emph{A two-step, test-guided Mokken scale analysis for nonclustered and clustered data}. 
-Manuscript submitted for publication.
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press a).
+A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+\emph{Quality of Life Research}. (advanced online publication)
+\doi{10.1007/s11136-021-02840-2}
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020c). 
-\emph{Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis}. 
-Manuscript submitted for publication.
+Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press b).
+Range-preserving confidence intervals and significance tests for scalability coefficients in Mokken scale analysis.
+In M. Wiberg, D. Molenaar, J. Gonzalez, & Kim, J.-S. (Eds.),
+\emph{Quantitative Psychology; The 1st Online Meeting of the Psychometric Society, 2020}.
+Springer.
+\doi{10.1007/978-3-030-74772-5_16}
 
 Snijders, T. A. B. (2001). Two-level non-parametric scaling for dichotomous data. 
 In A. Boomsma, M. A. J. van Duijn, & T. A. B. Snijders (Eds.), 
@@ -121,30 +125,30 @@ data(autonomySupport)
 
 # Compute scalability coefficients with or without standard errors, range-preserving 
 # confidence intervals, nice output
-\donttest{          
-H.se.nice <- MLcoefH(autonomySupport)
-H.se.nice 
-}
-\donttest{          
-H.se.not  <- MLcoefH(autonomySupport, nice.output = FALSE)
-H.se.not  
-}
-\donttest{          
-H.se.ci.nice <- MLcoefH(autonomySupport, ci = .95)
-H.se.ci.nice
-}
-\donttest{          
-H.se.ci.not <- MLcoefH(autonomySupport, ci = .95, nice.output = FALSE)
-H.se.ci.not
-}
-\donttest{          
-H.nice    <- MLcoefH(autonomySupport, se = FALSE)
-H.nice    
-}
-\donttest{          
-H.not     <- MLcoefH(autonomySupport, se = FALSE, nice.output = FALSE)
-H.not     
-}
+ \donttest{          
+ H.se.nice <- MLcoefH(autonomySupport)
+ H.se.nice 
+ }
+ \donttest{          
+ H.se.not  <- MLcoefH(autonomySupport, nice.output = FALSE)
+ H.se.not  
+ }
+ \donttest{          
+ H.se.ci.nice <- MLcoefH(autonomySupport, ci = .95)
+ H.se.ci.nice
+ }
+ \donttest{          
+ H.se.ci.not <- MLcoefH(autonomySupport, ci = .95, nice.output = FALSE)
+ H.se.ci.not
+ }
+ \donttest{          
+ H.nice    <- MLcoefH(autonomySupport, se = FALSE)
+ H.nice    
+ }
+ \donttest{          
+ H.not     <- MLcoefH(autonomySupport, se = FALSE, nice.output = FALSE)
+ H.not     
+ }
 
 }
 \concept{two-level scalability coefficient}

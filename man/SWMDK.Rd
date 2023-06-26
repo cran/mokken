@@ -7,11 +7,10 @@
     A subset of the COOL5-18 data (see below) with scores of 639 pupils nested in 30 classes
     on the 7-item Schaal Welbevinden Met Docenten [Scale Well-Being With Teachers] and 6-item 
     Schaal Welbevinden met Klasgenoten [Scale Well-Being With Classmates]
-    (Peetsma, Wagenaar, & de Kat, 2001; 
-    Zijsling, Keuning, Keizer-Mittelhauser, Naaijer, & Timmermans, 2017).
+    (Peetsma et al., 2001; Zijsling et al., 2017).
     See \code{attributes(SWMDK)} for the original item labels and content.
     R-code to get this subsample is available as online supplement to 
-    Koopman, Zijlstra, & Van der Ark (2020).
+    Koopman et al. (in press a).
 }
 \usage{data(SWMDK)}
 \format{
@@ -45,15 +44,16 @@
 \source{
     Data is a subset of respondents and items from the large-scale cohort study COOL5-18. 
     \url{http://www.cool5-18.nl/} (Zijsling et al., 2017).
-    For entire dataset see \doi{10.17026/dans-zfp-egnq}.
+    For entire dataset see \doi{10.17026/dans-zfp-egnq}
     Dataset is accessible after login.
 }
 
 \references{
 
-Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020). 
-   \emph{A two-step procedure for scaling multilevel data using Mokken's scalability coefficients}. Manuscript submitted 
-     for publication.
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press a).
+   A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+   \emph{Quality of Life Research}. (advanced online publication)
+   \doi{10.1007/s11136-021-02840-2}
 
 Peetsma, T. T. D., Wagenaar, E., & De Kat, E. (2001). 
    School motivation, future time perspective and well-being of high school students in segregated 
@@ -65,7 +65,6 @@ Peetsma, T. T. D., Wagenaar, E., & De Kat, E. (2001).
 Zijsling, D., Keuning, J., Keizer-Mittelhaeuser, M.-A., Naaijer, H., & Timmermans, A. (2017).
    \emph{Cohortonderzoek COOL5-18: Technisch rapport meting VO-3 in 2014}. 
    Onderwijs/Onderzoek. 
-   
 }
 
 \seealso{
@@ -76,7 +75,7 @@ Zijsling, D., Keuning, J., Keizer-Mittelhaeuser, M.-A., Naaijer, H., & Timmerman
 }
 
 \examples{
-# Data example (Koopman et al., 2020)
+# Data example (Koopman et al., in press)
 data(SWMDK)
 
 # Item content, see labels

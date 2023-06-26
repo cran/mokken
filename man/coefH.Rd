@@ -8,9 +8,9 @@ Scalability coefficents H
 \description{
 Computes item-pair scalability coefficents Hij, item scalability coefficents Hi, and scale scalability coefficent H 
 (Loevinger, 1948; Mokken, 1971, pp. 148-153; Molenaar & Sijtsma, 2000, pp. 11-13; Sijtsma & Molenaar, chap. 4; Van der Ark, 2007; 2010),  
-as well as their standard errors (Kuijpers, Van der Ark, & Croon, 2013; also see Van der Ark, Croon, & Sijtsma, 2008)
-and possibly confidence intervals (Koopman, Zijlstra, & Van der Ark, 2020a, 2020b). 
-Mokken's coefficients and standard errors can also be estimated in two-level data (Koopman, Zijlstra, & Van der Ark, 2020a).
+as well as their standard errors (Kuijpers et al., 2013; also see Van der Ark et al., 2008)
+and possibly confidence intervals (Koopman, et al., in press a, in press b). 
+Mokken's coefficients and standard errors can also be estimated in two-level data (Koopman et al., in press a).
 It is also possible to compare scalability coefficients across groups using the item-step ordering of the entire sample 
 (cf. \code{CHECK=GROUPS} option in MSP; Molenaar and Sijtsma, 2000). The estimated variance-covariance matrix of the coefficients 
 is invisible but can be printed by saving the result, see examples.
@@ -28,15 +28,15 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
           Missing values are not allowed}
   \item{se}{Logical: If \code{TRUE}, the standard errors of the scalability coefficients are given}
   \item{ci}{The confidence level between 0 and 1 of the range-preserving confidence intervals. 
-            If \code{FALSE} (default), no confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b).}
+            If \code{FALSE} (default), no confidence intervals are printed (Koopman et al.,in press b).}
   \item{nice.output}{Logical: If \code{TRUE}, scalability coefficients and standard errors are combined in an a single object of class \code{noquote}}
   \item{level.two.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} 
-          that indicates the level two variable for nested data to get appropriate standard errors (Koopman et al., 2020a.}
+          that indicates the level two variable for nested data to get appropriate standard errors (Koopman et al., in press a.}
   \item{group.var}{vector of length \code{nrow(X)} or matrix with number of rows equal to \code{nrow(X)} to be used as grouping variable}
   \item{fixed.itemstep.order}{matrix with number of rows equal to the number of item steps (m) and number of columns equal to the number of items (J). 
         The matrix should consis the integers 1 : (m * J), indicating a predefined order of the items steps with respect to popularity. 
         Value 1 indicates the easiest (most popular) item step, value (m * J) indicates the most difficult item step.}
-  \item{type.ci}{If \code{WB}, Wald-based confidence interval are printed, if \code{RP} range-preserving confidence intervals are printed (Koopman, Zijlstra, & Van der Ark, 2020b, 2020c). Default is \code{WB}. Used only if \code{ci} has been specified.}
+  \item{type.ci}{If \code{WB}, Wald-based confidence interval are printed, if \code{RP} range-preserving confidence intervals are printed (Koopman et al., in press b, in press c). Default is \code{WB}. Used only if \code{ci} has been specified.}
   \item{results}{Logical: If TRUE results are printed to the screen. Option \code{FALSE} is useful only for some internal functions}      
 }
 
@@ -68,13 +68,17 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
  \item{Groups}{Scalability coefficients for subgroups (see details)} }
 
 \references{
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020a). 
-  \emph{A two-step, test-guided Mokken scale analysis for nonclustered and clustered data}. 
-  Manuscript submitted for publication.
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press a).
+   A two-step, test-guided Mokken scale analysis for nonclustered and clustered data. 
+   \emph{Quality of Life Research}. (advanced online publication)
+   \doi{10.1007/s11136-021-02840-2}
 
-  Koopman, L. Zijlstra, B. J. H, & Van der Ark, L. A. (2020b). 
-  \emph{Range-preserving confidence intervals for scalability coefficients in Mokken scale analysis}. 
-  Manuscript in preparation.
+   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (in press b).
+   Range-preserving confidence intervals and significance tests for scalability coefficients in Mokken scale analysis.
+   In M. Wiberg, D. Molenaar, J. Gonzalez, & Kim, J.-S. (Eds.),
+   \emph{Quantitative Psychology; The 1st Online Meeting of the Psychometric Society, 2020}.
+   Springer.
+   \doi{10.1007/978-3-030-74772-5_16}
 
   Kuijpers, R. E., Van der Ark, L. A., & Croon, M. A. (2013).
   Standard errors and confidence intervals for scalability coefficients in Mokken scale analysis using marginal models.
@@ -100,7 +104,7 @@ coefH(X, se = TRUE, ci = FALSE, nice.output = TRUE, level.two.var = NULL,
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software, 20} (11), 1-19.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+  \doi{10.18637/jss.v020.i11}
 
   Van der Ark, L. A. (2010). 
   Getting started with Mokken scale analysis in \pkg{R}. 

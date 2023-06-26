@@ -55,7 +55,8 @@ See Van der Ark (2007) for an example.
   Van der Ark, L. A. (2007). 
   Mokken scale analysis in \pkg{R}. 
   \emph{Journal of Statistical Software}.
-  \url{https://www.jstatsoft.org/article/view/v020i11}
+  \doi{10.18637/jss.v048.i05}
+
 }
 \author{
  L. A. van der Ark \email{L.A.vanderArk@uva.nl}
