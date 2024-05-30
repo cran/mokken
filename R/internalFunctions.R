@@ -1,5 +1,6 @@
 "check.data" <- function(X, checkScores = TRUE){
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
+  #if (data.class(X) != "matrix" && data.class(X) != "data.frame") 
+  if (!is.matrix(X) && !is.data.frame(X)) #replaced above line per mokken 3.1.1 to allow tibble class
     stop("Data are not matrix or data.frame")
   matrix.X <- as.matrix(X)
   if (any(is.na(matrix.X))) stop("Missing values are not allowed")
@@ -18,7 +19,7 @@
 }
 
 "check.ml.data" <- function(X, checkScores = TRUE){
-  if (data.class(X) != "matrix" && data.class(X) != "data.frame")
+  if (!is.matrix(X) && !is.data.frame(X))
     stop("Data are not matrix or data.frame")
   matrix.X <- as.matrix(X)
   if (any(is.na(matrix.X))) stop("Missing values are not allowed")

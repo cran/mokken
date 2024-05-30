@@ -48,7 +48,11 @@ if(length(x) == 2) {
            xlab = "Rest score group",
            ylab = "Item response functions",
            type = "n")
-      title(paste("Level", lvl, ":", results[[j]][[1]][1],"(solid)",results[[j]][[1]][2],"(dashed)"))
+      if(names(x2l)[1] == "Items") {
+        title(paste(c("Items", "Clusters")[lvl], ":", results[[j]][[1]][1],"(solid)",results[[j]][[1]][2],"(dashed)"))
+      } else {
+        title(paste("Level", lvl, ":", results[[j]][[1]][1],"(solid)",results[[j]][[1]][2],"(dashed)"))
+      }
       axis(1, at=1:nrow(plot.matrix),labels=x.labels)
       if(ci){
         polygon(c((1:length(up1))[!is.na(up1)],rev((1:length(lo1))[!is.na(lo1)])),c(up1[!is.na(up1)],rev(lo1[!is.na(lo1)])),col = colorCi[1], border=NA)

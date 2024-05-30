@@ -14,19 +14,22 @@ Three methods may be used for the investigation of invariant item ordering.
 
 For a complete description of Method MIIO, see Ligtvoet, Van der Ark, Te Marvelde, and Sijtsma (2010); for
 a complete description of the Method MS-CPM and Method IT with reference to Method MIIO, see Ligtvoet,
-Van der Ark, Bergsma, and Sijtsma (2011). 
+Van der Ark, Bergsma, and Sijtsma (2011). For a discription of investigating the ordering structure of clustered items,
+see Koopman & Braeken (2024).
 
-For two-level test data (clustered respondents) argument level.two.var exist, such that two lists are returned, containing the results for level 1 (person level) and level 2 (cluster level), respectively. Only method MIIO is implemented for two-level test data. 
+For two-level test data (clustered respondents) argument level.two.var exist, for clustered item data, argument fixed.item.order exist. For both arguments, two lists are returned, containing the results for level 1 (person or item level) and level 2 (group or cluster level), respectively. Only method MIIO is implemented for two-level and clustered-item test data. 
 }
 \usage{
 check.iio(X, method="MIIO", minvi = default.minvi, minsize = default.minsize, 
-alpha = .05, item.selection=TRUE, verbose=FALSE, level.two.var = NULL)
+alpha = .05, item.selection=TRUE, verbose=FALSE, fixed.item.order = NULL,
+level.two.var = NULL)
 }
 
 \details{
  The output is of class \code{iio.class}, and is often numerous. 
  Functions \code{plot} and \code{summary} can be used to summarize the output. 
- See Van der Ark (2014) for an example. 
+ See Van der Ark (2014) for an example. For an example of clustered items,
+see Koopman & Braeken (2024).
 }
 
 \arguments{
@@ -47,6 +50,7 @@ alpha = .05, item.selection=TRUE, verbose=FALSE, level.two.var = NULL)
   Default \code{item.selection=TRUE}}
   \item{verbose}{Show the results of the backward item selection algorithm on screen.
   Default \code{verbose=FALSE}}
+  \item{fixed.item.order}{Matrix or vector containing J numeric values to indicate the item ordering from easy to difficult, to perform a confirmatory analysis of manifest invariant item/cluster ordering. For clustered items, the cluster numbers are given, which are repeated for each item of that cluster, such that the length is still J, for example c(1, 1, 2, 2, 3, 3) for three clusters of two items, of which the first cluster is easiest and the last cluster is most difficult (see Koopman & Braeken, 2024).}
   \item{level.two.var}{Add respondent-clustering variable to get results for Level 1 (person level) and Level 2 (cluster level; see Koopman et al., 2023a,b)}.
 }
 
@@ -61,12 +65,16 @@ alpha = .05, item.selection=TRUE, verbose=FALSE, level.two.var = NULL)
   If two or more items have the maximum number of violations, then from those items the item producing the lowest value of Loevinger's H is removed.
   The second column shows the number of violations with one item removed, the third column shows the number of violations with two items removed, etc.}
   \item{items.removed}{List of the items removed in chronological order}
-  \item{HT}{Coefficient HT for the remaining items. For the use of coefficient HT see Ligtvoet et al. (2010). If the sample size is extremely large coefficient HT is estimated using a random subsample.}
+  \item{HT}{Coefficient HT for the remaining items. For the use of coefficient HT see Ligtvoet et al. (2010). If the sample size is extremely large coefficient HT is estimated using a random subsample. For clustered items, coefficient HBT and ratio HBT/HT is also estimated, see Koopman & Braeken (2024).}
   \item{method}{The argument \code{method}}
   \item{item.mean}{The mean item scores}
 }
 
 \references{
+  Koopman, L. & Braeken, J. (2024). 
+  Investigating the Ordering Structure of Clustered Items Using Nonparametric 
+  Item Response Theory. Manuscript submitted for publication.
+  
   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
   Assumptions and Properties of Two-Level Nonparametric Item Response 
   Theory Models. Manuscript submitted for publication.
@@ -156,14 +164,24 @@ X3 <- X2[,is.na(charmatch(dimnames(X2)[[2]],names(iio.list2$items.removed)))]
 iio.list3 <- check.iio(X3,method="IT")
 summary(iio.list3)
 
+# Examples for investigating the ordering structure of a clustered item set 
+# (Koopman & Braeken, 2024)
+ \donttest{     
+data("trog")
+clusters <- rep(1:20, each = 4)
+ico <- check.iio(trog, item.selection = FALSE, fixed.item.order = clusters)
+summary(ico)
+}
+
 # Compute two-level fit statistics (Koopman et al., 2023a, 2023b)
+ \donttest{     
 data("autonomySupport")
 dat <- autonomySupport[, -1]
 groups <- autonomySupport[, 1]
 autonomyMIIO <- check.iio(dat, item.selection = FALSE, level.two.var = groups)
 summary(autonomyMIIO)
 plot(autonomyMIIO)
-
+}
 
 }
 \concept{iio}

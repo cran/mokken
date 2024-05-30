@@ -26,6 +26,7 @@ function(object, ...){
         100 * summary.matrix[,9]/summary.matrix[,2] 
       # 11-6-2019: Moeten onderstaande twee regels aangepast worden: #1 verwijderd, en Regel 2 afgerond in plaats van floor.
       Crit[summary.matrix[,3]==0] <- 0
+      Crit[Crit < 0] <- 0
       summary.matrix[,10] <- floor(Crit)
       summary.matrix[,c(1:6,8:10)] <- round(summary.matrix[,c(1:6,8:10)],2)
       summary.matrix[,c(7)] <- round(summary.matrix[,c(7)],4)
@@ -55,6 +56,7 @@ function(object, ...){
       100 * summary.matrix[,9]/summary.matrix[,2] 
     # 11-6-2019: Moeten onderstaande twee regels aangepast worden: #1 verwijderd, en Regel 2 afgerond in plaats van floor.
     Crit[summary.matrix[,3]==0] <- 0
+    Crit[Crit < 0] <- 0
     summary.matrix[,10] <- floor(Crit)
     summary.matrix[,c(1:6,8:10)] <- round(summary.matrix[,c(1:6,8:10)],2)
     summary.matrix[,c(7)] <- round(summary.matrix[,c(7)],4)

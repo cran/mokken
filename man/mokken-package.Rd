@@ -6,6 +6,7 @@
 \title{
 Mokken Scale Analysis
 }
+
 \description{
 Mokken scale analysis (Mokken, 1971; Sijtsma & Molenaar, 2002; Sijtsma & Van der Ark, 2017) is a scaling procedure 
 for both dichotomous and polytomous items.
@@ -14,12 +15,13 @@ It consists of an item selection algorithm to partition a set of items into Mokk
 models: the monotone homogeneity model and the double monotonicity model.
 The output of this R-package resembles the output of the stand-alone program MSP (Molenaar & Sijtsma, 2000).
 }
+
 \details{
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.1.0       \cr
-Date:       \tab 2023-06-23  \cr
+Version:    \tab 3.1.1       \cr
+Date:       \tab 2024-05-28  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -36,17 +38,18 @@ The package contains the following data sets
 \code{\link{SWMDK}}              \tab  Scores from pupils nested in classrooms on their well-being with teachers and classmates \cr
 \code{\link{transreas}}          \tab  Scores on a transitive reasoning test \cr
 \code{\link{transreas2}}         \tab  More scores on a transitive reasoning test \cr
+\code{\link{trog}}		 \tab  Scores from children on the clustered items of the Norwegian adaptation of the Test for Reception of Grammar \cr
 }
 
 A guide for Mokken scale analysis in R for people who do not know R (Van der Ark, 2010)  is available as a vignette from \url{https://sites.google.com/a/tilburguniversity.edu/avdrark/mokken}.
-The Mokken package was created by Andries van der Ark, who is also the maintainer. Significant parts have been developed by Letty Koopman (multilevel analysis) and Don van den Berg and Hendrik Straat (all C and C++ codes). 
+The Mokken package was created by Andries van der Ark, who is also the maintainer. Significant parts have been developed by Letty Koopman (multilevel and clustered item analysis) and Don van den Berg and Hendrik Straat (all C and C++ codes). 
 Thanks are due 
  to Michael Allerhand, Geert H. van Kollenburg, Renske E. Kuijpers, Rudy Ligtvoet, Hannah E. M. Oosterhuis, Daniel W. van der Palm, and Max Welz for contributing R code; 
  to Geert H. van Kollenburg, Patrick Mair, and Don van Ravenswaaij for testing the software; 
  to Wijbrandt van Schuur for comments on the vignette;
- to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, Max Welz, and Na Yang for reporting comments or bugs;
+ to Michael Allerhand, Stephen Cubbellotti, Michael Dewey, Jasmin Durstin, Wilco H. M. Emons, Jue Huang, Michael Kubovy, Ivo Molenaar, Jonathan Rose, Tobias Schlaffer, Klaas Sijtsma, Iris Smits, Jia Jia Syu, Stefan Vermeent, Roger Watson, Stefanie Wind, Max Welz, and Na Yang for reporting comments or bugs;
  to Diederick Stoel (ProfitWise) for financial support, 
- to Samantha Bouwmeester, Pierre Cavalini, Johan Denollet, Gina Rossi, Harrie C. M. Vorst,  for permission to use their data;
+ to Samantha Bouwmeester, Pierre Cavalini, Johan Denollet, Gina Rossi, Harrie C. M. Vorst, Ellen Iren Brinchmann, for permission to use their data;
  to Robert J. Mokken for lending his last name.
 
 Version 0 was introduced in Van der Ark (2007). It included the functions
@@ -212,6 +215,14 @@ The following modifications have been made in Version 3.1.0 in comparison to pre
 \code{\link{summary.iio.class}} \tab Adjusted to handle two-level fit results from check.iio. \cr
 \code{\link{plot.iio.class}}     \tab  Adjusted to handle two-level fit results from check.iio. \cr
 }
+
+The following modifications have been made in Version 3.1.1 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{check.iio}} 	\tab A bug (resulting in an error) that occurred if the sample size was exactly a multiple of 1,000 was fixed.\cr
+\code{\link{check.iio}} 	\tab Argument fixed.item.order is added to enable confirmatory analysis of a given item order, and to allow for investigating the ordering structure of clustered items with a given order, see Koopman & Braeken, 2024.\cr
+All functions                   \tab A tibble class input is now allowed in addition to matrix and data frames.\cr
+\code{\link{trog}}		\tab New data file (Koopman & Braeken, 2024). \cr
+}
 }
 
 \author{
@@ -220,6 +231,10 @@ Maintainer: L. Andries van der Ark <L.A.vanderArk@uva.nl>.
 }
 
 \references{
+Koopman, L. & Braeken, J. (2024). 
+Investigating the Ordering Structure of Clustered Items Using Nonparametric 
+Item Response Theory. Manuscript submitted for publication.
+
 
 Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a). 
   Assumptions and Properties of Two-Level Nonparametric Item Response 
@@ -227,7 +242,7 @@ Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023a).
   
   Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2023b). 
   Evaluating Model Fit in Two-Level Mokken Scale Analysis. 
-  Manuscript submitted for publication.
+  \emph{Psych} 5(3), 847-865. \doi{https://doi.org/10.3390/psych5030056}
   
 Koopman, L., Zijlstra, B. J. H., & Van der Ark, L. A. (2020).
 New advances in Mokken scale analysis.
@@ -244,7 +259,7 @@ Paper presented at the online meeting of the Psychometric Society, July, 2020.
    \emph{Quantitative Psychology; The 1st Online Meeting of the Psychometric Society, 2020}.
    Springer.
    \doi{10.1007/978-3-030-74772-5_16}
-  
+
   
 Mokken, R. J. (1971) 
 \emph{A Theory and Procedure of Scale Analysis}. 
@@ -283,7 +298,6 @@ Van der Ark, L. A. (2012).
 New developments in Mokken scale analysis in \pkg{R}. 
 \emph{Journal of Statistical Software, 48}(5), 1-27.
 \doi{10.18637/jss.v048.i05}
-
 }
 
 \examples{

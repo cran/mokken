@@ -59,7 +59,14 @@ function(object, ...){
       resultsmat[[lvl]] <- list(method = method, item.summary = summary.matrix, backward.selection= violations, HT=HT)
     }
     resultsmatfull <- resultsmat[[1]]
-    resultsmatfull[[2]] <- list("Level.1" = resultsmat[[1]][[2]], "Level.2" = resultsmat[[2]][[2]])
+    if(names(object2l)[1] == "Items") {
+      resultsmatfull[[2]] <- list("Items" = resultsmat[[1]][[2]], "Clusters" = resultsmat[[2]][[2]])
+      resultsmatfull[[3]] <- list("Items" = resultsmat[[1]][[3]], "Clusters" = resultsmat[[2]][[3]])
+      resultsmatfull[[4]] <- resultsmat[[2]][[4]]
+    } else {
+      resultsmatfull[[2]] <- list("Level.1" = resultsmat[[1]][[2]], "Level.2" = resultsmat[[2]][[2]])
+      resultsmatfull[[3]] <- list("Level.1" = resultsmat[[1]][[3]], "Level.2" = resultsmat[[2]][[3]])
+    }
     resultsmat <- resultsmatfull
     #resultsmatfull[[3]] <- list("Level.1" = resultsmat[[1]][[3]], "Level.2" = resultsmat[[2]][[3]])
     #names(resultsmat) <- c("Level.1", "Level.2")
