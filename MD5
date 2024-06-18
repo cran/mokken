@@ -1,4 +1,4 @@
-38619d33622d6ac34c8b175e73247a95 *DESCRIPTION
+e6bd4bb354d49a923f1b4e4be12e5459 *DESCRIPTION
 48d9df0d3527d4be8ba9f8be1d228e75 *NAMESPACE
 d214c9f41e3ef1ea11af32aa6cbd8cb8 *R/ICC.R
 5dc81f39cc6613947f4c0afe82e2aae7 *R/MLcoefH.R
@@ -31,7 +31,7 @@ e3d748c093ffbe40ec98f094da678fae *R/search.ga.R
 faaf79ecdbfa4ec4c53178214d78e789 *R/summary.pmatrix.class.R
 12ff95dedd6a40a2a4a27d6252e43ec1 *R/summary.restscore.class.R
 793eb43568050a488f2c61802eb62f03 *R/twoway.R
-181b5ac5a69bd3e3e542680739e88fd5 *build/partial.rdb
+b54db8794555342c4feee5fe0b1b8f5b *build/partial.rdb
 c15355c344cddbd54b98003aa5e5886c *data/DS14.rda
 f7fddfe4096a8fed16faf1b8eef35c14 *data/SWMD.rda
 a57de1447a5d0d6f7bea5caa32e46523 *data/SWMDK.rda
@@ -45,7 +45,7 @@ cb35914374d7017539e6bcc1e9afbed8 *data/transreas2.rda
 1172c29c2995c64eda6c9c0a5cceeb83 *data/trog.rda
 7b5b2f309a648cd2c73f00b3ee46a438 *inst/CITATION
 63c2848b79ead5023dd4314af50100b2 *man/DS14.Rd
-0d12dc62ed7a72794d6c5df57c817249 *man/ICC.Rd
+a43ce895496ab7e6c4a12804093f3a9a *man/ICC.Rd
 7fac3218fa214d54498168265b82aa0c *man/MLcoefH.Rd
 43ed3daa5902681077e504321461707b *man/MLcoefZ.Rd
 3e9611f977ff955589ef458ca50ad3e4 *man/MLweight.Rd
@@ -68,7 +68,7 @@ ee25a1b365a52c60c939a90f8c5e7845 *man/check.reliability.Rd
 751a71a6ad7bc582fa581f49ee3c56a9 *man/coefH.Rd
 83382f98a7218842513971fdc99a16f9 *man/coefZ.Rd
 b6aa3330f9fe0411b33fba7dd39668a6 *man/mcmi.Rd
-820bfc9cd0362ca82d9e5ba66f8b61a8 *man/mokken-package.Rd
+dec64ae3e0683938b0a3524130f3ad02 *man/mokken-package.Rd
 a0e1b801fcb4512c25236434831e25ea *man/plot.iio.class.Rd
 53816fe1eeb203fc67f7235d19af2cf8 *man/plot.monotonicity.class.Rd
 77a2c7809b43f2f723802655fc0e0cb8 *man/plot.pmatrix.class.Rd

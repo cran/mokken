@@ -20,8 +20,8 @@ The output of this R-package resembles the output of the stand-alone program MSP
 \tabular{ll}{
 Package:    \tab mokken      \cr
 Type:       \tab Package     \cr
-Version:    \tab 3.1.1       \cr
-Date:       \tab 2024-05-28  \cr
+Version:    \tab 3.1.2       \cr
+Date:       \tab 2024-06-17  \cr
 License:    \tab GPL Version 2 or later\cr
 }
 The package contains principal functions for Mokken scale analysis.
@@ -222,6 +222,11 @@ The following modifications have been made in Version 3.1.1 in comparison to pre
 \code{\link{check.iio}} 	\tab Argument fixed.item.order is added to enable confirmatory analysis of a given item order, and to allow for investigating the ordering structure of clustered items with a given order, see Koopman & Braeken, 2024.\cr
 All functions                   \tab A tibble class input is now allowed in addition to matrix and data frames.\cr
 \code{\link{trog}}		\tab New data file (Koopman & Braeken, 2024). \cr
+}
+
+The following modifications have been made in Version 3.1.1 in comparison to previous versions.
+\tabular{ll}{
+\code{\link{ICC}} 	\tab The example on the helpfile of the ICC function was updated.\cr
 }
 }
 

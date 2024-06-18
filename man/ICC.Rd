@@ -54,7 +54,7 @@
 data(SWMDK)
 
 # Compute ICC
-ICC(SWMDK)
+mokken::ICC(SWMDK)
 
 }
 \concept{intraclass correlation}
